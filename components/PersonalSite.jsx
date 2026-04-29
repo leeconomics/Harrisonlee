@@ -2344,7 +2344,7 @@ function DirectionV2({ tweaks, memos, memoContent }) {
   const [entered, setEntered] = useState(false);
   const [active, setActive] = useState('surface');
   const [transitioning, setTrans] = useState(false);
-  const [openMemo, setOpenMemo] = useState(null);
+  const [openMemo, setOpenMemoState] = useState(null);
   // memos: list of frontmatter for the Currents feed (sorted newest-first).
   // memoContent: { [id]: { tag, title, subtitle, cats, readTime, displayDate, contentHtml } }
   // Both are passed in from getStaticProps in pages/index.js. Falls back to
@@ -2352,6 +2352,48 @@ function DirectionV2({ tweaks, memos, memoContent }) {
   // if rendered without props (e.g. for previews / tests).
   const memoList = (memos && memos.length) ? memos : memos_v2;
   const memoMap = memoContent || null;
+
+  // Wrap setOpenMemo to also update the browser URL via history.pushState.
+  // Opens modal → URL becomes /posts/<slug> (shareable, trackable).
+  // Closes modal → URL restored to /.
+  // No page reload — same React tree, just a URL update.
+  const setOpenMemo = (id) => {
+    setOpenMemoState(id);
+    if (typeof window === 'undefined') return;
+    if (id == null) {
+      window.history.pushState({ memoId: null }, '', '/');
+      return;
+    }
+    const memo = memoList.find(m => m.id === id);
+    const slug = memo && memo.slug;
+    if (slug) {
+      window.history.pushState({ memoId: id }, '', '/posts/' + slug);
+    }
+  };
+
+  // Browser back/forward keeps modal in sync with the URL.
+  useEffect(() => {
+    const onPopState = (e) => {
+      const id = (e.state && e.state.memoId) ? e.state.memoId : null;
+      setOpenMemoState(id);
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  // Update browser tab title when a memo is open — so the title in the tab
+  // and any link previews show the article, not just "Harry Lee — Tidal".
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    if (openMemo == null) {
+      document.title = 'Harry Lee — Tidal';
+      return;
+    }
+    const memo = memoList.find(m => m.id === openMemo);
+    if (memo && memo.title) {
+      document.title = memo.title + ' — Harry Lee';
+    }
+  }, [openMemo, memoList]);
   const accent = tweaks.accent || 'oklch(0.55 0.10 215)';
   // Separate "cyan glow" used for memo titles + italic emphasis phrases.
   // Defaults match the prior hardcoded teal so behaviour is unchanged when
