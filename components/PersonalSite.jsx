@@ -1972,11 +1972,12 @@ function CurrentsAtmosphere() {
 
 }
 
-function CurrentsLayer({ accent, cyan, onOpenMemo }) {
+function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
   const cyanAccent = cyan || 'oklch(0.46 0.14 200)';
   const [filter, setFilter] = useState('all');
   const cats = ['all', 'Careers', 'Business', 'Marketing', 'AI', 'Japan', 'Personal'];
-  const filtered = filter === 'all' ? memos_v2 : memos_v2.filter((m) => m.cats.includes(filter));
+  const memoSource = (memos && memos.length) ? memos : memos_v2;
+  const filtered = filter === 'all' ? memoSource : memoSource.filter((m) => m.cats.includes(filter));
 
   return (
     <div style={{
@@ -2339,11 +2340,18 @@ function ScrollDarken() {
 
 }
 
-function DirectionV2({ tweaks }) {
+function DirectionV2({ tweaks, memos, memoContent }) {
   const [entered, setEntered] = useState(false);
   const [active, setActive] = useState('surface');
   const [transitioning, setTrans] = useState(false);
   const [openMemo, setOpenMemo] = useState(null);
+  // memos: list of frontmatter for the Currents feed (sorted newest-first).
+  // memoContent: { [id]: { tag, title, subtitle, cats, readTime, displayDate, contentHtml } }
+  // Both are passed in from getStaticProps in pages/index.js. Falls back to
+  // hardcoded memos_v2 (and Memo1..Memo8 components) so component still works
+  // if rendered without props (e.g. for previews / tests).
+  const memoList = (memos && memos.length) ? memos : memos_v2;
+  const memoMap = memoContent || null;
   const accent = tweaks.accent || 'oklch(0.55 0.10 215)';
   // Separate "cyan glow" used for memo titles + italic emphasis phrases.
   // Defaults match the prior hardcoded teal so behaviour is unchanged when
@@ -2396,7 +2404,7 @@ function DirectionV2({ tweaks }) {
           {active === 'currents' &&
           <>
               <WaveDivider from={ripplesFloor} to={layerBg.currents} accent={accent} height={120} />
-              <CurrentsLayer accent={accent} cyan={cyan} onOpenMemo={setOpenMemo} />
+              <CurrentsLayer accent={accent} cyan={cyan} onOpenMemo={setOpenMemo} memos={memoList} />
             </>
           }
           {active === 'deep' &&
@@ -2432,14 +2440,21 @@ function DirectionV2({ tweaks }) {
                 color: 'oklch(0.45 0.04 220)', marginBottom: 40,
                 padding: 0, fontSize: 11, letterSpacing: '0.18em'
               }}>← Back to Currents</button>
-              {openMemo === 1 && <Memo1 />}
-              {openMemo === 2 && <Memo2 />}
-              {openMemo === 3 && <Memo3 />}
-              {openMemo === 4 && <Memo4 />}
-              {openMemo === 5 && <Memo5 />}
-              {openMemo === 6 && <Memo6 />}
-              {openMemo === 7 && <Memo7 />}
-              {openMemo === 8 && <Memo8 />}
+              {memoMap && memoMap[openMemo]
+                ? <MarkdownMemo data={memoMap[openMemo]} />
+                : (
+                  <>
+                    {openMemo === 1 && <Memo1 />}
+                    {openMemo === 2 && <Memo2 />}
+                    {openMemo === 3 && <Memo3 />}
+                    {openMemo === 4 && <Memo4 />}
+                    {openMemo === 5 && <Memo5 />}
+                    {openMemo === 6 && <Memo6 />}
+                    {openMemo === 7 && <Memo7 />}
+                    {openMemo === 8 && <Memo8 />}
+                  </>
+                )
+              }
             </div>
             <style>{`@keyframes memoFadeIn { from { opacity: 0; } to { opacity: 1; } }`}</style>
           </div>
@@ -2493,6 +2508,28 @@ function MemoBody({ children }) {
     <div className="grid grid-cols-12 gap-6">
       <div className="col-span-12 md:col-span-9 md:col-start-2 memo-body">{children}</div>
     </div>
+  );
+}
+
+// Renders a memo loaded from a markdown file.
+// `data` shape: { tag, title, subtitle, cats, readTime, displayDate, contentHtml }
+// Matches the visual structure of Memo1..Memo8 for styling consistency.
+function MarkdownMemo({ data }) {
+  if (!data) return null;
+  return (
+    <article>
+      <MemoHeader
+        tag={data.tag}
+        title={data.title}
+        subtitle={data.subtitle}
+        date={data.displayDate}
+        readTime={data.readTime}
+        categories={data.cats}
+      />
+      <MemoBody>
+        <div dangerouslySetInnerHTML={{ __html: data.contentHtml || '' }} />
+      </MemoBody>
+    </article>
   );
 }
 
@@ -2875,7 +2912,7 @@ const TWEAK_DEFAULTS = {
   "cursorGlow": false
 };
 
-export default function PersonalSite() {
+export default function PersonalSite({ memos, memoContent }) {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
 
   useEffect(() => {
@@ -2890,19 +2927,22 @@ export default function PersonalSite() {
   return (
     <>
       <SharedStyles />
-      <DirectionV2 tweaks={{
-        accent: t.accent,
-        cyanAccent: `oklch(${t.cyanL} ${t.cyanC} 200)`,
-        animationLevel: t.animationLevel,
-        cursorGlow: t.cursorGlow,
-        surface: {
-          density: t.surfaceDensity,
-          tint: t.surfaceTint,
-          bubbles: t.surfaceBubbles,
-          plankton: t.surfacePlankton,
-          sand: t.surfaceSand,
-        },
-      }} />
+      <DirectionV2
+        memos={memos}
+        memoContent={memoContent}
+        tweaks={{
+          accent: t.accent,
+          cyanAccent: `oklch(${t.cyanL} ${t.cyanC} 200)`,
+          animationLevel: t.animationLevel,
+          cursorGlow: t.cursorGlow,
+          surface: {
+            density: t.surfaceDensity,
+            tint: t.surfaceTint,
+            bubbles: t.surfaceBubbles,
+            plankton: t.surfacePlankton,
+            sand: t.surfaceSand,
+          },
+        }} />
     </>
   );
 }

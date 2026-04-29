@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import PersonalSite from '../components/PersonalSite'
+import { getAllPostsMeta, getAllPostsContentById } from '../lib/posts'
 
-export default function Home() {
+export default function Home({ memos, memoContent }) {
   return (
     <>
       <Head>
@@ -16,7 +17,16 @@ export default function Home() {
           rel="stylesheet"
         />
       </Head>
-      <PersonalSite />
+      <PersonalSite memos={memos} memoContent={memoContent} />
     </>
   )
+}
+
+// Loaded at build time. Drop a new .md into /posts and Vercel rebuild will pick it up.
+export async function getStaticProps() {
+  const memos = getAllPostsMeta();
+  const memoContent = getAllPostsContentById();
+  return {
+    props: { memos, memoContent },
+  };
 }
