@@ -30,7 +30,7 @@ export default function PostPage({ post }) {
         background: 'linear-gradient(180deg, oklch(0.16 0.05 242) 0%, oklch(0.10 0.04 246) 100%)',
         minHeight: '100vh', overflowY: 'auto'
       }}>
-        <div style={{ maxWidth: 880, margin: '0 auto', padding: '64px 48px 120px' }}>
+        <div className="tidal-modal-inner" style={{ maxWidth: 880, margin: '0 auto', padding: '64px 48px 120px' }}>
           <Link href="/" className="eyebrow" style={{
             display: 'inline-block',
             background: 'none',

@@ -127,12 +127,17 @@ echo ""
 echo "📊 Deploy dashboard: $VERCEL_URL"
 echo "🌐 Live site:        $SITE_URL"
 
-# ── Auto-open the Vercel dashboard so Harry can watch the build ───────────────
-# `open` is macOS-native; falls back gracefully if missing.
+# ── Auto-open the Vercel dashboard in the right Chrome profile ───────────────
+# Vercel project is tied to the harrisonwc.lee@gmail.com login, which lives in
+# Chrome "Profile 3" (Harrison). We launch Chrome with --profile-directory so
+# the dashboard opens already authenticated. Falls back to default browser if
+# Chrome or the profile is unavailable.
+CHROME_PROFILE="Profile 3"
 if command -v open >/dev/null 2>&1; then
   echo ""
-  echo "🪟 Opening Vercel dashboard in your browser to watch the build..."
-  open "$VERCEL_URL"
+  echo "🪟 Opening Vercel dashboard in Chrome ($CHROME_PROFILE — Harrison)..."
+  open -na "Google Chrome" --args --profile-directory="$CHROME_PROFILE" "$VERCEL_URL" 2>/dev/null \
+    || open "$VERCEL_URL"
 fi
 
 # ── macOS native notification once deploy URL is reachable ───────────────────

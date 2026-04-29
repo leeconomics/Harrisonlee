@@ -1119,7 +1119,7 @@ function SurfaceLayer({ accent, tweaks = {} }) {
       {/* ───── Above water ───── */}
       {/* No zIndex layering between this and the descent — both share
           `water.horizon` at the boundary so the gradients meet seamlessly. */}
-      <section style={{
+      <section className="tidal-section-pad" style={{
         position: 'relative',
         background: `linear-gradient(180deg, ${water.sky} 0%, ${water.horizon} 100%)`,
         padding: '64px 64px 56px',
@@ -1191,7 +1191,7 @@ function SurfaceLayer({ accent, tweaks = {} }) {
       {/* paddingTop: 80px gives bubbles room to wander upward (-62px max in
           keyframes) without phasing through the section boundary. Without this,
           bubbles in the top row clip against the input-form section above. */}
-      <section style={{
+      <section className="tidal-ripples-bubbles" style={{
         position: 'relative',
         background: `linear-gradient(180deg, ${water.horizon} 0%, ${water.top} 8%, ${water.mid} 38%, ${water.deep} 72%, ${water.floor} 100%)`,
         padding: '80px 64px 220px',
@@ -1615,6 +1615,57 @@ function EntryV2({ onEnter, accent }) {
 /* ─────────────────── SIDE NAV ─────────────────── */
 // Vertical wave-shaped rail. Each layer is a "depth band" with its own colour.
 
+// Mobile top nav — visible only below 768px (.tidal-mobile-nav rule in
+// globals.css). Replaces the desktop sidebar with a horizontal sticky strip
+// that holds the same 4 layer switches (Ripples / Currents / Depths / About).
+function MobileTopNav({ active, onChange, accent }) {
+  const layers = [
+    { id: 'surface', label: 'Ripples' },
+    { id: 'currents', label: 'Currents' },
+    { id: 'deep', label: 'Depths' },
+    { id: 'about', label: 'About' },
+  ];
+  return (
+    <nav className="tidal-mobile-nav" style={{
+      position: 'sticky', top: 0, zIndex: 50,
+      width: '100%',
+      background: 'oklch(0.97 0.008 95 / 0.92)',
+      backdropFilter: 'blur(14px) saturate(150%)',
+      WebkitBackdropFilter: 'blur(14px) saturate(150%)',
+      borderBottom: '1px solid oklch(0.30 0.04 230 / 0.10)',
+      padding: '12px 14px',
+      alignItems: 'center', justifyContent: 'space-around', gap: 6,
+    }}>
+      {layers.map(l => {
+        const isActive = active === l.id;
+        return (
+          <button key={l.id} onClick={() => onChange(l.id)}
+            className="eyebrow"
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              color: isActive ? accent : 'oklch(0.32 0.04 230 / 0.6)',
+              fontWeight: isActive ? 600 : 500,
+              padding: '8px 6px',
+              fontSize: 11, letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              position: 'relative',
+              transition: 'color 0.25s',
+            }}>
+            {l.label}
+            <span style={{
+              position: 'absolute', bottom: 0, left: '50%',
+              transform: `translateX(-50%) scaleX(${isActive ? 1 : 0})`,
+              width: 18, height: 2, background: accent, borderRadius: 1,
+              transition: 'transform 0.3s cubic-bezier(0.2,0.7,0.3,1)',
+              transformOrigin: 'center',
+            }} />
+          </button>
+        );
+      })}
+    </nav>
+  );
+}
+
 function SideNav({ active, onChange, onHome, accent }) {
   const layers = [
   { id: 'surface', label: 'Ripples', sub: 'Ideas surfacing', band: 'oklch(0.96 0.012 200)', text: 'oklch(0.30 0.04 230)', dark: false },
@@ -1625,7 +1676,7 @@ function SideNav({ active, onChange, onHome, accent }) {
   const [hover, setHover] = useState(null);
 
   return (
-    <aside style={{
+    <aside className="tidal-side-nav" style={{
       width: 220, flexShrink: 0, position: 'sticky', top: 0, height: '100vh',
       display: 'flex', flexDirection: 'column',
       background: 'oklch(0.97 0.008 95)',
@@ -1806,7 +1857,7 @@ function LegacySurfaceLayer({ accent, onOpenMemo }) {
       </div>
 
       {/* Two-column: ripples (left, "things landed") + ideas pool (right, "things still drifting") */}
-      <div style={{ padding: '24px 64px 64px', position: 'relative', zIndex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56 }}>
+      <div className="tidal-currents-grid" style={{ padding: '24px 64px 64px', position: 'relative', zIndex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56 }}>
 
         <section>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, marginBottom: 24 }}>
@@ -2006,7 +2057,7 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
       <CurrentsAtmosphere />
       <DriftField count={22} hue={210} opacity={0.45} />
 
-      <div style={{ padding: '72px 64px 32px', position: 'relative', zIndex: 1 }}>
+      <div className="tidal-section-pad" style={{ padding: '72px 64px 32px', position: 'relative', zIndex: 1 }}>
         <div className="eyebrow surface" style={{ color: accent, marginBottom: 18 }}>
           Layer 02 · Currents
         </div>
@@ -2033,7 +2084,7 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
         <WavyHR opacity={0.4} amp={1.4} freq={26} height={10} />
       </div>
 
-      <div style={{ padding: '24px 64px 24px', display: 'flex', gap: 18, flexWrap: 'wrap', position: 'relative', zIndex: 1 }}>
+      <div className="tidal-section-pad" style={{ padding: '24px 64px 24px', display: 'flex', gap: 18, flexWrap: 'wrap', position: 'relative', zIndex: 1 }}>
         {cats.map((c) => {
           const active = filter === c;
           return (
@@ -2051,9 +2102,9 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
         })}
       </div>
 
-      <ol style={{ listStyle: 'none', padding: '8px 64px 80px', margin: 0, position: 'relative', zIndex: 1, display: 'grid', gap: 14 }}>
+      <ol className="tidal-section-pad" style={{ listStyle: 'none', padding: '8px 64px 80px', margin: 0, position: 'relative', zIndex: 1, display: 'grid', gap: 14 }}>
         {filtered.map((m, i) =>
-        <li key={m.id} className="surface card-row" onClick={() => onOpenMemo && onOpenMemo(m.id)} style={{
+        <li key={m.id} className="surface card-row tidal-memo-card" onClick={() => onOpenMemo && onOpenMemo(m.id)} style={{
           display: 'grid', gridTemplateColumns: '1fr 110px', gap: 28,
           padding: '26px 30px',
           background: 'oklch(0.97 0.012 215 / 0.78)',
@@ -2110,7 +2161,7 @@ function DarkOceanLayer({ accent, cyan }) {
     }}>
       <DriftField count={28} hue={195} opacity={0.55} />
 
-      <div style={{ padding: '64px 64px 32px', position: 'relative', zIndex: 1 }}>
+      <div className="tidal-section-pad" style={{ padding: '64px 64px 32px', position: 'relative', zIndex: 1 }}>
         <div className="eyebrow surface" style={{ color: accent, marginBottom: 18 }}>
           Layer 03 · The Depths
         </div>
@@ -2133,12 +2184,12 @@ function DarkOceanLayer({ accent, cyan }) {
         </p>
       </div>
 
-      <div style={{ padding: '0 64px 80px', position: 'relative', zIndex: 1, display: 'grid', gap: 16 }}>
+      <div className="tidal-section-pad" style={{ padding: '0 64px 80px', position: 'relative', zIndex: 1, display: 'grid', gap: 16 }}>
         {projects_v2.map((p, i) =>
         // Cleaner card treatment: single crisp cyan border at 40% opacity at
         // rest, ramps to 80% on hover with a soft drop shadow. Removed the
         // earlier inset highlights which were making edges look fuzzy.
-        <article key={p.id} className="surface" style={{
+        <article key={p.id} className="surface tidal-depths-card" style={{
           display: 'grid', gridTemplateColumns: '1fr 180px',
           gap: 32, padding: '36px 36px',
           background: 'oklch(0.97 0.01 90 / 0.04)',
@@ -2171,7 +2222,7 @@ function DarkOceanLayer({ accent, cyan }) {
               fontWeight: 300
             }}>{p.sub}</p>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'space-between', textAlign: 'right' }}>
+            <div className="tidal-depths-card-meta" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'space-between', textAlign: 'right' }}>
               <div className="eyebrow" style={{ color: 'oklch(0.92 0.02 200 / 0.5)', fontSize: 10 }}>{p.year}</div>
               <span className="eyebrow" style={{ color: accent, fontSize: 10 }}>Open project →</span>
             </div>
@@ -2201,7 +2252,7 @@ function AboutLayer({ accent, cyan }) {
     }}>
       <PaperTexture opacity={0.28} scale={0.9} />
 
-      <article className="surface" style={{
+      <article className="surface tidal-about-article" style={{
         position: 'relative', zIndex: 1,
         maxWidth: 720, margin: '0 auto',
         padding: '96px 56px 120px',
@@ -2426,11 +2477,12 @@ function DirectionV2({ tweaks, memos, memoContent }) {
   const goingDeeper = order.indexOf(active) <= order.indexOf(active);
 
   return (
-    <div style={{ display: 'flex', minHeight: '100%', background: 'oklch(0.97 0.008 95)', position: 'relative' }}>
+    <div className="tidal-app-layout" style={{ display: 'flex', minHeight: '100%', background: 'oklch(0.97 0.008 95)', position: 'relative' }}>
       {tweaks.cursorGlow && active === 'surface' && <CursorGlow accent={accent} />}
       <ScrollDarken />
       <SideNav active={active} onChange={switchLayer} onHome={() => setEntered(false)} accent={accent} />
-      <main style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+      <main style={{ flex: 1, position: 'relative', overflow: 'hidden', minWidth: 0 }}>
+        <MobileTopNav active={active} onChange={switchLayer} accent={accent} />
         <div key={active} style={{
           opacity: transitioning ? 0 : 1,
           transform: transitioning ? 'translateY(40px)' : 'translateY(0)',
@@ -2474,7 +2526,7 @@ function DirectionV2({ tweaks, memos, memoContent }) {
             overflowY: 'auto',
             animation: 'memoFadeIn 0.4s ease-out'
           }}>
-            <div onClick={e => e.stopPropagation()} style={{
+            <div onClick={e => e.stopPropagation()} className="tidal-modal-inner" style={{
               maxWidth: 880, margin: '0 auto', padding: '64px 48px 120px',
             }}>
               <button onClick={() => setOpenMemo(null)} className="eyebrow" style={{

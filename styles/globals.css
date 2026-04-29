@@ -371,3 +371,127 @@ html, body { width: 100%; margin: 0; overflow-x: clip; background: oklch(0.97 0.
     transform: none;
   }
 }
+
+/* ─── Mobile responsive overrides ──────────────────────────────────────────
+ * Site is desktop-first (most styles are inline via React). These rules use
+ * !important to override inline `style` props below the 768px breakpoint.
+ * Phones (≤480px) get further compression.
+ *
+ * Class hooks used (added selectively in PersonalSite.jsx):
+ *   .tidal-app-layout      — outermost flex container
+ *   .tidal-side-nav        — desktop sidebar (hidden on mobile)
+ *   .tidal-mobile-nav      — mobile top nav (hidden on desktop)
+ *   .tidal-section-pad     — sections with 64px horizontal padding
+ *   .tidal-modal-inner     — memo modal/standalone article wrapper
+ *   .tidal-depths-card     — Depths project cards (1fr 180px → 1fr)
+ *   .tidal-currents-grid   — Currents memo feed (1fr 1fr → 1fr)
+ *   .tidal-about-article   — About page article wrapper
+ *   .tidal-ripples-bubbles — bubble bands container
+ * ──────────────────────────────────────────────────────────────────────── */
+
+/* Mobile nav defaults to hidden on desktop */
+.tidal-mobile-nav { display: none; }
+
+@media (max-width: 768px) {
+  /* Hide desktop sidebar; mobile nav takes its place at top */
+  .tidal-side-nav { display: none !important; }
+  .tidal-mobile-nav { display: flex !important; }
+
+  /* Sections: reduce horizontal padding from 64px to 24px */
+  .tidal-section-pad {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  /* Modal / standalone-article inner wrapper: tighter padding, full width */
+  .tidal-modal-inner {
+    padding: 32px 24px 80px !important;
+    max-width: 100% !important;
+  }
+
+  /* Currents grid: stack 2-column to 1 */
+  .tidal-currents-grid {
+    grid-template-columns: 1fr !important;
+    padding: 24px 24px 64px !important;
+    gap: 28px !important;
+  }
+
+  /* Currents memo cards: stack title/meta vertically */
+  .tidal-memo-card {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    padding: 22px 22px !important;
+  }
+
+  /* Depths project cards: stack the 1fr/180px split into a single column */
+  .tidal-depths-card {
+    grid-template-columns: 1fr !important;
+    padding: 24px !important;
+    gap: 14px !important;
+  }
+  .tidal-depths-card-meta {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    text-align: left !important;
+    gap: 12px !important;
+  }
+
+  /* About article — reduce huge desktop padding */
+  .tidal-about-article {
+    padding: 56px 24px 80px !important;
+  }
+
+  /* Ripples bubble bands — reduce padding so bubbles fit narrow viewports */
+  .tidal-ripples-bubbles {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    padding-top: 60px !important;
+    padding-bottom: 180px !important;
+  }
+
+  /* Memo body typography scale-down */
+  .memo-body { font-size: 16.5px; line-height: 1.7; }
+  .memo-body .lede { font-size: 19px; line-height: 1.5; margin-bottom: 28px; }
+  .memo-body .lede::first-letter { font-size: 48px; margin: 4px 8px 0 0; }
+  .memo-body h2 { font-size: 26px; margin: 48px 0 14px; }
+  .memo-body h3 { font-size: 20px; margin: 36px 0 12px; }
+  .memo-body p { margin: 0 0 18px; }
+  .memo-body .pull-quote { font-size: 21px; margin: 40px 0; }
+  .memo-body blockquote { font-size: 20px; margin: 36px 0; }
+  .memo-body .framework-grid { gap: 12px; margin: 32px 0; }
+  .memo-body .framework-card { padding: 22px 20px; }
+  .memo-body .framework-letter { font-size: 44px; margin-bottom: 8px; }
+  .memo-body hr { margin: 40px auto; width: 80px; }
+}
+
+@media (max-width: 480px) {
+  /* Phones: tighter still */
+  .tidal-section-pad {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .tidal-modal-inner {
+    padding: 24px 16px 64px !important;
+  }
+  .tidal-currents-grid {
+    padding: 20px 16px 56px !important;
+  }
+  .tidal-depths-card {
+    padding: 20px !important;
+  }
+  .tidal-about-article {
+    padding: 48px 16px 64px !important;
+  }
+  .tidal-ripples-bubbles {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  .memo-body { font-size: 16px; line-height: 1.65; }
+  .memo-body .lede { font-size: 18px; }
+  .memo-body .lede::first-letter { font-size: 40px; }
+  .memo-body h2 { font-size: 22px; }
+  .memo-body h3 { font-size: 18px; }
+  .memo-body .pull-quote { font-size: 19px; }
+  .memo-body .framework-letter { font-size: 38px; }
+}
