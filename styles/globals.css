@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 *, *::before, *::after { box-sizing: border-box; }
-html, body { width: 100%; margin: 0; overflow-x: hidden; background: oklch(0.97 0.008 95); -webkit-font-smoothing: antialiased; }
+html, body { width: 100%; margin: 0; overflow-x: clip; background: oklch(0.97 0.008 95); -webkit-font-smoothing: antialiased; }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 10px; }

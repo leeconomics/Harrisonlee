@@ -1188,10 +1188,13 @@ function SurfaceLayer({ accent, tweaks = {} }) {
       </section>
 
       {/* ───── Long descent ───── */}
+      {/* paddingTop: 80px gives bubbles room to wander upward (-62px max in
+          keyframes) without phasing through the section boundary. Without this,
+          bubbles in the top row clip against the input-form section above. */}
       <section style={{
         position: 'relative',
         background: `linear-gradient(180deg, ${water.horizon} 0%, ${water.top} 8%, ${water.mid} 38%, ${water.deep} 72%, ${water.floor} 100%)`,
-        padding: '0 64px 220px',
+        padding: '80px 64px 220px',
         overflow: 'hidden',
       }}>
         {/* Ambient layers */}
@@ -1447,7 +1450,11 @@ function WaveDivider({ from = '#f0eee9', to = '#e8eef2', flip = false, accent, h
   return (
     <div style={{
       position: 'relative', height, lineHeight: 0,
-      background: `linear-gradient(180deg, ${from} 0%, ${from} 25%, ${to} 75%, ${to} 100%)`,
+      // OKLCH interpolation prevents banding when from/to differ in hue or lightness.
+      // Settled zones at 0–15% and 85–100% keep the layer endpoints visually anchored;
+      // the 70% transition band uses perceptually-uniform OKLCH so wide hue jumps
+      // (e.g. Depths → About) blend without a hard color band.
+      background: `linear-gradient(in oklch 180deg, ${from} 0%, ${from} 15%, ${to} 85%, ${to} 100%)`,
       transform: flip ? 'scaleY(-1)' : 'none', overflow: 'hidden'
     }}>
       {layers.map((L, i) =>
