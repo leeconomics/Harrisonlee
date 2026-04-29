@@ -38,14 +38,16 @@ fi
 
 cd "$SITE_DIR"
 
-# ── Self-heal: clean up any leftover .git/index.lock ─────────────────────────
-# When Cowork's sandbox stages a commit but can't unlink the lock due to macOS
-# extended attributes, the lock survives. Harry's Mac CAN delete it (he owns
-# the filesystem). Auto-clear at the start of every ship to avoid manual rm.
-if [ -f .git/index.lock ]; then
-  echo "🧹 Removing stale .git/index.lock"
-  rm -f .git/index.lock
-fi
+# ── Self-heal: clean up any leftover git lock files ─────────────────────────
+# When Cowork's sandbox runs git ops it sometimes leaves .lock files behind
+# because macOS extended attributes block its rm. Harry's Mac CAN delete them
+# (he owns the filesystem). Auto-clear at the start of every ship.
+for lock in .git/index.lock .git/HEAD.lock .git/refs/heads/main.lock; do
+  if [ -f "$lock" ]; then
+    echo "🧹 Removing stale $lock"
+    rm -f "$lock"
+  fi
+done
 
 # ── Vercel email gotcha — set per-repo author ──────────────────────────────
 # Vercel Hobby plan rejects deploys whose commit author email doesn't match the
@@ -70,12 +72,31 @@ rsync -av --delete \
   "$CURRENTS_DIR/" "$POSTS_DIR/"
 
 # ── Detect changes ────────────────────────────────────────────────────────────
-if git diff --quiet && git diff --cached --quiet; then
+# Two kinds of "changes" can be waiting to ship:
+#   1. Working-tree changes (rsync just moved new/edited files into posts/)
+#   2. Commits already staged ahead of origin/main (e.g. Cowork's sandbox
+#      committed but couldn't push because it has no SSH keys)
+# The old version of this script only checked (1) and silently skipped (2),
+# which meant Cowork-staged commits never shipped. Now we check both.
+HAS_WORKING_CHANGES=0
+HAS_COMMITS_AHEAD=0
+
+if ! git diff --quiet || ! git diff --cached --quiet; then
+  HAS_WORKING_CHANGES=1
+fi
+
+AHEAD_COUNT=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)
+if [ "$AHEAD_COUNT" -gt 0 ]; then
+  HAS_COMMITS_AHEAD=1
+fi
+
+if [ "$HAS_WORKING_CHANGES" = "0" ] && [ "$HAS_COMMITS_AHEAD" = "0" ]; then
   echo "✅ No changes to publish. Repo is in sync with Currents/."
   exit 0
 fi
 
 # ── Build a commit message from changed memo titles ─────────────────────────
+# Only relevant when we actually have working changes to commit.
 CHANGED_FILES=$(git status --porcelain posts/ | awk '{print $2}' | grep '\.md$' || true)
 if [ -z "$CHANGED_FILES" ]; then
   COMMIT_MSG="Update site"
@@ -94,13 +115,25 @@ if [ "${1:-}" != "" ]; then
   COMMIT_MSG="$1"
 fi
 
-# ── Commit + push ─────────────────────────────────────────────────────────────
-echo "💾 Committing: $COMMIT_MSG"
-git add -A
-git commit -m "$COMMIT_MSG"
+# ── Commit (only if there are working changes) ──────────────────────────────
+if [ "$HAS_WORKING_CHANGES" = "1" ]; then
+  echo "💾 Committing: $COMMIT_MSG"
+  git add -A
+  git commit -m "$COMMIT_MSG"
+else
+  echo "📦 Working tree clean. Pushing $AHEAD_COUNT existing commit(s) ahead of origin."
+  # When pushing pre-staged commits, surface them so it's obvious what's shipping.
+  git log --oneline origin/main..HEAD
+fi
 
 echo "🚀 Pushing to GitHub via SSH..."
 git push origin main
+
+# If we shipped pre-staged commits without working changes, populate
+# CHANGED_FILES from the commit history so the URL echo block still works.
+if [ -z "$CHANGED_FILES" ] && [ "$HAS_COMMITS_AHEAD" = "1" ]; then
+  CHANGED_FILES=$(git diff --name-only "origin/main@{1}" HEAD -- posts/ 2>/dev/null | grep '\.md$' || true)
+fi
 
 # ── Echo live URLs ────────────────────────────────────────────────────────────
 echo ""

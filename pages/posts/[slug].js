@@ -47,10 +47,7 @@ export default function PostPage({ post }) {
           <article>
             <div className="grid grid-cols-12 gap-6 mb-16">
               <div className="col-span-12 md:col-span-9 md:col-start-2">
-                <p className="heading-sans text-xs mb-6" style={{
-                  color: 'oklch(0.74 0.16 200)', letterSpacing: '0.18em',
-                  textTransform: 'uppercase', fontSize: 11, fontWeight: 500
-                }}>{post.tag}</p>
+                {/* Note numbering removed 2026-04-30. */}
                 <h1 style={{
                   fontFamily: 'Fraunces, Georgia, serif',
                   fontSize: 'clamp(2.2rem, 4.4vw, 3.4rem)',

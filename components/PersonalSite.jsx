@@ -2037,9 +2037,22 @@ function CurrentsAtmosphere() {
 function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
   const cyanAccent = cyan || 'oklch(0.46 0.14 200)';
   const [filter, setFilter] = useState('all');
+  const [sort, setSort] = useState('newest');
   const cats = ['all', 'Careers', 'Business', 'Marketing', 'AI', 'Japan', 'Personal'];
+  const sortOptions = [
+    { key: 'newest', label: 'Newest' },
+    { key: 'oldest', label: 'Oldest' },
+    { key: 'alpha',  label: 'A–Z' },
+  ];
   const memoSource = (memos && memos.length) ? memos : memos_v2;
   const filtered = filter === 'all' ? memoSource : memoSource.filter((m) => m.cats.includes(filter));
+  // Sort applied after filter so the user always sees a coherent ordering.
+  // 'newest' is the default and matches the original date-desc behavior.
+  const sorted = [...filtered].sort((a, b) => {
+    if (sort === 'oldest') return new Date(a.date || 0) - new Date(b.date || 0);
+    if (sort === 'alpha')  return (a.title || '').localeCompare(b.title || '');
+    return new Date(b.date || 0) - new Date(a.date || 0);
+  });
 
   return (
     <div style={{
@@ -2084,7 +2097,8 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
         <WavyHR opacity={0.4} amp={1.4} freq={26} height={10} />
       </div>
 
-      <div className="tidal-section-pad" style={{ padding: '24px 64px 24px', display: 'flex', gap: 18, flexWrap: 'wrap', position: 'relative', zIndex: 1 }}>
+      <div className="tidal-section-pad" style={{ padding: '24px 64px 6px', display: 'flex', gap: 18, flexWrap: 'wrap', alignItems: 'center', position: 'relative', zIndex: 1 }}>
+        <span className="eyebrow" style={{ color: 'oklch(0.94 0.02 200 / 0.4)', fontSize: 10, marginRight: 4 }}>Filter</span>
         {cats.map((c) => {
           const active = filter === c;
           return (
@@ -2102,8 +2116,27 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
         })}
       </div>
 
+      {/* Sort row — sits below filter row so the two read as parallel controls. */}
+      <div className="tidal-section-pad" style={{ padding: '0 64px 18px', display: 'flex', gap: 18, flexWrap: 'wrap', alignItems: 'center', position: 'relative', zIndex: 1 }}>
+        <span className="eyebrow" style={{ color: 'oklch(0.94 0.02 200 / 0.4)', fontSize: 10, marginRight: 4 }}>Sort</span>
+        {sortOptions.map((s) => {
+          const active = sort === s.key;
+          return (
+            <button key={s.key} onClick={() => setSort(s.key)} className="eyebrow" style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              padding: '8px 0',
+              color: active ? accent : 'oklch(0.94 0.02 200 / 0.55)',
+              borderBottom: active ? `1px solid ${accent}` : '1px solid transparent',
+              transition: 'all 0.3s'
+            }}>
+              {s.label}
+            </button>);
+
+        })}
+      </div>
+
       <ol className="tidal-section-pad" style={{ listStyle: 'none', padding: '8px 64px 80px', margin: 0, position: 'relative', zIndex: 1, display: 'grid', gap: 14 }}>
-        {filtered.map((m, i) =>
+        {sorted.map((m, i) =>
         <li key={m.id} className="surface card-row tidal-memo-card" onClick={() => onOpenMemo && onOpenMemo(m.id)} style={{
           display: 'grid', gridTemplateColumns: '1fr 110px', gap: 28,
           padding: '26px 30px',
@@ -2596,9 +2629,7 @@ function MemoHeader({ tag, title, subtitle, date, readTime, categories, mode = '
   return (
     <div className="grid grid-cols-12 gap-6 mb-16">
       <div className="col-span-12 md:col-span-9 md:col-start-2">
-        <p className="heading-sans text-xs mb-6" style={{
-          color: palette.tag, letterSpacing: '0.18em', textTransform: 'uppercase', fontSize: 11, fontWeight: 500
-        }}>{tag}</p>
+        {/* Note numbering removed 2026-04-30 — keep tag prop in API for back-compat. */}
         <h1 className="heading-sans mb-6" style={{
           fontFamily: 'Fraunces, Georgia, serif',
           fontSize: 'clamp(2.2rem, 4.4vw, 3.4rem)',
