@@ -12,3 +12,362 @@ html, body { width: 100%; margin: 0; overflow-x: clip; background: oklch(0.97 0.
 ::-webkit-scrollbar-track { background: transparent; }
 ::selection { background: oklch(0.84 0.12 200 / 0.4); color: oklch(0.20 0.05 235); }
 .card-row { transition: padding-left 0.4s cubic-bezier(0.2,0.7,0.3,1), background 0.4s; }
+
+/* ─── Memo article typography ──────────────────────────────────────────────
+ * Article styling for both modal viewer and direct /posts/[slug] routes.
+ * Themable via CSS variables — light editorial mode by default, ocean reading
+ * mode when .ocean-mode class applied to the .memo-body container.
+ *
+ * Typography vibe: Substack-modern base + zine-style punctuation.
+ * - Body: Newsreader serif, 18px / 1.75
+ * - Headings: Fraunces, generous spacing, italic h3
+ * - Pull quotes: stacked emphasis (cyan accent, larger weight, no italic)
+ * - Drop cap on lede paragraph
+ * - Decorative wave dividers between sections
+ * - End mark on final paragraph
+ * - Inline emphasis colored with cyan accent
+ * ──────────────────────────────────────────────────────────────────────── */
+
+.memo-body {
+  /* Light editorial palette (default) */
+  --m-text:        oklch(0.22 0.04 240);
+  --m-text-muted:  oklch(0.34 0.05 230);
+  --m-text-strong: oklch(0.16 0.04 235);
+  --m-text-lede:   oklch(0.30 0.05 232);
+  --m-accent:      oklch(0.46 0.14 200);
+  --m-accent-soft: oklch(0.46 0.14 200 / 0.12);
+  --m-accent-bold: oklch(0.40 0.14 210);
+  --m-card-bg:     oklch(0.97 0.014 200 / 0.55);
+  --m-card-bg-hover: oklch(0.97 0.014 200 / 0.85);
+  --m-card-border: oklch(0.46 0.14 200 / 0.20);
+  --m-card-border-hover: oklch(0.46 0.14 200 / 0.55);
+  --m-divider:     oklch(0.46 0.14 200 / 0.55);
+  --m-rule:        oklch(0.40 0.05 230 / 0.15);
+
+  font-family: "Newsreader", "Source Serif 4", Georgia, serif;
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--m-text);
+  font-weight: 400;
+  font-optical-sizing: auto;
+}
+
+/* Ocean reading mode — applied via parent class */
+.memo-body.ocean-mode {
+  --m-text:        oklch(0.88 0.018 200);
+  --m-text-muted:  oklch(0.78 0.025 210);
+  --m-text-strong: oklch(0.96 0.014 200);
+  --m-text-lede:   oklch(0.84 0.022 205);
+  --m-accent:      oklch(0.74 0.16 200);
+  --m-accent-soft: oklch(0.74 0.16 200 / 0.14);
+  --m-accent-bold: oklch(0.84 0.16 200);
+  --m-card-bg:     oklch(0.22 0.05 235 / 0.4);
+  --m-card-bg-hover: oklch(0.26 0.06 232 / 0.6);
+  --m-card-border: oklch(0.74 0.16 200 / 0.28);
+  --m-card-border-hover: oklch(0.74 0.16 200 / 0.65);
+  --m-divider:     oklch(0.74 0.16 200 / 0.55);
+  --m-rule:        oklch(0.74 0.16 200 / 0.18);
+}
+
+/* Body paragraphs */
+.memo-body p {
+  margin: 0 0 22px;
+  color: var(--m-text);
+}
+
+/* Lede — first paragraph: larger, slightly muted, sets the entry tone */
+.memo-body .lede {
+  font-size: 22px;
+  line-height: 1.55;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--m-text-lede);
+  margin: 0 0 36px;
+}
+
+/* Drop cap on lede — Fraunces, italic, sized to anchor 3 lines */
+.memo-body .lede::first-letter {
+  font-family: "Fraunces", "Source Serif 4", Georgia, serif;
+  font-size: 64px;
+  font-weight: 400;
+  font-style: italic;
+  font-optical-sizing: auto;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 10px 0 0;
+  color: var(--m-accent);
+}
+
+/* Inline emphasis — cyan accent for both bold and italic key phrases */
+.memo-body strong {
+  font-weight: 600;
+  color: var(--m-accent-bold);
+}
+.memo-body em {
+  font-style: italic;
+  color: var(--m-accent);
+}
+.memo-body strong em, .memo-body em strong {
+  font-weight: 600;
+  font-style: italic;
+  color: var(--m-accent);
+}
+
+/* Headings — Fraunces, generous top margin, anchor sections */
+.memo-body h2 {
+  font-family: "Fraunces", "Source Serif 4", Georgia, serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: -0.018em;
+  color: var(--m-text-strong);
+  margin: 64px 0 18px;
+  font-optical-sizing: auto;
+}
+
+.memo-body h3 {
+  font-family: "Fraunces", "Source Serif 4", Georgia, serif;
+  font-size: 23px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--m-text-strong);
+  margin: 44px 0 14px;
+  font-optical-sizing: auto;
+}
+
+.memo-body h4 {
+  font-family: "Geist", "Inter", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--m-accent);
+  margin: 36px 0 10px;
+}
+
+/* Lists */
+.memo-body ul, .memo-body ol {
+  margin: 0 0 22px;
+  padding-left: 26px;
+}
+.memo-body li {
+  margin-bottom: 10px;
+  color: var(--m-text);
+}
+.memo-body ul li::marker {
+  color: var(--m-accent);
+}
+.memo-body ol li::marker {
+  color: var(--m-accent);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+/* Inline links */
+.memo-body a {
+  color: var(--m-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.18em;
+  text-decoration-color: oklch(from var(--m-accent) l c h / 0.45);
+  transition: text-decoration-color 0.2s, color 0.2s;
+}
+.memo-body a:hover {
+  text-decoration-color: var(--m-accent);
+  color: var(--m-accent-bold);
+}
+
+/* Pull quote — stacked emphasis (Q3 option iv): non-italic, larger weight,
+ * cyan accent. Magazine-style visual punctuation, not a quotation block. */
+.memo-body .pull-quote {
+  font-family: "Fraunces", "Source Serif 4", Georgia, serif;
+  font-size: 26px;
+  line-height: 1.32;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  color: var(--m-accent);
+  margin: 56px 0;
+  padding: 0;
+  text-align: left;
+  font-optical-sizing: auto;
+}
+
+/* Markdown blockquote → same treatment as pull-quote */
+.memo-body blockquote {
+  font-family: "Fraunces", "Source Serif 4", Georgia, serif;
+  font-size: 24px;
+  line-height: 1.35;
+  font-weight: 500;
+  color: var(--m-accent);
+  margin: 48px 0;
+  padding: 0;
+  border: none;
+}
+
+/* Framework grid (e.g. POST-AI letters) — interactive 2-3 col grid.
+ * Each card lifts on hover with a top shimmer and letter shift. */
+.memo-body .framework-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 44px 0;
+}
+
+.memo-body .framework-card {
+  position: relative;
+  background: var(--m-card-bg);
+  border: 1px solid var(--m-card-border);
+  border-radius: 6px;
+  padding: 26px 24px 24px;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.2,0.7,0.3,1),
+              border-color 0.35s, background 0.35s,
+              box-shadow 0.35s;
+}
+
+.memo-body .framework-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--m-accent) 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.45s;
+}
+
+.memo-body .framework-card:hover {
+  transform: translateY(-3px);
+  background: var(--m-card-bg-hover);
+  border-color: var(--m-card-border-hover);
+  box-shadow: 0 12px 28px oklch(0 0 0 / 0.10), 0 0 22px var(--m-accent-soft);
+}
+.memo-body .framework-card:hover::before {
+  opacity: 0.7;
+}
+
+.memo-body .framework-letter {
+  font-family: "Fraunces", "Source Serif 4", Georgia, serif;
+  font-size: 56px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1;
+  color: var(--m-accent);
+  margin-bottom: 12px;
+  font-optical-sizing: auto;
+  transition: transform 0.4s cubic-bezier(0.2,0.7,0.3,1),
+              color 0.4s, letter-spacing 0.4s;
+}
+.memo-body .framework-card:hover .framework-letter {
+  transform: translateX(4px);
+  color: var(--m-accent-bold);
+  letter-spacing: -0.01em;
+}
+
+.memo-body .framework-name {
+  font-family: "Fraunces", "Source Serif 4", Georgia, serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--m-text-strong);
+  margin-bottom: 6px;
+}
+
+.memo-body .framework-desc {
+  font-family: "Newsreader", "Source Serif 4", Georgia, serif;
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 400;
+  color: var(--m-text-muted);
+}
+
+/* ASCII chart container */
+.memo-body .ascii-chart {
+  margin: 36px 0;
+  padding: 22px 26px;
+  background: var(--m-card-bg);
+  border: 1px solid var(--m-card-border);
+  border-left: 3px solid var(--m-accent);
+  border-radius: 4px;
+  overflow-x: auto;
+}
+.memo-body .ascii-chart pre {
+  font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--m-text-muted);
+  margin: 0;
+}
+
+/* Decorative ocean wave divider — replaces <hr> with a subtle 3-wave glyph.
+ * Triggered by markdown `---` between sections. */
+.memo-body hr {
+  border: none;
+  height: 18px;
+  margin: 56px auto;
+  width: 100px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 18' preserveAspectRatio='xMidYMid meet'%3E%3Cpath d='M2 9 Q 14 1 26 9 T 50 9 T 74 9 T 98 9' fill='none' stroke='%23329aa6' stroke-width='1.4' stroke-linecap='round' opacity='0.55'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.85;
+}
+.memo-body.ocean-mode hr {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 18' preserveAspectRatio='xMidYMid meet'%3E%3Cpath d='M2 9 Q 14 1 26 9 T 50 9 T 74 9 T 98 9' fill='none' stroke='%2370c9d4' stroke-width='1.4' stroke-linecap='round' opacity='0.7'/%3E%3C/svg%3E");
+}
+
+/* End mark — small diamond glyph after the final paragraph of an article.
+ * Targets the very last <p> directly inside the rendered HTML wrapper. */
+.memo-body > div > p:last-child::after {
+  content: "  \25C7";
+  color: var(--m-accent);
+  font-size: 14px;
+  margin-left: 8px;
+  vertical-align: 0.05em;
+  opacity: 0.7;
+  font-family: "Geist Mono", monospace;
+}
+
+/* Tag pill (date / read time in MemoHeader) */
+.tag-pill {
+  font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--m-text-muted, oklch(0.45 0.04 220));
+  font-weight: 500;
+}
+
+/* Tag chip (category) */
+.tag-chip {
+  font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: var(--m-accent-soft, oklch(0.46 0.14 200 / 0.10));
+  color: var(--m-accent-bold, oklch(0.40 0.10 215));
+  font-weight: 500;
+  border: 1px solid var(--m-card-border, oklch(0.46 0.14 200 / 0.18));
+}
+
+/* Heading-sans / body-serif aliases (used in MemoHeader) */
+.heading-sans {
+  font-family: "Geist", "Inter", system-ui, sans-serif;
+}
+.body-serif {
+  font-family: "Newsreader", "Source Serif 4", Georgia, serif;
+}
+
+/* Reduced-motion: disable interactive lift + shimmer on framework cards */
+@media (prefers-reduced-motion: reduce) {
+  .memo-body .framework-card,
+  .memo-body .framework-card .framework-letter {
+    transition: none;
+  }
+  .memo-body .framework-card:hover {
+    transform: none;
+  }
+}

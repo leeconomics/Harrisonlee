@@ -1424,13 +1424,17 @@ function WaveDivider({ from = '#f0eee9', to = '#e8eef2', flip = false, accent, h
   // Each layer: a smooth wave path drawn as a flowing curve. We pre-render
   // SVG paths (no per-frame JS) and animate the whole layer with a slow
   // horizontal drift.
+  // Progressive low-opacity layers — when from===to (Ripples→Currents), this
+  // reads as smooth subtle texture instead of distinct horizontal stripes.
+  // When from≠to (Depths→About), the OKLCH gradient does the heavy lifting and
+  // these waves become decorative.
   const layers = [
   // {opacity, baseY (as % of height), amp, fill, dur, dir}
-  { o: 0.18, y: 0.30, amp: 16, fill: accent, dur: 32, dir: 1 },
-  { o: 0.32, y: 0.45, amp: 22, fill: to, dur: 40, dir: -1 },
-  { o: 0.55, y: 0.58, amp: 18, fill: to, dur: 28, dir: 1 },
-  { o: 0.80, y: 0.72, amp: 14, fill: to, dur: 36, dir: -1 },
-  { o: 1.00, y: 0.84, amp: 10, fill: to, dur: 24, dir: 1 }];
+  { o: 0.06, y: 0.20, amp: 18, fill: accent, dur: 32, dir: 1 },
+  { o: 0.10, y: 0.40, amp: 22, fill: to, dur: 40, dir: -1 },
+  { o: 0.16, y: 0.60, amp: 18, fill: to, dur: 28, dir: 1 },
+  { o: 0.24, y: 0.78, amp: 14, fill: to, dur: 36, dir: -1 },
+  { o: 0.40, y: 0.92, amp: 10, fill: to, dur: 24, dir: 1 }];
 
   const W = 2400; // double-width so the drift loops cleanly
   // Build one smooth wave path: gentle, single-period sine across the width.
@@ -2131,42 +2135,28 @@ function DarkOceanLayer({ accent, cyan }) {
 
       <div style={{ padding: '0 64px 80px', position: 'relative', zIndex: 1, display: 'grid', gap: 16 }}>
         {projects_v2.map((p, i) =>
+        // Cleaner card treatment: single crisp cyan border at 40% opacity at
+        // rest, ramps to 80% on hover with a soft drop shadow. Removed the
+        // earlier inset highlights which were making edges look fuzzy.
         <article key={p.id} className="surface" style={{
           display: 'grid', gridTemplateColumns: '1fr 180px',
           gap: 32, padding: '36px 36px',
           background: 'oklch(0.97 0.01 90 / 0.04)',
-          border: `1px solid ${cyanAccent}55`,
+          border: `1px solid ${cyanAccent}66`,
           borderRadius: 4, cursor: 'pointer',
           backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
-          // Layered teal: outer glow, inner highlight, ambient drop = volume
-          boxShadow: `
-            0 0 0 1px ${cyanAccent}22,
-            0 1px 0 ${cyanAccent}33 inset,
-            0 -1px 0 oklch(0 0 0 / 0.25) inset,
-            0 8px 22px oklch(0 0 0 / 0.28),
-            0 0 24px ${cyanAccent}1f
-          `,
-          animationDelay: `${0.3 + i * 0.08}s`, transition: 'all 0.4s'
+          boxShadow: 'none',
+          animationDelay: `${0.3 + i * 0.08}s`, transition: 'all 0.35s cubic-bezier(0.2,0.7,0.3,1)'
         }} onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = cyanAccent;
+          e.currentTarget.style.borderColor = `${cyanAccent}cc`;
           e.currentTarget.style.transform = 'translateY(-2px)';
-          e.currentTarget.style.boxShadow = `
-            0 0 0 1px ${cyanAccent}66,
-            0 1px 0 ${cyanAccent}55 inset,
-            0 -1px 0 oklch(0 0 0 / 0.25) inset,
-            0 14px 38px oklch(0 0 0 / 0.36),
-            0 0 36px ${cyanAccent}3a
-          `;
+          e.currentTarget.style.background = 'oklch(0.97 0.01 90 / 0.07)';
+          e.currentTarget.style.boxShadow = `0 12px 32px oklch(0 0 0 / 0.32), 0 0 28px ${cyanAccent}2a`;
         }} onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = `${cyanAccent}55`;
+          e.currentTarget.style.borderColor = `${cyanAccent}66`;
           e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = `
-            0 0 0 1px ${cyanAccent}22,
-            0 1px 0 ${cyanAccent}33 inset,
-            0 -1px 0 oklch(0 0 0 / 0.25) inset,
-            0 8px 22px oklch(0 0 0 / 0.28),
-            0 0 24px ${cyanAccent}1f
-          `;
+          e.currentTarget.style.background = 'oklch(0.97 0.01 90 / 0.04)';
+          e.currentTarget.style.boxShadow = 'none';
         }}>
             <div>
               <div className="eyebrow" style={{ color: 'oklch(0.92 0.02 200 / 0.6)', fontSize: 10, marginBottom: 10 }}>
@@ -2475,19 +2465,22 @@ function DirectionV2({ tweaks, memos, memoContent }) {
         </div>
 
         {openMemo !== null && (
+          // Ocean reading mode (Q1 = D / Q3 = stacked emphasis): deep navy
+          // background, generous max-width (880px), light typography defined
+          // in globals.css via .memo-body.ocean-mode.
           <div onClick={() => setOpenMemo(null)} style={{
             position: 'fixed', inset: 0, zIndex: 100,
-            background: 'oklch(0.97 0.008 95)',
+            background: 'linear-gradient(180deg, oklch(0.16 0.05 242) 0%, oklch(0.10 0.04 246) 100%)',
             overflowY: 'auto',
             animation: 'memoFadeIn 0.4s ease-out'
           }}>
             <div onClick={e => e.stopPropagation()} style={{
-              maxWidth: 760, margin: '0 auto', padding: '64px 48px 120px',
+              maxWidth: 880, margin: '0 auto', padding: '64px 48px 120px',
             }}>
               <button onClick={() => setOpenMemo(null)} className="eyebrow" style={{
                 background: 'none', border: 'none', cursor: 'pointer',
-                color: 'oklch(0.45 0.04 220)', marginBottom: 40,
-                padding: 0, fontSize: 11, letterSpacing: '0.18em'
+                color: 'oklch(0.74 0.10 210)', marginBottom: 48,
+                padding: 0, fontSize: 11, letterSpacing: '0.18em', fontWeight: 500
               }}>← Back to Currents</button>
               {memoMap && memoMap[openMemo]
                 ? <MarkdownMemo data={memoMap[openMemo]} />
@@ -2531,20 +2524,48 @@ function DirectionV2({ tweaks, memos, memoContent }) {
 
 
 // ─── Memo display components ──────────────────────────────────────────────
-function MemoHeader({ tag, title, subtitle, date, readTime, categories }) {
+// MemoHeader renders the tag/title/subtitle/meta block above each article.
+// `mode` prop themes the colors: 'ocean' (default, deep navy reading) or 'cream'.
+function MemoHeader({ tag, title, subtitle, date, readTime, categories, mode = 'ocean' }) {
+  const palette = mode === 'ocean'
+    ? {
+        tag:      'oklch(0.74 0.16 200)',           // bright cyan accent
+        title:    'oklch(0.96 0.014 200)',          // near-white
+        subtitle: 'oklch(0.78 0.025 210 / 0.88)',
+        meta:     'oklch(0.74 0.04 215)',
+      }
+    : {
+        tag:      'oklch(0.46 0.14 200)',
+        title:    'oklch(0.16 0.04 235)',
+        subtitle: 'oklch(0.34 0.05 230)',
+        meta:     'oklch(0.45 0.04 220)',
+      };
+
   return (
     <div className="grid grid-cols-12 gap-6 mb-16">
       <div className="col-span-12 md:col-span-9 md:col-start-2">
-        <p className="heading-sans text-xs mb-6" style={{ color: '#4a7a8c', letterSpacing: '0.16em', textTransform: 'uppercase' }}>{tag}</p>
-        <h1 className="heading-sans mb-6" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 400, lineHeight: 1.15, color: '#0d1f2a', letterSpacing: '-0.025em' }}>
+        <p className="heading-sans text-xs mb-6" style={{
+          color: palette.tag, letterSpacing: '0.18em', textTransform: 'uppercase', fontSize: 11, fontWeight: 500
+        }}>{tag}</p>
+        <h1 className="heading-sans mb-6" style={{
+          fontFamily: 'Fraunces, Georgia, serif',
+          fontSize: 'clamp(2.2rem, 4.4vw, 3.4rem)',
+          fontWeight: 300,
+          lineHeight: 1.08,
+          letterSpacing: '-0.025em',
+          color: palette.title,
+        }}>
           {title}
         </h1>
-        <p className="body-serif" style={{ fontSize: '1.25rem', lineHeight: 1.5, color: '#3a5868', fontStyle: 'italic', fontWeight: 300 }}>
+        <p className="body-serif" style={{
+          fontSize: '1.25rem', lineHeight: 1.5, color: palette.subtitle,
+          fontStyle: 'italic', fontWeight: 300
+        }}>
           {subtitle}
         </p>
-        <div className="flex items-center gap-6 mt-8 flex-wrap">
-          <span className="tag-pill">{date}</span>
-          <span className="tag-pill" style={{ color: '#7a8e9a' }}>{readTime}</span>
+        <div className="flex items-center gap-6 mt-10 flex-wrap">
+          <span className="tag-pill" style={{ color: palette.meta }}>{date}</span>
+          <span className="tag-pill" style={{ color: palette.meta, opacity: 0.7 }}>{readTime}</span>
           {categories && categories.map(c => (<span key={c} className="tag-chip">{c}</span>))}
         </div>
       </div>
@@ -2552,18 +2573,20 @@ function MemoHeader({ tag, title, subtitle, date, readTime, categories }) {
   );
 }
 
-function MemoBody({ children }) {
+function MemoBody({ children, mode = 'ocean' }) {
+  // mode: 'ocean' (deep navy reading mode, default) | 'cream' (legacy editorial)
+  const modeClass = mode === 'ocean' ? 'ocean-mode' : '';
   return (
     <div className="grid grid-cols-12 gap-6">
-      <div className="col-span-12 md:col-span-9 md:col-start-2 memo-body">{children}</div>
+      <div className={`col-span-12 md:col-span-9 md:col-start-2 memo-body ${modeClass}`}>{children}</div>
     </div>
   );
 }
 
 // Renders a memo loaded from a markdown file.
 // `data` shape: { tag, title, subtitle, cats, readTime, displayDate, contentHtml }
-// Matches the visual structure of Memo1..Memo8 for styling consistency.
-function MarkdownMemo({ data }) {
+// `mode` prop ('ocean' default, or 'cream') passed to MemoHeader + MemoBody.
+function MarkdownMemo({ data, mode = 'ocean' }) {
   if (!data) return null;
   return (
     <article>
@@ -2574,8 +2597,9 @@ function MarkdownMemo({ data }) {
         date={data.displayDate}
         readTime={data.readTime}
         categories={data.cats}
+        mode={mode}
       />
-      <MemoBody>
+      <MemoBody mode={mode}>
         <div dangerouslySetInnerHTML={{ __html: data.contentHtml || '' }} />
       </MemoBody>
     </article>

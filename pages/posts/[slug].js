@@ -23,39 +23,60 @@ export default function PostPage({ post }) {
           rel="stylesheet"
         />
       </Head>
-      <div style={{ background: 'oklch(0.97 0.008 95)', minHeight: '100vh', overflowY: 'auto' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto', padding: '64px 48px 120px' }}>
+      {/* Ocean reading mode — same palette + typography as the Currents modal,
+          so direct article URLs and the modal feel like one continuous reading
+          surface. Typography rules live in globals.css under .memo-body.ocean-mode */}
+      <div style={{
+        background: 'linear-gradient(180deg, oklch(0.16 0.05 242) 0%, oklch(0.10 0.04 246) 100%)',
+        minHeight: '100vh', overflowY: 'auto'
+      }}>
+        <div style={{ maxWidth: 880, margin: '0 auto', padding: '64px 48px 120px' }}>
           <Link href="/" className="eyebrow" style={{
             display: 'inline-block',
             background: 'none',
             border: 'none',
             cursor: 'pointer',
-            color: 'oklch(0.45 0.04 220)',
-            marginBottom: 40,
+            color: 'oklch(0.74 0.10 210)',
+            marginBottom: 48,
             padding: 0,
             fontSize: 11,
+            fontWeight: 500,
             letterSpacing: '0.18em',
             textDecoration: 'none',
           }}>← Back to Tidal</Link>
           <article>
             <div className="grid grid-cols-12 gap-6 mb-16">
               <div className="col-span-12 md:col-span-9 md:col-start-2">
-                <p className="heading-sans text-xs mb-6" style={{ color: '#4a7a8c', letterSpacing: '0.16em', textTransform: 'uppercase' }}>{post.tag}</p>
-                <h1 className="heading-sans mb-6" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 400, lineHeight: 1.15, color: '#0d1f2a', letterSpacing: '-0.025em' }}>
+                <p className="heading-sans text-xs mb-6" style={{
+                  color: 'oklch(0.74 0.16 200)', letterSpacing: '0.18em',
+                  textTransform: 'uppercase', fontSize: 11, fontWeight: 500
+                }}>{post.tag}</p>
+                <h1 style={{
+                  fontFamily: 'Fraunces, Georgia, serif',
+                  fontSize: 'clamp(2.2rem, 4.4vw, 3.4rem)',
+                  fontWeight: 300, lineHeight: 1.08,
+                  letterSpacing: '-0.025em',
+                  color: 'oklch(0.96 0.014 200)',
+                  margin: '0 0 24px',
+                }}>
                   {post.title}
                 </h1>
-                <p className="body-serif" style={{ fontSize: '1.25rem', lineHeight: 1.5, color: '#3a5868', fontStyle: 'italic', fontWeight: 300 }}>
+                <p className="body-serif" style={{
+                  fontSize: '1.25rem', lineHeight: 1.5,
+                  color: 'oklch(0.78 0.025 210 / 0.88)',
+                  fontStyle: 'italic', fontWeight: 300
+                }}>
                   {post.subtitle}
                 </p>
-                <div className="flex items-center gap-6 mt-8 flex-wrap">
-                  <span className="tag-pill">{post.displayDate}</span>
-                  <span className="tag-pill" style={{ color: '#7a8e9a' }}>{post.readTime}</span>
+                <div className="flex items-center gap-6 mt-10 flex-wrap">
+                  <span className="tag-pill" style={{ color: 'oklch(0.74 0.04 215)' }}>{post.displayDate}</span>
+                  <span className="tag-pill" style={{ color: 'oklch(0.74 0.04 215)', opacity: 0.7 }}>{post.readTime}</span>
                   {post.cats && post.cats.map(c => (<span key={c} className="tag-chip">{c}</span>))}
                 </div>
               </div>
             </div>
             <div className="grid grid-cols-12 gap-6">
-              <div className="col-span-12 md:col-span-9 md:col-start-2 memo-body">
+              <div className="col-span-12 md:col-span-9 md:col-start-2 memo-body ocean-mode">
                 <div dangerouslySetInnerHTML={{ __html: post.contentHtml || '' }} />
               </div>
             </div>
