@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { width: 100%; margin: 0; overflow-x: hidden; background: oklch(0.97 0.008 95); -webkit-font-smoothing: antialiased; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-thumb { background: oklch(0.55 0.06 215 / 0.25); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: oklch(0.55 0.06 215 / 0.4); }
+::-webkit-scrollbar-track { background: transparent; }
+::selection { background: oklch(0.84 0.12 200 / 0.4); color: oklch(0.20 0.05 235); }
+.card-row { transition: padding-left 0.4s cubic-bezier(0.2,0.7,0.3,1), background 0.4s; }
