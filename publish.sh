@@ -81,7 +81,10 @@ rsync -av --delete \
 HAS_WORKING_CHANGES=0
 HAS_COMMITS_AHEAD=0
 
-if ! git diff --quiet || ! git diff --cached --quiet; then
+# Check for ANY working-tree changes: tracked-modified, staged, OR untracked.
+# `git diff` only sees tracked files — drops new files dropped into Currents/
+# straight to git's blind spot. `git status --porcelain` catches all three.
+if [ -n "$(git status --porcelain)" ]; then
   HAS_WORKING_CHANGES=1
 fi
 
