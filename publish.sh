@@ -61,6 +61,21 @@ git pull --rebase --autostash origin main 2>/dev/null || {
   echo "⚠️  Pull failed (probably first run after clone). Continuing..."
 }
 
+# ── Auto-prep raw uploads in Currents/ ──────────────────────────────────────
+# Any .md dropped into Currents/ with raw frontmatter (categories/read_time/
+# status fields, or missing id/slug) gets converted to site format here, BEFORE
+# the rsync step. Sibling .svg files with matching stems are auto-attached as
+# hero images. After this step, Currents/ contains only site-format memos.
+PREP_SCRIPT="$SITE_DIR/scripts/prep_currents.py"
+if [ -f "$PREP_SCRIPT" ]; then
+  python3 "$PREP_SCRIPT" || {
+    echo "❌ Prep step failed. Aborting ship."
+    exit 1
+  }
+else
+  echo "⚠️  Prep script not found at $PREP_SCRIPT — skipping auto-conversion."
+fi
+
 # ── Sync Currents/ → site/posts/ ──────────────────────────────────────────────
 # rsync handles new files, deletions, and changes. --delete removes posts that
 # were removed from Currents/ (e.g. archived). Comment out --delete if you want
