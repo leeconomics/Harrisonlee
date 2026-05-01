@@ -118,6 +118,24 @@ html, body { width: 100%; margin: 0; overflow-x: clip; background: oklch(0.97 0.
   --m-rule:        oklch(0.74 0.16 200 / 0.18);
 }
 
+/* Hero image — sits at the top of a memo, before the lede.
+ * Edge-to-edge within the memo container, 1200×630 SVGs scale cleanly. */
+.memo-body .memo-hero {
+  margin: -4px 0 40px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--m-rule);
+  background: var(--m-card-bg);
+  aspect-ratio: 1200 / 630;
+  line-height: 0;
+}
+.memo-body .memo-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 /* Body paragraphs */
 .memo-body p {
   margin: 0 0 22px;

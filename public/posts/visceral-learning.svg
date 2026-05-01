@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg11" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5f3ed"/>
+      <stop offset="60%" stop-color="#eef2f3"/>
+      <stop offset="100%" stop-color="#dde7eb"/>
+    </linearGradient>
+    <radialGradient id="deep-ripple" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0d1f2a" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0d1f2a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg11)"/>
+
+  <!-- Many shallow surface ripples (information stacking, not compounding) -->
+  <g opacity="0.45" stroke="#9bc8d7" stroke-width="0.8" fill="none">
+    <!-- Cluster of small concentric circles - top-left area -->
+    <circle cx="180" cy="180" r="8"/>
+    <circle cx="180" cy="180" r="16"/>
+    <circle cx="180" cy="180" r="24"/>
+
+    <circle cx="280" cy="220" r="6"/>
+    <circle cx="280" cy="220" r="12"/>
+    <circle cx="280" cy="220" r="18"/>
+
+    <circle cx="160" cy="280" r="7"/>
+    <circle cx="160" cy="280" r="14"/>
+    <circle cx="160" cy="280" r="21"/>
+
+    <circle cx="320" cy="140" r="5"/>
+    <circle cx="320" cy="140" r="10"/>
+    <circle cx="320" cy="140" r="15"/>
+
+    <circle cx="240" cy="350" r="6"/>
+    <circle cx="240" cy="350" r="12"/>
+
+    <!-- Right cluster -->
+    <circle cx="950" cy="160" r="7"/>
+    <circle cx="950" cy="160" r="14"/>
+    <circle cx="950" cy="160" r="21"/>
+
+    <circle cx="1050" cy="240" r="5"/>
+    <circle cx="1050" cy="240" r="10"/>
+    <circle cx="1050" cy="240" r="15"/>
+
+    <circle cx="900" cy="320" r="6"/>
+    <circle cx="900" cy="320" r="12"/>
+    <circle cx="900" cy="320" r="18"/>
+
+    <circle cx="1020" cy="380" r="5"/>
+    <circle cx="1020" cy="380" r="10"/>
+
+    <circle cx="1080" cy="120" r="4"/>
+    <circle cx="1080" cy="120" r="8"/>
+  </g>
+
+  <!-- The single deep ripple - center, much larger and darker -->
+  <g opacity="0.95" stroke="#2c5f7a" fill="none">
+    <circle cx="600" cy="280" r="20" stroke-width="3"/>
+    <circle cx="600" cy="280" r="50" stroke-width="2.5" opacity="0.85"/>
+    <circle cx="600" cy="280" r="90" stroke-width="2" opacity="0.7"/>
+    <circle cx="600" cy="280" r="140" stroke-width="1.5" opacity="0.55"/>
+    <circle cx="600" cy="280" r="200" stroke-width="1" opacity="0.4"/>
+    <circle cx="600" cy="280" r="270" stroke-width="0.5" opacity="0.25"/>
+  </g>
+
+  <!-- Glow at impact point -->
+  <circle cx="600" cy="280" r="120" fill="url(#deep-ripple)" opacity="0.5"/>
+  <circle cx="600" cy="280" r="6" fill="#0d1f2a" opacity="0.85"/>
+
+  <!-- Bottom waves -->
+  <path d="M 0 560 Q 300 545, 600 560 T 1200 560 L 1200 630 L 0 630 Z" fill="#2c5f7a" fill-opacity="0.08"/>
+  <path d="M 0 595 Q 300 583, 600 595 T 1200 595 L 1200 630 L 0 630 Z" fill="#2c5f7a" fill-opacity="0.1"/>
+</svg>

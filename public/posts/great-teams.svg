@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg12" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5f3ed"/>
+      <stop offset="60%" stop-color="#eef2f3"/>
+      <stop offset="100%" stop-color="#dde7eb"/>
+    </linearGradient>
+    <radialGradient id="lift-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2c5f7a" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#2c5f7a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg12)"/>
+
+  <!-- Ambient glow showing the lifted region -->
+  <ellipse cx="600" cy="320" rx="450" ry="180" fill="url(#lift-glow)"/>
+
+  <!-- Connection lines between nodes - showing adjacency/network -->
+  <g stroke="#2c5f7a" stroke-width="0.6" fill="none" opacity="0.25">
+    <!-- Lines radiating from the three barrels to nearby good nodes -->
+    <!-- Barrel 1 (left-center) connections -->
+    <line x1="380" y1="290" x2="290" y2="240"/>
+    <line x1="380" y1="290" x2="320" y2="350"/>
+    <line x1="380" y1="290" x2="450" y2="240"/>
+    <line x1="380" y1="290" x2="460" y2="340"/>
+    <line x1="380" y1="290" x2="280" y2="310"/>
+    <line x1="380" y1="290" x2="370" y2="380"/>
+
+    <!-- Barrel 2 (center) connections -->
+    <line x1="610" y1="320" x2="540" y2="260"/>
+    <line x1="610" y1="320" x2="540" y2="370"/>
+    <line x1="610" y1="320" x2="680" y2="260"/>
+    <line x1="610" y1="320" x2="680" y2="380"/>
+    <line x1="610" y1="320" x2="730" y2="320"/>
+    <line x1="610" y1="320" x2="600" y2="220"/>
+    <line x1="610" y1="320" x2="600" y2="410"/>
+    <line x1="610" y1="320" x2="490" y2="320"/>
+
+    <!-- Barrel 3 (right-center) connections -->
+    <line x1="820" y1="300" x2="760" y2="250"/>
+    <line x1="820" y1="300" x2="760" y2="360"/>
+    <line x1="820" y1="300" x2="890" y2="250"/>
+    <line x1="820" y1="300" x2="890" y2="370"/>
+    <line x1="820" y1="300" x2="920" y2="320"/>
+    <line x1="820" y1="300" x2="830" y2="380"/>
+
+    <!-- Some inter-barrel connections for cohesion -->
+    <line x1="380" y1="290" x2="610" y2="320" opacity="0.4"/>
+    <line x1="610" y1="320" x2="820" y2="300" opacity="0.4"/>
+
+    <!-- A few connections between good nodes (less strong) -->
+    <line x1="290" y1="240" x2="370" y2="380" opacity="0.5"/>
+    <line x1="450" y1="240" x2="540" y2="260" opacity="0.5"/>
+    <line x1="680" y1="260" x2="760" y2="250" opacity="0.5"/>
+    <line x1="540" y1="370" x2="680" y2="380" opacity="0.5"/>
+    <line x1="320" y1="350" x2="460" y2="340" opacity="0.5"/>
+    <line x1="830" y1="380" x2="890" y2="370" opacity="0.5"/>
+  </g>
+
+  <!-- The "good" nodes - many, smaller, mid-tone -->
+  <g fill="#4a8ba8" opacity="0.75">
+    <circle cx="290" cy="240" r="6"/>
+    <circle cx="320" cy="350" r="6"/>
+    <circle cx="450" cy="240" r="6"/>
+    <circle cx="460" cy="340" r="6"/>
+    <circle cx="280" cy="310" r="6"/>
+    <circle cx="370" cy="380" r="6"/>
+
+    <circle cx="540" cy="260" r="6"/>
+    <circle cx="540" cy="370" r="6"/>
+    <circle cx="680" cy="260" r="6"/>
+    <circle cx="680" cy="380" r="6"/>
+    <circle cx="730" cy="320" r="6"/>
+    <circle cx="600" cy="220" r="6"/>
+    <circle cx="600" cy="410" r="6"/>
+    <circle cx="490" cy="320" r="6"/>
+
+    <circle cx="760" cy="250" r="6"/>
+    <circle cx="760" cy="360" r="6"/>
+    <circle cx="890" cy="250" r="6"/>
+    <circle cx="890" cy="370" r="6"/>
+    <circle cx="920" cy="320" r="6"/>
+    <circle cx="830" cy="380" r="6"/>
+  </g>
+
+  <!-- Outer "average and below" nodes - faint, far from the lifted region -->
+  <g fill="#9bc8d7" opacity="0.4">
+    <circle cx="120" cy="180" r="5"/>
+    <circle cx="150" cy="430" r="5"/>
+    <circle cx="100" cy="320" r="5"/>
+    <circle cx="180" cy="100" r="4"/>
+    <circle cx="200" cy="480" r="4"/>
+
+    <circle cx="1080" cy="180" r="5"/>
+    <circle cx="1050" cy="430" r="5"/>
+    <circle cx="1100" cy="320" r="5"/>
+    <circle cx="1020" cy="100" r="4"/>
+    <circle cx="1000" cy="480" r="4"/>
+  </g>
+
+  <!-- The barrels - three nodes, larger, dark, prominent -->
+  <g>
+    <!-- Halo on each barrel -->
+    <circle cx="380" cy="290" r="22" fill="#2c5f7a" opacity="0.15"/>
+    <circle cx="610" cy="320" r="26" fill="#2c5f7a" opacity="0.15"/>
+    <circle cx="820" cy="300" r="22" fill="#2c5f7a" opacity="0.15"/>
+
+    <!-- Solid barrels -->
+    <circle cx="380" cy="290" r="11" fill="#0d1f2a"/>
+    <circle cx="610" cy="320" r="13" fill="#0d1f2a"/>
+    <circle cx="820" cy="300" r="11" fill="#0d1f2a"/>
+  </g>
+
+  <!-- Bottom waves -->
+  <path d="M 0 560 Q 300 545, 600 560 T 1200 560 L 1200 630 L 0 630 Z" fill="#2c5f7a" fill-opacity="0.08"/>
+  <path d="M 0 595 Q 300 583, 600 595 T 1200 595 L 1200 630 L 0 630 Z" fill="#2c5f7a" fill-opacity="0.1"/>
+</svg>

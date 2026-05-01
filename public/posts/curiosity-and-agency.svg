@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5f3ed"/>
+      <stop offset="60%" stop-color="#eef2f3"/>
+      <stop offset="100%" stop-color="#dde7eb"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg3)"/>
+
+  <!-- Two intertwined sine waves running across, weaving over and under each other -->
+  <!-- Wave A: curiosity -->
+  <path d="M 0 320
+           C 100 280, 150 280, 200 320
+           C 250 360, 300 360, 350 320
+           C 400 280, 450 280, 500 320
+           C 550 360, 600 360, 650 320
+           C 700 280, 750 280, 800 320
+           C 850 360, 900 360, 950 320
+           C 1000 280, 1050 280, 1100 320
+           C 1150 360, 1175 360, 1200 340"
+        stroke="#2c5f7a"
+        stroke-width="3"
+        fill="none"
+        opacity="0.85"
+        stroke-linecap="round"/>
+
+  <!-- Wave B: agency, offset and weaving the opposite direction -->
+  <path d="M 0 320
+           C 100 360, 150 360, 200 320
+           C 250 280, 300 280, 350 320
+           C 400 360, 450 360, 500 320
+           C 550 280, 600 280, 650 320
+           C 700 360, 750 360, 800 320
+           C 850 280, 900 280, 950 320
+           C 1000 360, 1050 360, 1100 320
+           C 1150 280, 1175 280, 1200 300"
+        stroke="#4a8ba8"
+        stroke-width="3"
+        fill="none"
+        opacity="0.85"
+        stroke-linecap="round"/>
+
+  <!-- Intersection points where the loops cross -->
+  <g fill="#0d1f2a" opacity="0.4">
+    <circle cx="0" cy="320" r="3"/>
+    <circle cx="200" cy="320" r="3"/>
+    <circle cx="350" cy="320" r="3"/>
+    <circle cx="500" cy="320" r="3"/>
+    <circle cx="650" cy="320" r="3"/>
+    <circle cx="800" cy="320" r="3"/>
+    <circle cx="950" cy="320" r="3"/>
+    <circle cx="1100" cy="320" r="3"/>
+  </g>
+
+  <!-- Faint trailing echoes for sense of speed -->
+  <path d="M 0 320
+           C 100 280, 150 280, 200 320
+           C 250 360, 300 360, 350 320
+           C 400 280, 450 280, 500 320
+           C 550 360, 600 360, 650 320
+           C 700 280, 750 280, 800 320
+           C 850 360, 900 360, 950 320
+           C 1000 280, 1050 280, 1100 320
+           C 1150 360, 1175 360, 1200 340"
+        stroke="#2c5f7a"
+        stroke-width="1"
+        fill="none"
+        opacity="0.2"
+        transform="translate(8, 4)"/>
+
+  <!-- Bottom waves -->
+  <path d="M 0 560 Q 300 545, 600 560 T 1200 560 L 1200 630 L 0 630 Z" fill="#2c5f7a" fill-opacity="0.08"/>
+  <path d="M 0 595 Q 300 583, 600 595 T 1200 595 L 1200 630 L 0 630 Z" fill="#2c5f7a" fill-opacity="0.1"/>
+</svg>

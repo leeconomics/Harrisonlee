@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg8" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5f3ed"/>
+      <stop offset="60%" stop-color="#eef2f3"/>
+      <stop offset="100%" stop-color="#dde7eb"/>
+    </linearGradient>
+    <linearGradient id="old-channel" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#9bc8d7" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#9bc8d7" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="new-channel" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2c5f7a" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#2c5f7a" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg8)"/>
+
+  <!-- Original channel - thinning out / fading as it goes right -->
+  <path d="M 0 280
+           C 200 280, 350 290, 500 295
+           C 650 300, 800 305, 1200 310"
+        stroke="#9bc8d7"
+        stroke-width="14"
+        fill="none"
+        opacity="0.5"
+        stroke-linecap="round"/>
+
+  <path d="M 0 280
+           C 200 280, 350 290, 500 295
+           C 650 300, 800 305, 1200 310"
+        stroke="#9bc8d7"
+        stroke-width="6"
+        fill="none"
+        opacity="0.7"
+        stroke-linecap="round"
+        stroke-dasharray="0 0 200 30 200 30 200 30 200"/>
+
+  <!-- Diverging current splitting off and going strong -->
+  <path d="M 350 290
+           C 450 280, 550 240, 650 200
+           C 750 160, 850 130, 950 110
+           C 1050 95, 1150 90, 1200 88"
+        stroke="url(#new-channel)"
+        stroke-width="16"
+        fill="none"
+        stroke-linecap="round"/>
+
+  <!-- Sharper accent line on diverging current -->
+  <path d="M 350 290
+           C 450 280, 550 240, 650 200
+           C 750 160, 850 130, 950 110
+           C 1050 95, 1150 90, 1200 88"
+        stroke="#0d1f2a"
+        stroke-width="2"
+        fill="none"
+        opacity="0.6"
+        stroke-linecap="round"/>
+
+  <!-- Particles flowing along the diverging path -->
+  <g fill="#2c5f7a" opacity="0.7">
+    <circle cx="450" cy="278" r="3"/>
+    <circle cx="540" cy="246" r="3.5"/>
+    <circle cx="650" cy="200" r="4"/>
+    <circle cx="780" cy="155" r="3.5"/>
+    <circle cx="900" cy="120" r="3"/>
+    <circle cx="1020" cy="100" r="2.5"/>
+    <circle cx="1130" cy="92" r="2"/>
+  </g>
+
+  <!-- Faint particles continuing in old channel - sparse, fading -->
+  <g fill="#9bc8d7" opacity="0.4">
+    <circle cx="600" cy="297" r="2"/>
+    <circle cx="800" cy="304" r="2"/>
+    <circle cx="1000" cy="308" r="1.5"/>
+    <circle cx="1150" cy="310" r="1"/>
+  </g>
+
+  <!-- Branch point indicator -->
+  <circle cx="350" cy="290" r="5" fill="#0d1f2a" opacity="0.5"/>
+  <circle cx="350" cy="290" r="14" fill="none" stroke="#2c5f7a" stroke-width="0.8" opacity="0.3"/>
+
+  <!-- Bottom waves -->
+  <path d="M 0 560 Q 300 545, 600 560 T 1200 560 L 1200 630 L 0 630 Z" fill="#2c5f7a" fill-opacity="0.08"/>
+  <path d="M 0 595 Q 300 583, 600 595 T 1200 595 L 1200 630 L 0 630 Z" fill="#2c5f7a" fill-opacity="0.1"/>
+</svg>

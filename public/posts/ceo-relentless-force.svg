@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5f3ed"/>
+      <stop offset="60%" stop-color="#eef2f3"/>
+      <stop offset="100%" stop-color="#dde7eb"/>
+    </linearGradient>
+    <linearGradient id="wave-natural" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9bc8d7" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#9bc8d7" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="wave-pushed" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2c5f7a" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#4a8ba8" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg2)"/>
+
+  <!-- Natural drift wave (what the team would do alone) - dashed, lower -->
+  <path d="M 0 380
+           C 200 380, 280 360, 400 360
+           C 520 360, 600 370, 720 380
+           C 840 390, 920 400, 1040 410
+           C 1100 415, 1150 418, 1200 420"
+        stroke="#9bc8d7"
+        stroke-width="2"
+        stroke-dasharray="6 6"
+        fill="none"
+        opacity="0.7"/>
+  <path d="M 0 420
+           C 200 420, 280 405, 400 405
+           C 520 405, 600 415, 720 425
+           C 840 435, 920 445, 1040 455
+           C 1100 460, 1150 463, 1200 465 L 1200 500 L 0 500 Z"
+        fill="url(#wave-natural)"/>
+
+  <!-- Pushed wave (CEO force) - solid, rising higher and higher -->
+  <path d="M 0 380
+           C 200 360, 280 320, 400 280
+           C 520 240, 600 200, 720 180
+           C 840 160, 920 145, 1040 135
+           C 1100 130, 1150 127, 1200 125 L 1200 500 L 0 500 Z"
+        fill="url(#wave-pushed)"/>
+
+  <!-- Subtle force arrows - small chevrons pushing up at intervals -->
+  <g stroke="#2c5f7a" stroke-width="1.5" fill="none" opacity="0.45">
+    <path d="M 250 460 L 250 430 M 244 436 L 250 430 L 256 436"/>
+    <path d="M 450 470 L 450 430 M 444 436 L 450 430 L 456 436"/>
+    <path d="M 650 480 L 650 430 M 644 436 L 650 430 L 656 436"/>
+    <path d="M 850 490 L 850 430 M 844 436 L 850 430 L 856 436"/>
+    <path d="M 1050 500 L 1050 430 M 1044 436 L 1050 430 L 1056 436"/>
+  </g>
+
+  <!-- Baseline -->
+  <line x1="0" y1="500" x2="1200" y2="500" stroke="#2c5f7a" stroke-width="0.5" stroke-opacity="0.15"/>
+
+  <!-- Bottom waves -->
+  <path d="M 0 560 Q 300 545, 600 560 T 1200 560 L 1200 630 L 0 630 Z" fill="#2c5f7a" fill-opacity="0.08"/>
+  <path d="M 0 595 Q 300 583, 600 595 T 1200 595 L 1200 630 L 0 630 Z" fill="#2c5f7a" fill-opacity="0.1"/>
+</svg>
