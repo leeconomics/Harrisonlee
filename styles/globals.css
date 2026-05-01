@@ -2,8 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Canonical design tokens ──────────────────────────────────────────────
+ * Single source of truth for site colors, radii, borders, motion duration.
+ * Replaces the 5+ inline oklch() literals scattered across PersonalSite.jsx.
+ * The :root in PersonalSite.jsx (SHARED_CSS) declares legacy tokens
+ * (--lume-cyan, --ink, --silt, --paper) — these new tokens layer on top
+ * and are what new code should reach for.
+ * ──────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Brand colors — one cyan, one ink, one cream */
+  --site-cyan:        oklch(0.46 0.14 200);
+  --site-cyan-bold:   oklch(0.40 0.14 210);
+  --site-cyan-glow:   oklch(0.74 0.16 200);
+  --site-ink:         oklch(0.20 0.04 235);
+  --site-ink-muted:   oklch(0.34 0.05 230);
+  --site-cream:       oklch(0.97 0.008 95);
+  --site-cream-warm:  oklch(0.95 0.012 80);
+
+  /* Border alpha tiers (apply on top of accent or ink) */
+  --border-hairline:  oklch(0.30 0.04 230 / 0.08);
+  --border-default:   oklch(0.46 0.14 200 / 0.18);
+  --border-accent:    oklch(0.46 0.14 200 / 0.44);
+
+  /* Radius scale: chips, cards, modals */
+  --r-chip: 4px;
+  --r-card: 8px;
+  --r-modal: 12px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 html, body { width: 100%; margin: 0; overflow-x: clip; background: oklch(0.97 0.008 95); -webkit-font-smoothing: antialiased; }
+
+/* ─── Focus visibility ──────────────────────────────────────────────────────
+ * Global :focus-visible ring for keyboard navigation. Mouse clicks suppress
+ * via the :focus-visible spec — only keyboard tabbing draws the ring.
+ * ──────────────────────────────────────────────────────────────────────── */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--site-cyan-glow);
+  outline-offset: 2px;
+  border-radius: 3px;
+  transition: outline-offset 0.12s ease;
+}
+.tidal-card:focus-visible,
+.tidal-memo-card:focus-visible,
+.tidal-depths-card:focus-visible {
+  outline: 2px solid var(--site-cyan-glow);
+  outline-offset: 4px;
+}
 
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 10px; }
@@ -494,4 +543,137 @@ html, body { width: 100%; margin: 0; overflow-x: clip; background: oklch(0.97 0.
   .memo-body h3 { font-size: 18px; }
   .memo-body .pull-quote { font-size: 19px; }
   .memo-body .framework-letter { font-size: 38px; }
+}
+
+/* ─── Chip / filter / sort interactions ──────────────────────────────────
+ * Applies to category filter buttons + sort buttons (CurrentsLayer).
+ * Hover ramps color toward accent and grows a 1px underbar from center.
+ * Touch + active state keeps the affordance honest on phones.
+ * ──────────────────────────────────────────────────────────────────────── */
+.tidal-chip {
+  position: relative;
+  cursor: pointer;
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+.tidal-chip::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  width: 0;
+  height: 1px;
+  background: var(--site-cyan-glow);
+  transform: translateX(-50%);
+  transition: width 0.3s var(--ease-out), opacity 0.3s ease;
+  opacity: 0.6;
+}
+.tidal-chip:hover { color: var(--site-cyan-glow) !important; }
+.tidal-chip:hover::after { width: 80%; opacity: 0.85; }
+.tidal-chip.is-active::after { width: 100%; opacity: 1; }
+@media (hover: none) {
+  .tidal-chip:hover::after { width: 0; }
+  .tidal-chip:active { opacity: 0.7; }
+}
+
+/* ─── Currents memo card: signature accent border slide on hover ─────────
+ * Layered atop existing inline translateY(-2px). Adds a 3px cyan slice that
+ * eases in from 0 width on the left edge — a subtle hover signature.
+ * ──────────────────────────────────────────────────────────────────────── */
+.tidal-memo-card {
+  position: relative;
+  transition: transform 0.35s var(--ease-out),
+              border-color 0.35s ease,
+              box-shadow 0.35s ease,
+              background 0.35s ease;
+}
+.tidal-memo-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12%;
+  bottom: 12%;
+  width: 0;
+  background: var(--site-cyan-glow);
+  border-radius: 0 2px 2px 0;
+  transition: width 0.32s var(--ease-out), opacity 0.32s ease;
+  opacity: 0;
+}
+.tidal-memo-card:hover::before {
+  width: 3px;
+  opacity: 0.85;
+}
+.tidal-memo-card:active {
+  transform: translateY(0) !important;
+  background: oklch(0.97 0.014 200 / 0.95) !important;
+}
+
+/* Depths project cards — :active feedback for touch */
+.tidal-depths-card {
+  transition: transform 0.35s var(--ease-out),
+              border-color 0.35s ease,
+              box-shadow 0.35s ease,
+              background 0.35s ease;
+}
+.tidal-depths-card:active {
+  transform: translateY(0) !important;
+  filter: brightness(0.92);
+}
+
+/* ─── Mobile: Currents card meta row + descent grid 1-col ─────────────── */
+@media (max-width: 768px) {
+  /* Flip Currents card meta from column to row so date + Read → sit on
+   * one line (mirrors the Depths fix at line 432 of this file). */
+  .tidal-memo-card-meta {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    text-align: left !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  /* Surface descent grid: collapse to single column, kill staggered
+   * paddingLeft so bubble bands don't fight the narrow viewport. */
+  .tidal-ripples-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px 0 !important;
+  }
+  .tidal-ripples-band {
+    padding-left: 0 !important;
+  }
+
+  /* Touch targets — bump to ~44px min on mobile */
+  .tidal-mobile-tab,
+  .tidal-chip,
+  .tidal-cat-bubble,
+  .tidal-submit-btn,
+  .tidal-back-link {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+  .tidal-back-link {
+    padding: 10px 4px !important;
+    margin-left: -4px !important;
+  }
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────
+ * Respect user motion preferences across all atmospherics + transitions.
+ * Disables: bubble wander, drift fields, dive blur, wave drift, breathe,
+ * surface reveal, signature hover slides. Keeps essential color transitions.
+ * ──────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .tidal-memo-card:hover { transform: none !important; }
+  .tidal-memo-card::before { display: none; }
+  .tidal-depths-card:hover { transform: none !important; }
+  .tidal-chip::after { display: none; }
 }

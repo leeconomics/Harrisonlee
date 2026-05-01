@@ -12,7 +12,12 @@ function localSet(key, val) {
 
 // ─── Shared CSS ───────────────────────────────────────────────────────────
 const SHARED_CSS = `
-/* Shared design tokens for all three directions */
+/* Shared design tokens for all three directions.
+ * NOTE: canonical brand tokens (--site-cyan, --site-ink, --site-cream,
+ * --r-card, --border-default, etc.) live in styles/globals.css now.
+ * The legacy palette below stays for the atmospheric / depth vocabulary
+ * (--abyss → --shoal, lumes, foam/silt/kelp) which is a different role
+ * from "what color is a card title." */
 
 :root {
   /* Ink palette — dark bases */
@@ -1064,7 +1069,7 @@ function DepthLabel({ depth, label, top }) {
   return (
     <div className="eyebrow" style={{
       position: 'absolute', top, right: 32, zIndex: 6,
-      color: 'oklch(0.96 0.012 200 / 0.55)', fontSize: 9.5, letterSpacing: '0.2em',
+      color: 'oklch(0.96 0.012 200 / 0.55)', fontSize: 10, letterSpacing: '0.2em',
       textAlign: 'right',
     }}>
       <div style={{ marginBottom: 4 }}>—{depth}m</div>
@@ -1128,8 +1133,8 @@ function SurfaceLayer({ accent, tweaks = {} }) {
           Layer 01 · Ripples
         </div>
         <h1 className="f-display surface" style={{
-          fontSize: 'clamp(40px, 5.2vw, 68px)', fontWeight: 300, lineHeight: 1.02,
-          color: 'oklch(0.18 0.05 235)', margin: 0, letterSpacing: '-0.025em', maxWidth: 880,
+          fontSize: 'clamp(40px, 5.5vw, 72px)', fontWeight: 300, lineHeight: 1.02,
+          color: 'var(--site-ink)', margin: 0, letterSpacing: '-0.025em', maxWidth: 880,
           animationDelay: '0.05s',
         }}>
           What floats below the
@@ -1139,7 +1144,7 @@ function SurfaceLayer({ accent, tweaks = {} }) {
           </em>
         </h1>
         <p className="f-body surface" style={{
-          fontSize: 17, color: 'oklch(0.30 0.04 230 / 0.85)', maxWidth: 560, marginTop: 22,
+          fontSize: 18, color: 'var(--site-ink-muted)', maxWidth: 560, marginTop: 22,
           lineHeight: 1.6, fontWeight: 300, animationDelay: '0.15s',
         }}>
           Quick observations and half-thoughts. Drop one in to send it under. Older ideas drift longer and weather a little, scroll on; the column goes down a while.
@@ -1175,10 +1180,10 @@ function SurfaceLayer({ accent, tweaks = {} }) {
               color: 'oklch(0.18 0.05 235)',
             }}
           />
-          <button type="submit" className="eyebrow" style={{
-            background: water.glow, color: 'oklch(0.97 0.012 90)',
+          <button type="submit" className="eyebrow tidal-submit-btn" style={{
+            background: water.glow, color: 'var(--site-cream)',
             border: 'none', cursor: 'pointer',
-            padding: '7px 14px', borderRadius: 4, fontSize: 10, letterSpacing: '0.18em',
+            padding: '8px 14px', borderRadius: 'var(--r-chip)', fontSize: 10, letterSpacing: '0.18em',
             transition: 'transform 0.2s',
           }} onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
              onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>
@@ -1216,10 +1221,12 @@ function SurfaceLayer({ accent, tweaks = {} }) {
           display: 'flex', flexDirection: 'column', gap: 100, paddingTop: 24,
         }}>
           {bands.map((band, depth) => (
-            <div key={depth} style={{
+            <div key={depth} className="tidal-ripples-band" style={{
               display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
               gap: '60px 40px', justifyItems: 'center', alignItems: 'start',
-              // Stagger every other band so bubbles don't line up vertically
+              // Stagger every other band so bubbles don't line up vertically.
+              // The .tidal-ripples-band class zeroes paddingLeft on mobile (≤768)
+              // via globals.css so the stagger doesn't fight narrow viewports.
               paddingLeft: depth === 1 ? 60 : 0,
               paddingRight: depth === 1 ? 60 : 0,
             }}>
@@ -1373,11 +1380,11 @@ function CatBubble({ name }) {
   const c = catPalette[name] || { bg: 'oklch(0.94 0.02 220)', fg: 'oklch(0.32 0.04 230)' };
   const ref = useRef(null);
   return (
-    <span ref={ref} className="eyebrow" style={{
+    <span ref={ref} className="eyebrow tidal-cat-bubble" style={{
       display: 'inline-flex', alignItems: 'center', gap: 6,
-      padding: '4px 10px 4px 8px',
+      padding: '5px 10px 5px 8px',
       background: c.bg, color: c.fg,
-      borderRadius: 999, fontSize: 9.5, letterSpacing: '0.14em',
+      borderRadius: 999, fontSize: 10, letterSpacing: '0.14em',
       transition: 'transform 0.35s cubic-bezier(0.2,0.7,0.3,1), box-shadow 0.35s',
       cursor: 'pointer'
     }} onMouseEnter={(e) => {
@@ -1555,12 +1562,15 @@ function RippleBg({ accent }) {
 
 function EntryV2({ onEnter, accent }) {
   return (
-    <div style={{
+    <div role="button" tabIndex={0} aria-label="Enter site"
+      onClick={onEnter}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onEnter(); } }}
+      style={{
       position: 'fixed', inset: 0, cursor: 'pointer',
       background: 'linear-gradient(180deg, #f5f3ec 0%, #eaeef0 45%, #d6e2e7 100%)',
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
       overflow: 'hidden'
-    }} onClick={onEnter}>
+    }}>
       <RippleBg accent={accent} />
 
       <div className="eyebrow" style={{ position: 'absolute', top: 28, left: 36, color: 'oklch(0.45 0.04 220 / 0.7)' }}>
@@ -1640,12 +1650,12 @@ function MobileTopNav({ active, onChange, accent }) {
         const isActive = active === l.id;
         return (
           <button key={l.id} onClick={() => onChange(l.id)}
-            className="eyebrow"
+            className="eyebrow tidal-mobile-tab"
             style={{
               background: 'none', border: 'none', cursor: 'pointer',
               color: isActive ? accent : 'oklch(0.32 0.04 230 / 0.6)',
               fontWeight: isActive ? 600 : 500,
-              padding: '8px 6px',
+              padding: '12px 8px',
               fontSize: 11, letterSpacing: '0.16em',
               textTransform: 'uppercase',
               position: 'relative',
@@ -1697,7 +1707,7 @@ function SideNav({ active, onChange, onHome, accent }) {
             color: active === 'about' ? accent : 'oklch(0.22 0.05 235)',
             transition: 'color 0.3s'
           }}>About me   </div>
-          <div className="eyebrow" style={{ color: 'oklch(0.45 0.04 220 / 0.6)', fontSize: 9, marginTop: 8 }}>
+          <div className="eyebrow" style={{ color: 'oklch(0.45 0.04 220 / 0.6)', fontSize: 10, marginTop: 8 }}>
             About · Tokyo
           </div>
         </div>
@@ -1781,7 +1791,7 @@ function SideNav({ active, onChange, onHome, accent }) {
                 justifyContent: 'center', textAlign: 'left', position: 'relative'
               }}>
                 <div className="eyebrow" style={{
-                  color: l.text, opacity: textOpacity * 0.7, fontSize: 9,
+                  color: l.text, opacity: textOpacity * 0.7, fontSize: 10,
                   transition: 'opacity 0.5s', marginBottom: 6
                 }}>
                   Layer {String(i + 1).padStart(2, '0')}
@@ -1807,7 +1817,7 @@ function SideNav({ active, onChange, onHome, accent }) {
 
       {/* About is fused into the header at the top — no separate footer link. */}
       <div className="f-mono" style={{
-        fontSize: 9, color: 'oklch(0.45 0.04 220 / 0.5)', lineHeight: 1.7,
+        fontSize: 10, color: 'oklch(0.45 0.04 220 / 0.5)', lineHeight: 1.7,
         padding: '14px 28px 18px', borderTop: '1px solid oklch(0.30 0.04 230 / 0.08)',
         letterSpacing: '0.06em'
       }}>
@@ -1950,7 +1960,7 @@ function LegacySurfaceLayer({ accent, onOpenMemo }) {
                   transition: 'all 0.3s'
                 }}>
                   <div className="eyebrow" style={{
-                    fontSize: 9, color: veryOld ? accent : 'oklch(0.45 0.04 220 / 0.7)'
+                    fontSize: 10, color: veryOld ? accent : 'oklch(0.45 0.04 220 / 0.7)'
                   }}>
                     {idea.age === 0 ? 'just cast' : `${idea.age}d`}
                     {veryOld && <div style={{ opacity: 0.6, marginTop: 2 }}>● glowing</div>}
@@ -2102,12 +2112,10 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
         {cats.map((c) => {
           const active = filter === c;
           return (
-            <button key={c} onClick={() => setFilter(c)} className="eyebrow" style={{
-              background: 'none', border: 'none', cursor: 'pointer',
-              padding: '8px 0', display: 'flex', alignItems: 'center', gap: 8,
-              color: active ? accent : 'oklch(0.94 0.02 200 / 0.55)',
-              borderBottom: active ? `1px solid ${accent}` : '1px solid transparent',
-              transition: 'all 0.3s'
+            <button key={c} onClick={() => setFilter(c)} className={`eyebrow tidal-chip${active ? ' is-active' : ''}`} aria-pressed={active} style={{
+              background: 'none', border: 'none',
+              padding: '8px 2px', display: 'flex', alignItems: 'center', gap: 8,
+              color: active ? accent : 'oklch(0.94 0.02 200 / 0.55)'
             }}>
               {c !== 'all' && <CatSigil name={c} size={13} />}
               {c === 'all' ? 'All' : c}
@@ -2122,12 +2130,10 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
         {sortOptions.map((s) => {
           const active = sort === s.key;
           return (
-            <button key={s.key} onClick={() => setSort(s.key)} className="eyebrow" style={{
-              background: 'none', border: 'none', cursor: 'pointer',
-              padding: '8px 0',
-              color: active ? accent : 'oklch(0.94 0.02 200 / 0.55)',
-              borderBottom: active ? `1px solid ${accent}` : '1px solid transparent',
-              transition: 'all 0.3s'
+            <button key={s.key} onClick={() => setSort(s.key)} className={`eyebrow tidal-chip${active ? ' is-active' : ''}`} aria-pressed={active} style={{
+              background: 'none', border: 'none',
+              padding: '8px 2px',
+              color: active ? accent : 'oklch(0.94 0.02 200 / 0.55)'
             }}>
               {s.label}
             </button>);
@@ -2137,16 +2143,18 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
 
       <ol className="tidal-section-pad" style={{ listStyle: 'none', padding: '8px 64px 80px', margin: 0, position: 'relative', zIndex: 1, display: 'grid', gap: 14 }}>
         {sorted.map((m, i) =>
-        <li key={m.id} className="surface card-row tidal-memo-card" onClick={() => onOpenMemo && onOpenMemo(m.id)} style={{
+        <li key={m.id} className="surface card-row tidal-memo-card" role="button" tabIndex={0}
+          onClick={() => onOpenMemo && onOpenMemo(m.id)}
+          onKeyDown={(e) => { if ((e.key === 'Enter' || e.key === ' ') && onOpenMemo) { e.preventDefault(); onOpenMemo(m.id); } }}
+          style={{
           display: 'grid', gridTemplateColumns: '1fr 110px', gap: 28,
-          padding: '26px 30px',
+          padding: '28px',
           background: 'oklch(0.97 0.012 215 / 0.78)',
           border: '1px solid oklch(0.95 0.015 215 / 0.5)',
-          borderRadius: 8,
+          borderRadius: 'var(--r-card)',
           backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
           boxShadow: '0 1px 0 oklch(1 0 0 / 0.18) inset, 0 10px 28px oklch(0 0 0 / 0.22)',
-          cursor: 'pointer', animationDelay: `${0.25 + i * 0.05}s`,
-          transition: 'all 0.35s cubic-bezier(0.2,0.7,0.3,1)'
+          cursor: 'pointer', animationDelay: `${0.25 + i * 0.05}s`
         }} onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'translateY(-2px)';
           e.currentTarget.style.borderColor = `${accent}77`;
@@ -2159,19 +2167,19 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
             <div>
               <h3 className="f-display" style={{
               margin: 0, fontSize: 28, fontWeight: 500, lineHeight: 1.18,
-              color: 'oklch(0.36 0.13 210)', letterSpacing: '-0.02em', marginBottom: 10
+              color: 'var(--site-cyan-bold)', letterSpacing: '-0.02em', marginBottom: 10
             }}>{m.title}</h3>
               <p className="f-body" style={{
-              margin: '0 0 16px', fontSize: 16, lineHeight: 1.55, color: 'oklch(0.22 0.04 230)',
+              margin: '0 0 16px', fontSize: 16, lineHeight: 1.55, color: 'var(--site-ink)',
               fontStyle: 'italic', fontWeight: 300
             }}>{m.sub}</p>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
                 {m.cats.map((c) => <CatBubble key={c} name={c} />)}
               </div>
             </div>
-            <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div className="tidal-memo-card-meta" style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
-                <div className="eyebrow" style={{ color: 'oklch(0.30 0.04 230 / 0.85)', fontSize: 10 }}>{m.read}</div>
+                <div className="eyebrow" style={{ color: 'var(--site-ink-muted)', fontSize: 10 }}>{m.read}</div>
                 <div className="eyebrow" style={{ color: 'oklch(0.40 0.04 220 / 0.55)', fontSize: 10, marginTop: 4 }}>{m.date}</div>
               </div>
               <span className="eyebrow" style={{ color: accent, fontSize: 10, marginTop: 16 }}>Read →</span>
@@ -2222,15 +2230,15 @@ function DarkOceanLayer({ accent, cyan }) {
         // Cleaner card treatment: single crisp cyan border at 40% opacity at
         // rest, ramps to 80% on hover with a soft drop shadow. Removed the
         // earlier inset highlights which were making edges look fuzzy.
-        <article key={p.id} className="surface tidal-depths-card" style={{
+        <article key={p.id} className="surface tidal-depths-card" role="button" tabIndex={0} style={{
           display: 'grid', gridTemplateColumns: '1fr 180px',
-          gap: 32, padding: '36px 36px',
+          gap: 32, padding: '32px',
           background: 'oklch(0.97 0.01 90 / 0.04)',
           border: `1px solid ${cyanAccent}66`,
-          borderRadius: 4, cursor: 'pointer',
+          borderRadius: 'var(--r-card)', cursor: 'pointer',
           backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
           boxShadow: 'none',
-          animationDelay: `${0.3 + i * 0.08}s`, transition: 'all 0.35s cubic-bezier(0.2,0.7,0.3,1)'
+          animationDelay: `${0.3 + i * 0.08}s`
         }} onMouseEnter={(e) => {
           e.currentTarget.style.borderColor = `${cyanAccent}cc`;
           e.currentTarget.style.transform = 'translateY(-2px)';
@@ -2306,7 +2314,7 @@ function AboutLayer({ accent, cyan }) {
 
         <h1 className="f-display" style={{
           fontSize: 'clamp(34px, 4.4vw, 52px)', fontWeight: 300, lineHeight: 1.08,
-          color: 'oklch(0.18 0.04 240)', margin: 0, letterSpacing: '-0.025em',
+          color: 'var(--site-ink)', margin: 0, letterSpacing: '-0.025em',
           animationDelay: '0.15s'
         }}>
           The work I do on the surface, and the questions that pull me{' '}
@@ -2373,7 +2381,17 @@ function PaperTexture({ opacity = 0.5, scale = 1 }) {
 // the whole site; tinted with the accent.
 function CursorGlow({ accent }) {
   const ref = useRef(null);
+  // Skip render entirely on touch devices and when reduced motion is requested.
+  // The 360px multiply blend + every-mousemove rAF is wasted paint on phones.
+  const [enabled, setEnabled] = useState(false);
   useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const fine = window.matchMedia('(pointer: fine)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setEnabled(fine && !reduced);
+  }, []);
+  useEffect(() => {
+    if (!enabled) return;
     const el = ref.current;if (!el) return;
     let x = window.innerWidth / 2,y = window.innerHeight / 2;
     let tx = x,ty = y,raf;
@@ -2386,7 +2404,8 @@ function CursorGlow({ accent }) {
     window.addEventListener('mousemove', move);
     loop();
     return () => {window.removeEventListener('mousemove', move);cancelAnimationFrame(raf);};
-  }, []);
+  }, [enabled]);
+  if (!enabled) return null;
   return (
     <div ref={ref} style={{
       position: 'fixed', top: 0, left: 0, width: 360, height: 360, pointerEvents: 'none',
@@ -2424,6 +2443,11 @@ function ScrollDarken() {
 function DirectionV2({ tweaks, memos, memoContent }) {
   const [entered, setEntered] = useState(false);
   const [active, setActive] = useState('surface');
+  // Track the previous layer so dive direction can be inferred. The naive
+  // `order.indexOf(active) <= order.indexOf(active)` is always true and was
+  // a no-op — keeping a real prev makes layer transitions slide down (deeper)
+  // or up (shallower) as expected.
+  const [prevLayer, setPrevLayer] = useState('surface');
   const [transitioning, setTrans] = useState(false);
   const [openMemo, setOpenMemoState] = useState(null);
   // memos: list of frontmatter for the Currents feed (sorted newest-first).
@@ -2452,14 +2476,21 @@ function DirectionV2({ tweaks, memos, memoContent }) {
     }
   };
 
-  // Browser back/forward keeps modal in sync with the URL.
+  // Browser back/forward keeps modal in sync with the URL. Esc closes modal.
   useEffect(() => {
     const onPopState = (e) => {
       const id = (e.state && e.state.memoId) ? e.state.memoId : null;
       setOpenMemoState(id);
     };
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setOpenMemo(null);
+    };
     window.addEventListener('popstate', onPopState);
-    return () => window.removeEventListener('popstate', onPopState);
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('popstate', onPopState);
+      window.removeEventListener('keydown', onKeyDown);
+    };
   }, []);
 
   // Update browser tab title when a memo is open — so the title in the tab
@@ -2481,9 +2512,11 @@ function DirectionV2({ tweaks, memos, memoContent }) {
   // the slider is at default.
   const cyan = tweaks.cyanAccent || 'oklch(0.46 0.14 200)';
 
-  // When layer changes, fade out + slide downward (diving) then in.
+  // When layer changes, fade out + slide (down if going deeper, up if rising)
+  // then fade back in.
   const switchLayer = (next) => {
     if (next === active) return;
+    setPrevLayer(active);
     setTrans(true);
     setTimeout(() => {setActive(next);window.scrollTo({ top: 0, behavior: 'instant' });}, 280);
     setTimeout(() => setTrans(false), 320);
@@ -2506,8 +2539,10 @@ function DirectionV2({ tweaks, memos, memoContent }) {
   const currentsFloor = 'oklch(0.30 0.058 234)'; // = Currents bottom = Depths divider start
 
   // Decide direction of dive based on layer order. Going deeper = slide down.
+  // About sits "above" the deep layers in the visual stack (sunlit cream),
+  // so transitioning to About reads as ascending, not deepening.
   const order = ['surface', 'currents', 'deep', 'about'];
-  const goingDeeper = order.indexOf(active) <= order.indexOf(active);
+  const goingDeeper = order.indexOf(active) > order.indexOf(prevLayer);
 
   return (
     <div className="tidal-app-layout" style={{ display: 'flex', minHeight: '100%', background: 'oklch(0.97 0.008 95)', position: 'relative' }}>
@@ -2518,7 +2553,9 @@ function DirectionV2({ tweaks, memos, memoContent }) {
         <MobileTopNav active={active} onChange={switchLayer} accent={accent} />
         <div key={active} style={{
           opacity: transitioning ? 0 : 1,
-          transform: transitioning ? 'translateY(40px)' : 'translateY(0)',
+          // Dive direction now reflects layer order: deeper = slide down,
+          // shallower = slide up. Was hard-coded to +40px regardless.
+          transform: transitioning ? `translateY(${goingDeeper ? 40 : -40}px)` : 'translateY(0)',
           transition: 'opacity 0.45s ease, transform 0.55s cubic-bezier(0.2,0.7,0.3,1)',
           animation: transitioning ? undefined : 'dive 0.7s cubic-bezier(0.2,0.7,0.3,1) both'
         }}>
@@ -2562,11 +2599,17 @@ function DirectionV2({ tweaks, memos, memoContent }) {
             <div onClick={e => e.stopPropagation()} className="tidal-modal-inner" style={{
               maxWidth: 880, margin: '0 auto', padding: '64px 48px 120px',
             }}>
-              <button onClick={() => setOpenMemo(null)} className="eyebrow" style={{
+              <button onClick={() => setOpenMemo(null)} className="eyebrow tidal-back-link" style={{
                 background: 'none', border: 'none', cursor: 'pointer',
                 color: 'oklch(0.74 0.10 210)', marginBottom: 48,
-                padding: 0, fontSize: 11, letterSpacing: '0.18em', fontWeight: 500
-              }}>← Back to Currents</button>
+                padding: '6px 4px', marginLeft: -4,
+                fontSize: 11, letterSpacing: '0.18em', fontWeight: 500,
+                transition: 'color 0.2s ease, transform 0.2s ease',
+                display: 'inline-flex', alignItems: 'center'
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = 'oklch(0.86 0.16 200)'; e.currentTarget.style.transform = 'translateX(-2px)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = 'oklch(0.74 0.10 210)'; e.currentTarget.style.transform = 'translateX(0)'; }}
+              >← Back to Currents</button>
               {memoMap && memoMap[openMemo]
                 ? <MarkdownMemo data={memoMap[openMemo]} />
                 : (

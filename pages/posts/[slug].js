@@ -31,19 +31,25 @@ export default function PostPage({ post }) {
         minHeight: '100vh', overflowY: 'auto'
       }}>
         <div className="tidal-modal-inner" style={{ maxWidth: 880, margin: '0 auto', padding: '64px 48px 120px' }}>
-          <Link href="/" className="eyebrow" style={{
-            display: 'inline-block',
+          <Link href="/" className="eyebrow tidal-back-link" style={{
+            display: 'inline-flex',
+            alignItems: 'center',
             background: 'none',
             border: 'none',
             cursor: 'pointer',
             color: 'oklch(0.74 0.10 210)',
             marginBottom: 48,
-            padding: 0,
+            padding: '6px 4px',
+            marginLeft: -4,
             fontSize: 11,
             fontWeight: 500,
             letterSpacing: '0.18em',
             textDecoration: 'none',
-          }}>← Back to Tidal</Link>
+            transition: 'color 0.2s ease, transform 0.2s ease',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = 'oklch(0.86 0.16 200)'; e.currentTarget.style.transform = 'translateX(-2px)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = 'oklch(0.74 0.10 210)'; e.currentTarget.style.transform = 'translateX(0)'; }}
+          >← Back to Tidal</Link>
           <article>
             <div className="grid grid-cols-12 gap-6 mb-16">
               <div className="col-span-12 md:col-span-9 md:col-start-2">
