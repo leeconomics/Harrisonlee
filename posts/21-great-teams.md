@@ -6,7 +6,7 @@ tag: "Note 21"
 title: "Most great teams aren't made of great people"
 sub: "The operating model matters more than the bench."
 subtitle: "Why the operating model matters more than the bench"
-cats: [Business, Careers, Talent]
+cats: [People, Strategy]
 read: "6 min"
 readTime: "6 min read"
 date: "2026-05-01"

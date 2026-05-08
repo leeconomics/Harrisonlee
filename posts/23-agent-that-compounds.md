@@ -6,7 +6,7 @@ tag: "Note 23"
 title: "Six steps to an agent that compounds"
 sub: "Onboard your AI agent like a new hire."
 subtitle: "A setup manual for AI agents that get sharper with use, not flatter"
-cats: [AI, Business]
+cats: [AI, Strategy]
 read: "6 min"
 readTime: "6 min read"
 date: "2026-05-01"

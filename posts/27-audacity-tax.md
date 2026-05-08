@@ -6,7 +6,7 @@ tag: "Note 27"
 title: "The audacity tax"
 sub: "On why bright, calibrated people quietly underwrite their own ceiling."
 subtitle: "On why bright, calibrated people quietly underwrite their own ceiling"
-cats: [Careers]
+cats: [Careers, Strategy]
 read: "5 min"
 readTime: "5 min read"
 date: "2026-05-08"

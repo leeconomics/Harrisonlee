@@ -6,7 +6,7 @@ tag: "Note 11"
 title: "Hire people who can teach you"
 sub: "On opportunity cost, information architecture, and why one-way mentoring optimises for the wrong thing."
 subtitle: "On opportunity cost, information architecture, and why one-way mentoring optimises for the wrong thing"
-cats: [Business, Careers]
+cats: [People, Careers]
 read: "5 min"
 readTime: "5 min read"
 date: "2026-04-30"

@@ -6,7 +6,7 @@ tag: "Note 22"
 title: "Anyone can ship a website. Almost no one ships a good one."
 sub: "AI democratised the design loop. It did not democratise the inputs."
 subtitle: "AI democratised the design loop. It did not democratise the inputs."
-cats: [AI, Business, Careers]
+cats: [AI, Strategy, Careers]
 read: "5 min"
 readTime: "5 min read"
 date: "2026-05-01"

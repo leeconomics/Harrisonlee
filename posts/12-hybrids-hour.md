@@ -6,7 +6,7 @@ tag: "Note 12"
 title: "The hybrid's hour"
 sub: "AI removes the team the hybrid always needed."
 subtitle: "AI did not invent a new founder archetype. It removed the team the old archetype always needed."
-cats: [Business, Careers, AI]
+cats: [Strategy, Careers, AI]
 read: "5 min"
 readTime: "5 min read"
 date: "2026-05-01"

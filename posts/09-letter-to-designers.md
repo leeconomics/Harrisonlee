@@ -6,7 +6,7 @@ tag: "Note 09"
 title: "A letter to designers: the artifact is becoming the build"
 sub: "What is changing in your craft, what is not yet, and how to prepare."
 subtitle: "What is changing in your craft, what is not yet, and how to prepare"
-cats: [AI, Careers, Marketing]
+cats: [Craft, AI, Marketing]
 read: "6 min"
 readTime: "6 min read"
 date: "2026-04-30"

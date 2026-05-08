@@ -6,7 +6,7 @@ tag: "Note 06"
 title: "POST-AI"
 sub: "Six traits recruiters should actually hire for in an AI-native world."
 subtitle: "The six traits recruiters should actually hire for in an AI-native world"
-cats: [Business, Careers, AI]
+cats: [People, Careers, AI]
 read: "6 min"
 readTime: "6 min read"
 date: "2026-04-29"

@@ -6,7 +6,7 @@ tag: "Note 24"
 title: "You can be very fast and very lost"
 sub: "A note on the fine line between craft and grind."
 subtitle: "A note on the fine line between craft and grind"
-cats: [Careers, Personal]
+cats: [Craft, Personal]
 read: "4 min"
 readTime: "4 min read"
 date: "2026-05-08"

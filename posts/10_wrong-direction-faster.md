@@ -6,7 +6,7 @@ tag: "Note 10"
 title: "AI doesn't fix bad design. It scales it."
 sub: "Why lowering the cost of production does not lower the cost of a wrong first principle."
 subtitle: "Why lowering the cost of production does not lower the cost of a wrong first principle"
-cats: [Business, AI]
+cats: [Strategy, AI]
 read: "5 min"
 readTime: "5 min read"
 date: "2026-04-30"

@@ -6,7 +6,7 @@ tag: "Note 15"
 title: "The triad is collapsing"
 sub: "The future builder holds product, design, and engineering at once."
 subtitle: "Why the future builder holds product, design, and engineering at once"
-cats: [Business, AI]
+cats: [Strategy, AI]
 read: "5 min"
 readTime: "5 min read"
 date: "2026-05-01"

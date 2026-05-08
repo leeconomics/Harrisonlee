@@ -6,7 +6,7 @@ tag: "Note 13"
 title: "You can't outbid for talent. Stop trying."
 sub: "Hiring is a pricing problem. Most are getting it wrong."
 subtitle: "The hiring problem is a pricing problem"
-cats: [Business, Careers]
+cats: [People, Strategy]
 read: "5 min"
 readTime: "5 min read"
 date: "2026-05-01"

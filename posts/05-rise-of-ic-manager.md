@@ -6,7 +6,7 @@ tag: "Note 05"
 title: "The rise of the IC manager"
 sub: "AI is squeezing the middle of the org chart, not the bottom."
 subtitle: "Why AI is squeezing the middle of the org chart, not the bottom"
-cats: [Business, AI]
+cats: [Strategy, AI]
 read: "5 min"
 readTime: "5 min read"
 date: "2026-04-27"
