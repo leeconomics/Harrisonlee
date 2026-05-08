@@ -1714,37 +1714,80 @@ function MobileTopNav({ active, onChange, accent }) {
   );
 }
 
+function SideNavWaves({ active }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let raf;
+    const dividers = [
+      { yRatio: 0.333, cycleTime: 7, driftSpeed: 0.25, phase: 0,   freq: 0.85, sections: ['surface', 'currents'] },
+      { yRatio: 0.667, cycleTime: 9, driftSpeed: 0.18, phase: 2.1, freq: 0.85, sections: ['currents', 'deep'] },
+    ];
+    function draw(t) {
+      const W = canvas.width, H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+      for (const D of dividers) {
+        const isAdjacent = D.sections.includes(active);
+        const baseY = D.yRatio * H;
+        const vertOffset = 3 * Math.sin((t / D.cycleTime) * Math.PI * 2 + D.phase);
+        const pulse = 0.5 + 0.5 * Math.sin(t * 1.1 + D.phase);
+        const opacity = isAdjacent ? 0.4 + 0.3 * pulse : 0.15;
+        ctx.beginPath();
+        for (let i = 0; i <= 120; i++) {
+          const x = (i / 120) * W;
+          const y = baseY + vertOffset + 4 * Math.sin((x / W) * Math.PI * 2 * D.freq + t * D.driftSpeed);
+          i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = `rgba(255,255,255,${opacity})`;
+        ctx.lineWidth = isAdjacent ? 1.5 : 0.8;
+        ctx.stroke();
+      }
+      raf = requestAnimationFrame(t2 => draw(t2 / 1000));
+    }
+    function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+    raf = requestAnimationFrame(t => draw(t / 1000));
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); };
+  }, [active]);
+  return <canvas ref={ref} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 10 }} />;
+}
+
 function SideNav({ active, onChange, onHome, accent }) {
   const layers = [
-  { id: 'surface', label: 'Ripples', sub: 'Ideas surfacing', band: 'oklch(0.96 0.012 200)', text: 'oklch(0.30 0.04 230)', dark: false },
-  { id: 'currents', label: 'Currents', sub: 'Surfacing Ideas', band: 'oklch(0.34 0.06 232)', text: 'oklch(0.94 0.02 200)', dark: true },
-  { id: 'deep', label: 'The Depths', sub: 'Deep dives', band: 'oklch(0.16 0.05 242)', text: 'oklch(0.94 0.02 200)', dark: true }];
-
-  const aboutLayer = { id: 'about', label: 'About', text: 'oklch(0.45 0.04 220)' };
+    { id: 'surface',  label: 'Ripples',    sub: 'Ideas surfacing' },
+    { id: 'currents', label: 'Currents',   sub: 'Surfacing ideas' },
+    { id: 'deep',     label: 'The Depths', sub: 'Deep dives'      },
+  ];
   const [hover, setHover] = useState(null);
+  const textColor = { surface: 'oklch(0.22 0.05 235)', currents: 'oklch(0.94 0.02 200)', deep: 'oklch(0.94 0.02 200)' };
 
   return (
     <aside className="tidal-side-nav" style={{
       width: 220, flexShrink: 0, position: 'sticky', top: 0, height: '100vh',
       display: 'flex', flexDirection: 'column',
-      background: 'oklch(0.97 0.008 95)',
-      borderRight: '1px solid oklch(0.30 0.04 230 / 0.08)'
+      background: 'linear-gradient(to bottom, oklch(0.97 0.008 95) 0%, oklch(0.88 0.025 200) 28%, oklch(0.34 0.06 232) 58%, oklch(0.16 0.05 242) 100%)',
+      borderRight: '1px solid oklch(0.30 0.04 230 / 0.10)'
     }}>
+
       <button onClick={() => onChange('about')}
-      onMouseEnter={() => setHover('about')} onMouseLeave={() => setHover(null)}
-      style={{
-        background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
-        padding: '36px 28px 28px',
-        display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 14,
-        color: active === 'about' ? accent : 'oklch(0.22 0.05 235)',
-        transition: 'color 0.3s'
-      }}>
+        onMouseEnter={() => setHover('about')} onMouseLeave={() => setHover(null)}
+        style={{
+          background: active === 'about' ? 'oklch(1 0 0 / 0.10)' : 'none',
+          border: 'none', cursor: 'pointer', textAlign: 'left',
+          padding: '36px 28px 28px',
+          display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 14,
+          transition: 'background 0.4s',
+          boxShadow: active === 'about' ? `inset 4px 0 0 ${accent}` : 'none',
+        }}>
         <div>
           <div className="f-display" style={{
             fontSize: 26, fontWeight: 300, lineHeight: 1, fontStyle: 'italic',
             color: active === 'about' ? accent : 'oklch(0.22 0.05 235)',
             transition: 'color 0.3s'
-          }}>About me   </div>
+          }}>About me</div>
           <div className="eyebrow" style={{ color: 'oklch(0.45 0.04 220 / 0.6)', fontSize: 10, marginTop: 8 }}>
             About · Tokyo
           </div>
@@ -1752,143 +1795,77 @@ function SideNav({ active, onChange, onHome, accent }) {
         <span style={{
           marginTop: 4, fontSize: 18, lineHeight: 1,
           opacity: hover === 'about' || active === 'about' ? 1 : 0.35,
-          transform: hover === 'about' ? 'translateX(2px)' : 'translateX(0)',
           transition: 'all 0.3s',
           color: active === 'about' ? accent : 'oklch(0.45 0.04 220)'
         }}>→</span>
       </button>
 
-      {/* The three depth layers — equal heights, desaturated when inactive,
-                 active band gets a curling wave that bleeds into the content area
-                 to visually connect the rail with the page. */}
-      <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', minHeight: 0, overflow: 'hidden' }}>
-        {/* Wave cut: Currents colour eats into Ripples at the 1/3 boundary */}
-        <div style={{ position: 'absolute', top: '33.33%', left: 0, right: 0, height: 48, transform: 'translateY(-50%)', zIndex: 10, pointerEvents: 'none' }}>
-          <svg viewBox="0 0 220 48" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
-            <path d="M0 24 Q55 8 110 24 Q165 40 220 24 L220 48 L0 48 Z" fill="oklch(0.34 0.06 232)" />
-          </svg>
-        </div>
-        {/* Wave cut: Depths colour eats into Currents at the 2/3 boundary */}
-        <div style={{ position: 'absolute', top: '66.66%', left: 0, right: 0, height: 48, transform: 'translateY(-50%)', zIndex: 10, pointerEvents: 'none' }}>
-          <svg viewBox="0 0 220 48" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
-            <path d="M0 24 Q55 8 110 24 Q165 40 220 24 L220 48 L0 48 Z" fill="oklch(0.16 0.05 242)" />
-          </svg>
-        </div>
-
-        {layers.map((l, i) => {
+      <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', minHeight: 0 }}>
+        <SideNavWaves active={active} />
+        {layers.map((l) => {
           const isActive = active === l.id;
           const isHover = hover === l.id;
-          const filter = isActive ? 'none' : 'saturate(0.4) brightness(1.02)';
-          const textOpacity = isActive ? 1 : isHover ? 0.85 : 0.55;
-
+          const textOpacity = isActive ? 1 : isHover ? 0.8 : 0.5;
+          const col = textColor[l.id];
           return (
             <button key={l.id} onClick={() => onChange(l.id)}
-            onMouseEnter={() => setHover(l.id)} onMouseLeave={() => setHover(null)}
-            style={{
-              position: 'relative', cursor: 'pointer', border: 'none',
-              background: l.band, padding: 0, flex: 1,
-              filter,
-              transition: 'filter 0.6s ease',
-              zIndex: isActive ? 3 : isHover ? 2 : 1,
-              boxShadow: isActive ?
-              `inset 4px 0 0 ${accent}, 6px 0 24px -8px oklch(0 0 0 / 0.18)` :
-              isHover ?
-              `inset 2px 0 0 oklch(0.55 0.04 220 / 0.4)` :
-              'none'
-            }}>
-              <svg viewBox="0 0 32 200" preserveAspectRatio="none"
+              onMouseEnter={() => setHover(l.id)} onMouseLeave={() => setHover(null)}
               style={{
-                position: 'absolute', top: 0, right: -16, height: '100%', width: 32,
-                pointerEvents: 'none',
-                opacity: isActive ? 1 : 0,
-                transform: isActive ? 'translateX(0)' : 'translateX(-8px)',
-                transition: 'opacity 0.5s, transform 0.6s cubic-bezier(0.2,0.7,0.3,1)'
+                flex: 1, position: 'relative', cursor: 'pointer', border: 'none', padding: 0,
+                background: isActive ? 'oklch(1 0 0 / 0.07)' : isHover ? 'oklch(1 0 0 / 0.03)' : 'transparent',
+                boxShadow: isActive ? `inset 4px 0 0 ${accent}` : 'none',
+                transition: 'background 0.4s, box-shadow 0.3s',
+                zIndex: isActive ? 3 : isHover ? 2 : 1,
               }}>
-                <path d="M0 0 Q22 50 12 100 Q2 150 0 200 L0 0 Z" fill={l.band}>
-                  <animate attributeName="d"
-                  values="M0 0 Q22 50 12 100 Q2 150 0 200 L0 0 Z;
-                            M0 0 Q26 60 14 100 Q4 140 0 200 L0 0 Z;
-                            M0 0 Q22 50 12 100 Q2 150 0 200 L0 0 Z"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  dur="6s" repeatCount="indefinite" />
-                </path>
-              </svg>
-
-              <svg viewBox="0 0 24 24"
-              style={{
-                position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)',
-                width: 16, height: 16, opacity: isHover && !isActive ? 0.6 : 0,
-                transition: 'opacity 0.3s'
-              }}>
-                <path d="M8 6 Q14 12 8 18" fill="none" stroke={l.text} strokeWidth="1.2" strokeLinecap="round" />
-              </svg>
-
               <div style={{
                 padding: '20px 24px', height: '100%', display: 'flex', flexDirection: 'column',
-                justifyContent: 'center', textAlign: 'left', position: 'relative'
+                justifyContent: 'center', textAlign: 'left', position: 'relative', zIndex: 2,
               }}>
-                <div className="eyebrow" style={{
-                  color: l.text, opacity: textOpacity * 0.7, fontSize: 10,
-                  transition: 'opacity 0.5s', marginBottom: 6
-                }}>
-                  Layer {String(i + 1).padStart(2, '0')}
-                </div>
                 <div className="f-display" style={{
                   fontSize: isActive ? 24 : 22,
                   fontWeight: isActive ? 400 : 300,
                   fontStyle: isActive ? 'italic' : 'normal',
-                  color: l.text, opacity: textOpacity,
+                  color: col, opacity: textOpacity,
                   lineHeight: 1.05,
                   transition: 'all 0.55s cubic-bezier(0.2,0.7,0.3,1)',
-                  letterSpacing: isActive ? '-0.01em' : '0'
+                  letterSpacing: isActive ? '-0.01em' : '0',
+                  textShadow: '0 1px 6px oklch(0 0 0 / 0.18)',
                 }}>{l.label}</div>
                 <div className="f-body" style={{
-                  fontSize: 12, color: l.text, opacity: textOpacity * 0.7,
-                  marginTop: 4, fontWeight: 300, transition: 'opacity 0.5s'
+                  fontSize: 12, color: col, opacity: textOpacity * 0.65,
+                  marginTop: 4, fontWeight: 300, transition: 'opacity 0.5s',
+                  textShadow: '0 1px 4px oklch(0 0 0 / 0.15)',
                 }}>{l.sub}</div>
               </div>
-            </button>);
-
+            </button>
+          );
         })}
       </nav>
 
       <div style={{
-        borderTop: '1px solid oklch(0.30 0.04 230 / 0.08)',
+        borderTop: '1px solid oklch(1 0 0 / 0.10)',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '14px 28px 18px'
       }}>
         <div className="f-mono" style={{
-          fontSize: 10, color: 'oklch(0.45 0.04 220 / 0.5)', lineHeight: 1.7, letterSpacing: '0.06em'
+          fontSize: 10, color: 'oklch(0.94 0.02 200 / 0.45)', lineHeight: 1.7, letterSpacing: '0.06em'
         }}>
           EST. 2026 · TOKYO
         </div>
         <button onClick={onHome} style={{
           background: 'none', border: 'none', cursor: 'pointer', padding: '4px 0',
           display: 'flex', alignItems: 'center', gap: 5,
-          color: 'oklch(0.45 0.04 220 / 0.5)', fontSize: 10,
+          color: 'oklch(0.94 0.02 200 / 0.45)', fontSize: 10,
           fontFamily: 'inherit', letterSpacing: '0.06em', textTransform: 'uppercase',
           transition: 'color 0.2s'
         }}
-        onMouseEnter={e => e.currentTarget.style.color = 'oklch(0.30 0.04 230)'}
-        onMouseLeave={e => e.currentTarget.style.color = 'oklch(0.45 0.04 220 / 0.5)'}>
+          onMouseEnter={e => e.currentTarget.style.color = 'oklch(0.94 0.02 200 / 0.9)'}
+          onMouseLeave={e => e.currentTarget.style.color = 'oklch(0.94 0.02 200 / 0.45)'}>
           ← Entry
         </button>
       </div>
-    </aside>);
-
+    </aside>
+  );
 }
 
 /* ─────────────────── LAYER 1 (legacy) — SURFACE (Ripples + Ideas) ───────────────────
