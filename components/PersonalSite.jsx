@@ -553,18 +553,18 @@ function TweakButton({ label, onClick, secondary = false }) {
 /* ─────────────────── DATA ─────────────────── */
 
 const ideaSeeds = [
-  { id: 1,  age: 38, text: 'AI routes on specificity not social proof. Original thinking has the infrastructure it always deserved.' },
-  { id: 2,  age: 64, text: 'Being early to AI is not the same as being good at it.' },
-  { id: 3,  age: 12, text: 'Intentional AI is not a pace. It is a posture.' },
-  { id: 4,  age: 90, text: 'The IC manager is the shape of the future.' },
-  { id: 5,  age: 8,  text: 'Territory between employee and founder, nobody maps well.' },
-  { id: 6,  age: 22, text: 'Coordination cost is the hidden tax on a small team doing big-team work.' },
-  { id: 7,  age: 5,  text: 'AI prompting is closer to scoping a colleague than briefing a writer.' },
-  { id: 8,  age: 110,text: 'You cannot speed-run taste.' },
-  { id: 9,  age: 50, text: 'Most "AI-native" job descriptions are theatre. Nobody can name the actual skill.' },
-  { id: 10, age: 18, text: 'The fastest way to learn Japanese was needing to live in it. Same with AI.' },
-  { id: 11, age: 70, text: 'Speed-to-learning is the only marketing metric that matters.' },
-  { id: 12, age: 3,  text: 'A memo is just a thought you respect enough to finish.' },
+  { id: 1,  age: 38,  text: 'AI routes on specificity not social proof. Original thinking has the infrastructure it always deserved.', author: 'Harry', submittedDate: '2026-03-31' },
+  { id: 2,  age: 64,  text: 'Being early to AI is not the same as being good at it.',                                                 author: 'Harry', submittedDate: '2026-03-05' },
+  { id: 3,  age: 12,  text: 'Intentional AI is not a pace. It is a posture.',                                                         author: 'Harry', submittedDate: '2026-04-26' },
+  { id: 4,  age: 90,  text: 'The IC manager is the shape of the future.',                                                              author: 'Harry', submittedDate: '2026-02-07' },
+  { id: 5,  age: 8,   text: 'Territory between employee and founder, nobody maps well.',                                               author: 'Harry', submittedDate: '2026-04-30' },
+  { id: 6,  age: 22,  text: 'Coordination cost is the hidden tax on a small team doing big-team work.',                                author: 'Harry', submittedDate: '2026-04-16' },
+  { id: 7,  age: 5,   text: 'AI prompting is closer to scoping a colleague than briefing a writer.',                                   author: 'Harry', submittedDate: '2026-05-03' },
+  { id: 8,  age: 110, text: 'You cannot speed-run taste.',                                                                             author: 'Harry', submittedDate: '2026-01-18' },
+  { id: 9,  age: 50,  text: 'Most "AI-native" job descriptions are theatre. Nobody can name the actual skill.',                        author: 'Harry', submittedDate: '2026-03-19' },
+  { id: 10, age: 18,  text: 'The fastest way to learn Japanese was needing to live in it. Same with AI.',                              author: 'Harry', submittedDate: '2026-04-20' },
+  { id: 11, age: 70,  text: 'Speed-to-learning is the only marketing metric that matters.',                                            author: 'Harry', submittedDate: '2026-02-27' },
+  { id: 12, age: 3,   text: 'A memo is just a thought you respect enough to finish.',                                                  author: 'Harry', submittedDate: '2026-05-05' },
 ];
 
 /* ─────────────────── PALETTE — flows into Currents at the bottom ───────────────────
@@ -823,20 +823,24 @@ function Kelp({ x = '10%', h = 110, delay = 0, tint }) {
 // Inside the bubble: SVG turbulence shimmer, two highlight passes that fade
 // against each other, an outer aura that pulses with the breath.
 
-function IdeaBubble({ idea, water, depth = 0, index = 0 }) {
+function IdeaBubble({ idea, water, depth = 0, index = 0, onDelete, onEdit }) {
   const [hover, setHover] = useState(false);
+  const [selected, setSelected] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [editText, setEditText] = useState(idea.text);
+  const [editAuthor, setEditAuthor] = useState(idea.author || '');
+
   const W = 230;
   const widthVariance = (idea.id % 3) * 16;
   const w = W + widthVariance;
   const lines = useMemo(() => wrap(idea.text, 30 + Math.floor(widthVariance / 6)), [idea.text, w]);
   const h = Math.max(120, 62 + lines.length * 18);
 
-  // Per-bubble seeds → unique drift / sway / breath
   const seed = idea.id || index + 1;
   const wanderKey = `bub-wander-${seed % 6}`;
   const swayKey   = `bub-sway-${seed % 4}`;
   const breathKey = `bub-breath-${seed % 3}`;
-  const wanderDur = 55 + (seed % 9) * 4;        // 55–87s — long, dreamlike
+  const wanderDur = 55 + (seed % 9) * 4;
   const swayDur   = 24 + (seed % 5) * 3;
   const breathDur = 7 + (seed % 5) * 0.9;
   const wanderDelay = -(seed * 2.7 % wanderDur);
@@ -846,59 +850,110 @@ function IdeaBubble({ idea, water, depth = 0, index = 0 }) {
   const depthOpacity = 1 - depth * 0.14;
   const old = idea.age >= 60;
 
+  const handleBubbleClick = (e) => {
+    if (editing) return;
+    setSelected(s => !s);
+  };
+  const startEdit = (e) => {
+    e.stopPropagation();
+    setEditText(idea.text);
+    setEditAuthor(idea.author || '');
+    setEditing(true);
+    setSelected(false);
+  };
+  const saveEdit = (e) => {
+    e.stopPropagation();
+    if (editText.trim() && onEdit) onEdit(idea.id, { text: editText.trim(), author: editAuthor.trim() });
+    setEditing(false);
+  };
+  const cancelEdit = (e) => { e.stopPropagation(); setEditing(false); };
+  const handleDelete = (e) => { e.stopPropagation(); onDelete && onDelete(idea.id); };
+
+  // Small icon button for controls
+  const iconBtn = (onClick, label, isDelete) => (
+    <button onClick={onClick} title={label} style={{
+      position: 'absolute', zIndex: 30,
+      width: 20, height: 20, borderRadius: '50%',
+      border: '1px solid oklch(0.70 0.04 215 / 0.45)',
+      background: 'oklch(0.97 0.01 200 / 0.88)',
+      backdropFilter: 'blur(6px)',
+      cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontSize: 9, color: isDelete ? 'oklch(0.45 0.10 20)' : 'oklch(0.35 0.07 225)',
+      transition: 'background 0.18s, transform 0.18s',
+      top: Math.round(h * 0.06), [isDelete ? 'right' : 'left']: Math.round(w * 0.06),
+    }}
+      onMouseEnter={e => { e.currentTarget.style.background = isDelete ? 'oklch(0.92 0.06 20 / 0.95)' : 'oklch(0.90 0.04 210 / 0.95)'; e.currentTarget.style.transform = 'scale(1.15)'; }}
+      onMouseLeave={e => { e.currentTarget.style.background = 'oklch(0.97 0.01 200 / 0.88)'; e.currentTarget.style.transform = 'scale(1)'; }}
+    >{isDelete ? '✕' : '✎'}</button>
+  );
+
   return (
     <div
-      onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+      onClick={handleBubbleClick}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => { if (!selected) setHover(false); }}
       style={{
         position: 'relative', width: w, minHeight: h,
         animation: `${wanderKey} ${wanderDur}s ease-in-out ${wanderDelay}s infinite`,
+        animationPlayState: (selected || editing) ? 'paused' : 'running',
         opacity: depthOpacity,
         transition: 'opacity 0.6s',
         willChange: 'transform',
+        cursor: editing ? 'default' : 'pointer',
+        zIndex: (selected || editing) ? 10 : 'auto',
       }}>
+
+      {/* Edit / Delete icon buttons — appear on hover or when selected */}
+      {(hover || selected) && !editing && (
+        <>
+          {iconBtn(startEdit, 'Edit', false)}
+          {iconBtn(handleDelete, 'Delete', true)}
+        </>
+      )}
+
+      {/* ── Animated bubble layers (unchanged internals) ── */}
       <div style={{
         position: 'absolute', inset: 0,
         animation: `${swayKey} ${swayDur}s ease-in-out ${swayDelay}s infinite`,
+        animationPlayState: (selected || editing) ? 'paused' : 'running',
         transformOrigin: 'center',
       }}>
         <div style={{
           position: 'absolute', inset: 0,
           animation: `${breathKey} ${breathDur}s ease-in-out ${breathDelay}s infinite`,
+          animationPlayState: (selected || editing) ? 'paused' : 'running',
           transformOrigin: 'center',
         }}>
-          {/* Outer aura — ethereal halo that breathes with the bubble */}
+          {/* Outer aura */}
           <div style={{
             position: 'absolute', inset: -30,
             background: `radial-gradient(ellipse at center, ${water.glow}26 0%, ${water.glow}00 65%)`,
             filter: 'blur(8px)',
             animation: `bub-aura ${breathDur * 1.3}s ease-in-out ${breathDelay}s infinite`,
+            animationPlayState: (selected || editing) ? 'paused' : 'running',
             pointerEvents: 'none',
           }} />
 
           <svg viewBox={`0 0 ${w} ${h}`} style={{
             position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible',
-            filter: hover
+            filter: (hover || selected)
               ? `drop-shadow(0 0 28px ${water.glow}99)`
               : 'drop-shadow(0 8px 22px oklch(0 0 0 / 0.18))',
             transition: 'filter 0.5s',
           }}>
             <defs>
-              {/* Watery shimmer inside the bubble */}
               <filter id={`bub-shimmer-${seed}`} x="-20%" y="-20%" width="140%" height="140%">
                 <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed={seed % 19}>
-                  <animate attributeName="baseFrequency"
-                    values="0.014;0.022;0.014" dur={`${20 + (seed % 5) * 3}s`} repeatCount="indefinite" />
+                  <animate attributeName="baseFrequency" values="0.014;0.022;0.014" dur={`${20 + (seed % 5) * 3}s`} repeatCount="indefinite" />
                 </feTurbulence>
-                <feColorMatrix type="matrix"
-                  values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.18 0" />
+                <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.18 0" />
                 <feComposite in2="SourceGraphic" operator="in" />
               </filter>
               <radialGradient id={`bub-fill-${seed}`} cx="32%" cy="28%">
-                <stop offset="0%"  stopColor="oklch(1 0 0 / 0.95)" />
-                <stop offset="55%" stopColor="oklch(0.97 0.014 200 / 0.85)" />
+                <stop offset="0%"   stopColor="oklch(1 0 0 / 0.95)" />
+                <stop offset="55%"  stopColor="oklch(0.97 0.014 200 / 0.85)" />
                 <stop offset="100%" stopColor="oklch(0.90 0.03 215 / 0.72)" />
               </radialGradient>
-              {/* Slow rotating inner light */}
               <radialGradient id={`bub-inner-${seed}`} cx="50%" cy="50%" r="50%">
                 <stop offset="0%"  stopColor="oklch(1 0 0 / 0.4)" />
                 <stop offset="60%" stopColor="oklch(1 0 0 / 0)" />
@@ -907,56 +962,27 @@ function IdeaBubble({ idea, water, depth = 0, index = 0 }) {
                 <ellipse cx={w/2} cy={h/2} rx={w*0.46} ry={h*0.46} />
               </clipPath>
             </defs>
-
-            {/* Bubble body */}
             <ellipse cx={w/2} cy={h/2} rx={w*0.46} ry={h*0.46}
-              fill={`url(#bub-fill-${seed})`}
-              stroke="oklch(1 0 0 / 0.65)" strokeWidth="1">
-              <animate attributeName="rx"
-                values={`${w*0.46};${w*0.468};${w*0.46}`}
-                dur={`${breathDur * 1.5}s`} repeatCount="indefinite" />
-              <animate attributeName="ry"
-                values={`${h*0.46};${h*0.455};${h*0.46}`}
-                dur={`${breathDur * 1.5}s`} repeatCount="indefinite" />
+              fill={`url(#bub-fill-${seed})`} stroke="oklch(1 0 0 / 0.65)" strokeWidth="1">
+              <animate attributeName="rx" values={`${w*0.46};${w*0.468};${w*0.46}`} dur={`${breathDur * 1.5}s`} repeatCount="indefinite" />
+              <animate attributeName="ry" values={`${h*0.46};${h*0.455};${h*0.46}`} dur={`${breathDur * 1.5}s`} repeatCount="indefinite" />
             </ellipse>
-
-            {/* Watery shimmer texture, clipped to the bubble */}
             <g clipPath={`url(#bub-clip-${seed})`} opacity="0.55">
-              <rect x="0" y="0" width={w} height={h} fill="white"
-                filter={`url(#bub-shimmer-${seed})`} />
+              <rect x="0" y="0" width={w} height={h} fill="white" filter={`url(#bub-shimmer-${seed})`} />
             </g>
-
-            {/* Slow rotating inner light */}
-            <g style={{
-              transformOrigin: `${w/2}px ${h/2}px`,
-              animation: `bub-spin ${40 + (seed % 7) * 4}s linear infinite`,
-            }}>
-              <ellipse cx={w*0.42} cy={h*0.42} rx={w*0.32} ry={h*0.30}
-                fill={`url(#bub-inner-${seed})`} />
+            <g style={{ transformOrigin: `${w/2}px ${h/2}px`, animation: `bub-spin ${40 + (seed % 7) * 4}s linear infinite` }}>
+              <ellipse cx={w*0.42} cy={h*0.42} rx={w*0.32} ry={h*0.30} fill={`url(#bub-inner-${seed})`} />
             </g>
-
-            {/* Highlight A — shifts opacity with breath */}
-            <ellipse cx={w*0.34} cy={h*0.30} rx="14" ry="5"
-              fill="oklch(1 0 0 / 0.55)" transform={`rotate(-22 ${w*0.34} ${h*0.30})`}>
-              <animate attributeName="opacity"
-                values="0.35;0.75;0.35" dur={`${breathDur * 1.4}s`} repeatCount="indefinite" />
+            <ellipse cx={w*0.34} cy={h*0.30} rx="14" ry="5" fill="oklch(1 0 0 / 0.55)" transform={`rotate(-22 ${w*0.34} ${h*0.30})`}>
+              <animate attributeName="opacity" values="0.35;0.75;0.35" dur={`${breathDur * 1.4}s`} repeatCount="indefinite" />
             </ellipse>
-            {/* Highlight B — counter-phase, shorter */}
-            <ellipse cx={w*0.62} cy={h*0.22} rx="6" ry="2.5"
-              fill="oklch(1 0 0 / 0.4)" transform={`rotate(-15 ${w*0.62} ${h*0.22})`}>
-              <animate attributeName="opacity"
-                values="0.55;0.15;0.55" dur={`${breathDur * 1.4}s`} repeatCount="indefinite" />
+            <ellipse cx={w*0.62} cy={h*0.22} rx="6" ry="2.5" fill="oklch(1 0 0 / 0.4)" transform={`rotate(-15 ${w*0.62} ${h*0.22})`}>
+              <animate attributeName="opacity" values="0.55;0.15;0.55" dur={`${breathDur * 1.4}s`} repeatCount="indefinite" />
             </ellipse>
-            {/* Tiny secondary glint */}
             <circle cx={w*0.72} cy={h*0.78} r="3" fill="oklch(1 0 0 / 0.4)">
-              <animate attributeName="r" values="2.5;3.5;2.5"
-                dur={`${breathDur * 1.8}s`} repeatCount="indefinite" />
+              <animate attributeName="r" values="2.5;3.5;2.5" dur={`${breathDur * 1.8}s`} repeatCount="indefinite" />
             </circle>
-
-            {/* Rim light — soft accent on the bottom edge */}
-            <ellipse cx={w/2} cy={h/2} rx={w*0.46} ry={h*0.46}
-              fill="none" stroke={`${water.glow}55`} strokeWidth="0.7" />
-
+            <ellipse cx={w/2} cy={h/2} rx={w*0.46} ry={h*0.46} fill="none" stroke={`${water.glow}55`} strokeWidth="0.7" />
             {old && (
               <g opacity="0.5">
                 <circle cx={w*0.18} cy={h*0.74} r="2.4" fill="oklch(0.42 0.04 75)" />
@@ -966,12 +992,12 @@ function IdeaBubble({ idea, water, depth = 0, index = 0 }) {
             )}
           </svg>
 
-          {/* Text rendered as HTML for legibility */}
+          {/* Text content */}
           <div style={{
             position: 'relative', width: w, minHeight: h,
             display: 'flex', flexDirection: 'column', justifyContent: 'center',
             padding: '20px 36px', boxSizing: 'border-box',
-            textAlign: 'center', pointerEvents: 'none',
+            textAlign: 'center',
           }}>
             <p className="f-display" style={{
               margin: 0, fontStyle: 'italic', fontWeight: 300,
@@ -979,14 +1005,129 @@ function IdeaBubble({ idea, water, depth = 0, index = 0 }) {
               color: 'oklch(0.18 0.04 235)',
               textWrap: 'balance',
             }}>{idea.text}</p>
-            {idea.age > 0 && (
-              <span className="eyebrow" style={{
-                marginTop: 12, fontSize: 8.5, color: 'oklch(0.42 0.04 230 / 0.55)',
-              }}>{idea.age}d adrift</span>
-            )}
+            <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+              {idea.age > 0 && (
+                <span className="eyebrow" style={{ fontSize: 8, color: 'oklch(0.42 0.04 230 / 0.55)' }}>
+                  {idea.age}d adrift{idea.submittedDate ? ` · ${shortDate(idea.submittedDate)}` : ''}
+                </span>
+              )}
+              {idea.author && (
+                <span style={{ fontFamily: '"Geist", system-ui, sans-serif', fontSize: 8, color: 'oklch(0.42 0.05 225 / 0.6)', letterSpacing: '0.04em' }}>
+                  — {idea.author}
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* ── Info card: appears when selected, below the bubble ── */}
+      {selected && !editing && (
+        <div onClick={e => e.stopPropagation()} style={{
+          position: 'absolute', top: h + 10, left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 30, minWidth: Math.max(w, 180),
+          padding: '12px 16px',
+          background: 'oklch(0.97 0.012 210 / 0.94)',
+          backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)',
+          border: '1px solid oklch(0.70 0.04 215 / 0.30)',
+          borderRadius: 8,
+          boxShadow: '0 8px 24px oklch(0 0 0 / 0.10)',
+        }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 10 }}>
+            {idea.author && (
+              <span style={{ fontFamily: '"Geist", system-ui, sans-serif', fontSize: 11, color: 'oklch(0.30 0.06 225)', fontWeight: 500 }}>
+                {idea.author}
+              </span>
+            )}
+            <span className="eyebrow" style={{ fontSize: 8.5, color: 'oklch(0.50 0.04 220 / 0.7)', letterSpacing: '0.14em' }}>
+              {idea.age > 0 ? `${idea.age}d adrift` : 'Just dropped'}
+              {idea.submittedDate ? ` · ${shortDate(idea.submittedDate)}` : ''}
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+            <button onClick={startEdit} style={{
+              fontFamily: '"Geist Mono", monospace', fontSize: 9, letterSpacing: '0.14em',
+              padding: '5px 12px', background: 'none',
+              border: '1px solid oklch(0.62 0.06 215 / 0.45)',
+              borderRadius: 4, cursor: 'pointer', color: 'oklch(0.35 0.07 225)',
+              transition: 'background 0.15s',
+            }}
+              onMouseEnter={e => e.currentTarget.style.background = 'oklch(0.90 0.03 215 / 0.5)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'none'}
+            >Edit</button>
+            <button onClick={handleDelete} style={{
+              fontFamily: '"Geist Mono", monospace', fontSize: 9, letterSpacing: '0.14em',
+              padding: '5px 12px', background: 'none',
+              border: '1px solid oklch(0.60 0.10 20 / 0.35)',
+              borderRadius: 4, cursor: 'pointer', color: 'oklch(0.45 0.10 20)',
+              transition: 'background 0.15s',
+            }}
+              onMouseEnter={e => e.currentTarget.style.background = 'oklch(0.92 0.06 20 / 0.4)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'none'}
+            >Delete</button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Edit form: overlays the bubble ── */}
+      {editing && (
+        <div onClick={e => e.stopPropagation()} style={{
+          position: 'absolute', top: 0, left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 30, width: w + 48,
+          padding: '16px',
+          background: 'oklch(0.97 0.012 210 / 0.97)',
+          backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)',
+          border: '1px solid oklch(0.62 0.07 215 / 0.45)',
+          borderRadius: 10,
+          boxShadow: '0 12px 36px oklch(0 0 0 / 0.14)',
+        }}>
+          <textarea
+            value={editText}
+            onChange={e => setEditText(e.target.value)}
+            autoFocus
+            style={{
+              width: '100%', boxSizing: 'border-box', resize: 'none',
+              background: 'oklch(0.94 0.014 210 / 0.6)',
+              border: '1px solid oklch(0.68 0.05 215 / 0.35)',
+              borderRadius: 5, padding: '8px 10px',
+              fontSize: 13, fontFamily: '"Fraunces", Georgia, serif',
+              fontStyle: 'italic', fontWeight: 300,
+              color: 'oklch(0.18 0.04 235)', lineHeight: 1.5,
+              minHeight: 72, outline: 'none',
+            }}
+          />
+          <input
+            value={editAuthor}
+            onChange={e => setEditAuthor(e.target.value)}
+            placeholder="Your name (optional)"
+            style={{
+              width: '100%', boxSizing: 'border-box', marginTop: 6,
+              background: 'oklch(0.94 0.014 210 / 0.6)',
+              border: '1px solid oklch(0.68 0.05 215 / 0.25)',
+              borderRadius: 5, padding: '6px 10px',
+              fontSize: 11, fontFamily: '"Geist", system-ui, sans-serif',
+              color: 'oklch(0.30 0.05 225)', outline: 'none',
+            }}
+          />
+          <div style={{ display: 'flex', gap: 8, marginTop: 10, justifyContent: 'flex-end' }}>
+            <button onClick={cancelEdit} style={{
+              fontFamily: '"Geist Mono", monospace', fontSize: 9, letterSpacing: '0.14em',
+              padding: '5px 12px', background: 'none',
+              border: '1px solid oklch(0.68 0.04 215 / 0.35)',
+              borderRadius: 4, cursor: 'pointer', color: 'oklch(0.45 0.05 220)',
+            }}>Cancel</button>
+            <button onClick={saveEdit} style={{
+              fontFamily: '"Geist Mono", monospace', fontSize: 9, letterSpacing: '0.14em',
+              padding: '5px 12px',
+              background: 'oklch(0.54 0.08 215)',
+              border: 'none', borderRadius: 4, cursor: 'pointer', color: 'white',
+            }}>Save</button>
+          </div>
+        </div>
+      )}
+
 
       <style>{`
         /* Long wandering paths — multi-stop so they don't loop visibly. */
@@ -1062,6 +1203,12 @@ function wrap(s, w) {
   return out;
 }
 
+function shortDate(iso) {
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString('en', { day: 'numeric', month: 'short', year: '2-digit' });
+}
+
 /* ─────────────────── DEPTH MARKER ─────────────────── */
 // Three faint depth labels appear as you scroll — gives the long descent
 // a sense of going somewhere.
@@ -1099,23 +1246,35 @@ function SurfaceLayer({ accent, tweaks = {} }) {
 
   const [ideas, setIdeas] = useState(ideaSeeds);
   const [input, setInput] = useState('');
+  const [author, setAuthor] = useState('');
   const [focused, setFocused] = useState(false);
 
   const cast = (e) => {
     e?.preventDefault();
     if (!input.trim()) return;
-    setIdeas(prev => [{ id: Date.now(), age: 0, text: input.trim() }, ...prev]);
+    const today = new Date().toISOString().slice(0, 10);
+    setIdeas(prev => [{ id: Date.now(), age: 0, text: input.trim(), author: author.trim() || '', submittedDate: today }, ...prev]);
     setInput('');
+    setAuthor('');
   };
 
-  // Group ideas into "depth bands" — three rows down the column. This makes
-  // the page feel like a long descent rather than a single grid.
+  const handleDelete = useCallback((id) => {
+    setIdeas(prev => prev.filter(idea => idea.id !== id));
+  }, []);
+
+  const handleEdit = useCallback((id, { text, author: newAuthor }) => {
+    setIdeas(prev => prev.map(idea => idea.id === id ? { ...idea, text, author: newAuthor } : idea));
+  }, []);
+
+  // Sort by age so oldest sink to deepest band. Round-robin into 3 bands
+  // after sorting descending by age: idx 0,3,6,9 (oldest) → band 2 (deepest).
   const bands = useMemo(() => {
-    const arr = ideas.slice(0, 12);
-    const a = arr.filter((_, i) => i % 3 === 0);
-    const b = arr.filter((_, i) => i % 3 === 1);
-    const c = arr.filter((_, i) => i % 3 === 2);
-    return [a, b, c];
+    const arr = [...ideas].sort((a, b) => (b.age || 0) - (a.age || 0)).slice(0, 12);
+    return [
+      arr.filter((_, i) => i % 3 === 2), // newest third  → surface (band 0)
+      arr.filter((_, i) => i % 3 === 1), // middle third  → mid     (band 1)
+      arr.filter((_, i) => i % 3 === 0), // oldest third  → deep    (band 2)
+    ];
   }, [ideas]);
 
   return (
@@ -1150,8 +1309,7 @@ function SurfaceLayer({ accent, tweaks = {} }) {
 
         <form onSubmit={cast} className="surface" style={{
           marginTop: 32, maxWidth: 580,
-          display: 'flex', alignItems: 'center', gap: 14,
-          padding: '14px 18px',
+          display: 'flex', flexDirection: 'column', gap: 0,
           background: 'oklch(1 0 0 / 0.78)',
           border: `1px solid ${focused ? water.glow : 'oklch(0.40 0.05 230 / 0.18)'}`,
           borderRadius: 8,
@@ -1161,32 +1319,52 @@ function SurfaceLayer({ accent, tweaks = {} }) {
             : '0 6px 18px oklch(0 0 0 / 0.04)',
           transition: 'all 0.3s ease',
           animationDelay: '0.25s',
+          overflow: 'hidden',
         }}>
-          <span style={{
-            width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
-            background: water.glow, opacity: focused ? 1 : 0.45, transition: 'opacity 0.3s',
-            boxShadow: focused ? `0 0 0 4px ${water.glow}33` : 'none',
-          }} />
-          <input
-            value={input} onChange={e => setInput(e.target.value)}
-            onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-            placeholder="Drop a thought into the water…"
-            className="f-display"
-            style={{
-              flex: 1, background: 'transparent', border: 'none', outline: 'none',
-              fontSize: 16, fontWeight: 300, fontStyle: 'italic',
-              color: 'oklch(0.18 0.05 235)',
-            }}
-          />
-          <button type="submit" className="eyebrow tidal-submit-btn" style={{
-            background: water.glow, color: 'var(--site-cream)',
-            border: 'none', cursor: 'pointer',
-            padding: '8px 14px', borderRadius: 'var(--r-chip)', fontSize: 10, letterSpacing: '0.18em',
-            transition: 'transform 0.2s',
-          }} onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
-             onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>
-            Drop in
-          </button>
+          {/* Thought row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 18px' }}>
+            <span style={{
+              width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
+              background: water.glow, opacity: focused ? 1 : 0.45, transition: 'opacity 0.3s',
+              boxShadow: focused ? `0 0 0 4px ${water.glow}33` : 'none',
+            }} />
+            <input
+              value={input} onChange={e => setInput(e.target.value)}
+              onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
+              placeholder="Drop a thought into the water…"
+              className="f-display"
+              style={{
+                flex: 1, background: 'transparent', border: 'none', outline: 'none',
+                fontSize: 16, fontWeight: 300, fontStyle: 'italic',
+                color: 'oklch(0.18 0.05 235)',
+              }}
+            />
+            <button type="submit" className="eyebrow tidal-submit-btn" style={{
+              background: water.glow, color: 'var(--site-cream)',
+              border: 'none', cursor: 'pointer',
+              padding: '8px 14px', borderRadius: 'var(--r-chip)', fontSize: 10, letterSpacing: '0.18em',
+              transition: 'transform 0.2s', flexShrink: 0,
+            }} onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
+               onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>
+              Drop in
+            </button>
+          </div>
+          {/* Author row */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 10,
+            padding: '8px 18px 12px 40px',
+            borderTop: '1px solid oklch(0.40 0.05 230 / 0.09)',
+          }}>
+            <input
+              value={author} onChange={e => setAuthor(e.target.value)}
+              placeholder="Your name (optional)"
+              style={{
+                flex: 1, background: 'transparent', border: 'none', outline: 'none',
+                fontSize: 12, fontFamily: '"Geist", system-ui, sans-serif',
+                fontWeight: 300, color: 'oklch(0.40 0.05 225)',
+              }}
+            />
+          </div>
         </form>
       </section>
 
@@ -1232,7 +1410,7 @@ function SurfaceLayer({ accent, tweaks = {} }) {
                 <div key={idea.id} style={{
                   transform: `translateY(${(i % 3) * 30}px)`,
                 }}>
-                  <IdeaBubble idea={idea} water={water} depth={depth} index={i} />
+                  <IdeaBubble idea={idea} water={water} depth={depth} index={i} onDelete={handleDelete} onEdit={handleEdit} />
                 </div>
               ))}
             </div>
@@ -2112,30 +2290,399 @@ function CurrentsAtmosphere() {
 
 }
 
+// Category accent stripes for gallery + compact dot + timeline
+const CAT_STRIPE = {
+  Careers:   'oklch(0.34 0.07 230)',
+  Business:  'oklch(0.30 0.08 220)',
+  Marketing: 'oklch(0.34 0.09 200)',
+  AI:        'oklch(0.30 0.09 245)',
+  Japan:     'oklch(0.32 0.08 175)',
+  Personal:  'oklch(0.40 0.07 65)',
+};
+
 function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
   const cyanAccent = cyan || 'oklch(0.46 0.14 200)';
   const [filter, setFilter] = useState('all');
   const [sort, setSort] = useState('newest');
+  const [view, setView] = useState('list');           // 'list' | 'gallery' | 'timeline'
+  const [density, setDensity] = useState('comfortable'); // 'compact' | 'moderate' | 'comfortable'
+
   const cats = ['all', 'Careers', 'Business', 'Marketing', 'AI', 'Japan', 'Personal'];
   const sortOptions = [
     { key: 'newest', label: 'Newest' },
     { key: 'oldest', label: 'Oldest' },
     { key: 'alpha',  label: 'A–Z' },
   ];
+  const densityOptions = [
+    { key: 'compact',     label: 'Compact' },
+    { key: 'moderate',    label: 'Moderate' },
+    { key: 'comfortable', label: 'Comfortable' },
+  ];
+
   const memoSource = (memos && memos.length) ? memos : memos_v2;
   const filtered = filter === 'all' ? memoSource : memoSource.filter((m) => m.cats.includes(filter));
-  // Sort applied after filter so the user always sees a coherent ordering.
-  // 'newest' is the default and matches the original date-desc behavior.
   const sorted = [...filtered].sort((a, b) => {
     if (sort === 'oldest') return new Date(a.date || 0) - new Date(b.date || 0);
     if (sort === 'alpha')  return (a.title || '').localeCompare(b.title || '');
     return new Date(b.date || 0) - new Date(a.date || 0);
   });
 
+  // Group by month for timeline view
+  const timelineGroups = useMemo(() => {
+    const groups = {};
+    sorted.forEach(m => {
+      const d = new Date(m.date || 0);
+      const key = isNaN(d.getTime()) ? 'other' : `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      const label = isNaN(d.getTime()) ? 'Other' : d.toLocaleString('en', { month: 'long', year: 'numeric' });
+      if (!groups[key]) groups[key] = { label, items: [] };
+      groups[key].items.push(m);
+    });
+    return Object.values(groups);
+  }, [sorted]);
+
+  const openMemo = useCallback((id) => { if (onOpenMemo) onOpenMemo(id); }, [onOpenMemo]);
+  const onKey = useCallback((e, id) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openMemo(id); } }, [openMemo]);
+
+  function hoverOn(e) {
+    e.currentTarget.style.transform = 'translateY(-2px)';
+    e.currentTarget.style.borderColor = `${accent}77`;
+    e.currentTarget.style.boxShadow = `0 1px 0 oklch(1 0 0 / 0.18) inset, 0 18px 42px oklch(0 0 0 / 0.32), 0 0 0 1px ${accent}44`;
+  }
+  function hoverOff(e) {
+    e.currentTarget.style.transform = 'translateY(0)';
+    e.currentTarget.style.borderColor = 'oklch(0.95 0.015 215 / 0.5)';
+    e.currentTarget.style.boxShadow = '0 1px 0 oklch(1 0 0 / 0.18) inset, 0 10px 28px oklch(0 0 0 / 0.22)';
+  }
+  const cardBase = {
+    background: 'oklch(0.97 0.012 215 / 0.78)',
+    border: '1px solid oklch(0.95 0.015 215 / 0.5)',
+    borderRadius: 'var(--r-card)',
+    backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
+    boxShadow: '0 1px 0 oklch(1 0 0 / 0.18) inset, 0 10px 28px oklch(0 0 0 / 0.22)',
+    cursor: 'pointer',
+  };
+
+  // ── View icon button ───────────────────────────────────────────────────────
+  function ViewBtn({ type, title: ttl }) {
+    const active = view === type;
+    return (
+      <button onClick={() => setView(type)} aria-pressed={active} title={ttl} style={{
+        background: active ? 'oklch(0.97 0.012 215 / 0.18)' : 'none',
+        border: active ? '1px solid oklch(0.95 0.015 215 / 0.4)' : '1px solid transparent',
+        borderRadius: 4, padding: '5px 7px', cursor: 'pointer',
+        color: active ? accent : 'oklch(0.94 0.02 200 / 0.45)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        transition: 'color 0.2s, background 0.2s, border-color 0.2s',
+      }}
+        onMouseEnter={e => { if (!active) e.currentTarget.style.color = 'oklch(0.94 0.02 200 / 0.75)'; }}
+        onMouseLeave={e => { if (!active) e.currentTarget.style.color = 'oklch(0.94 0.02 200 / 0.45)'; }}
+      >
+        {type === 'list' && (
+          <svg width={15} height={12} viewBox="0 0 15 12" fill="none">
+            <rect x={0} y={0} width={15} height={2} rx={1} fill="currentColor" />
+            <rect x={0} y={5} width={15} height={2} rx={1} fill="currentColor" />
+            <rect x={0} y={10} width={15} height={2} rx={1} fill="currentColor" />
+          </svg>
+        )}
+        {type === 'gallery' && (
+          <svg width={13} height={13} viewBox="0 0 13 13" fill="none">
+            {[0, 5, 10].flatMap(x => [0, 5, 10].map(y =>
+              <rect key={`${x}-${y}`} x={x} y={y} width={2.5} height={2.5} rx={0.5} fill="currentColor" />
+            ))}
+          </svg>
+        )}
+        {type === 'timeline' && (
+          <svg width={15} height={13} viewBox="0 0 15 13" fill="none">
+            <line x1={2} y1={0} x2={2} y2={13} stroke="currentColor" strokeWidth={1.2} strokeOpacity={0.5} />
+            <circle cx={2} cy={1.5} r={1.8} fill="currentColor" />
+            <circle cx={2} cy={6.5} r={1.8} fill="currentColor" />
+            <circle cx={2} cy={11.5} r={1.8} fill="currentColor" />
+            <rect x={6} y={0.5} width={9} height={2} rx={1} fill="currentColor" />
+            <rect x={6} y={5.5} width={7} height={2} rx={1} fill="currentColor" />
+            <rect x={6} y={10.5} width={8} height={2} rx={1} fill="currentColor" />
+          </svg>
+        )}
+      </button>
+    );
+  }
+
+  // ── Compact list: bare rows with category dot + dividers ──────────────────
+  function CompactRow({ m, i }) {
+    const stripe = CAT_STRIPE[m.cats && m.cats[0]] || accent;
+    const displayDate = m.listDate || m.date;
+    return (
+      <li role="button" tabIndex={0}
+        onClick={() => openMemo(m.id)} onKeyDown={e => onKey(e, m.id)}
+        className="surface"
+        style={{
+          display: 'grid', gridTemplateColumns: '1fr auto auto',
+          alignItems: 'center', gap: 16,
+          padding: '11px 8px',
+          borderBottom: '1px solid oklch(0.94 0.02 200 / 0.09)',
+          cursor: 'pointer', borderRadius: 4,
+          transition: 'background 0.15s ease, padding-left 0.15s ease',
+          animationDelay: `${0.12 + i * 0.025}s`,
+        }}
+        onMouseEnter={e => { e.currentTarget.style.background = 'oklch(0.97 0.012 215 / 0.08)'; e.currentTarget.style.paddingLeft = '14px'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.paddingLeft = '8px'; }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', flexShrink: 0, background: stripe, opacity: 0.9 }} />
+          <span className="f-display" style={{
+            fontSize: 15, fontWeight: 500, color: 'oklch(0.94 0.02 200)',
+            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+            letterSpacing: '-0.01em',
+          }}>{m.title}</span>
+        </div>
+        <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+          {(m.cats || []).slice(0, 2).map(c => (
+            <span key={c} className="eyebrow" style={{
+              fontSize: 9, letterSpacing: '0.12em',
+              color: CAT_STRIPE[c] || 'oklch(0.55 0.06 215)', opacity: 0.75,
+            }}>{c}</span>
+          ))}
+        </div>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0 }}>
+          <span className="eyebrow" style={{ fontSize: 9, letterSpacing: '0.12em', color: 'oklch(0.94 0.02 200 / 0.32)' }}>
+            {displayDate}
+          </span>
+          <span style={{ color: accent, opacity: 0.65, fontSize: 11 }}>→</span>
+        </div>
+      </li>
+    );
+  }
+
+  // ── Moderate list: slim card with title + subtitle, no tags ──────────────
+  function ModerateRow({ m, i }) {
+    const displayDate = m.listDate || m.date;
+    return (
+      <li role="button" tabIndex={0}
+        onClick={() => openMemo(m.id)} onKeyDown={e => onKey(e, m.id)}
+        className="surface card-row tidal-memo-card"
+        style={{
+          ...cardBase, display: 'grid', gridTemplateColumns: '1fr 96px', gap: 20,
+          padding: '16px 20px', animationDelay: `${0.18 + i * 0.035}s`,
+        }}
+        onMouseEnter={hoverOn} onMouseLeave={hoverOff}
+      >
+        <div>
+          <h3 className="f-display" style={{
+            margin: '0 0 5px', fontSize: 19, fontWeight: 500, lineHeight: 1.2,
+            color: 'var(--site-cyan-bold)', letterSpacing: '-0.015em',
+          }}>{m.title}</h3>
+          <p className="f-body" style={{
+            margin: 0, fontSize: 14, lineHeight: 1.5,
+            color: 'var(--site-ink)', fontStyle: 'italic', fontWeight: 300,
+          }}>{m.sub}</p>
+        </div>
+        <div className="tidal-memo-card-meta" style={{
+          textAlign: 'right', display: 'flex', flexDirection: 'column',
+          justifyContent: 'center', gap: 4,
+        }}>
+          <div className="eyebrow" style={{ color: 'var(--site-ink-muted)', fontSize: 9 }}>{m.read}</div>
+          <div className="eyebrow" style={{ color: 'oklch(0.40 0.04 220 / 0.5)', fontSize: 9 }}>{displayDate}</div>
+          <span className="eyebrow" style={{ color: accent, fontSize: 9, marginTop: 4 }}>Read →</span>
+        </div>
+      </li>
+    );
+  }
+
+  // ── Comfortable list: original full card ──────────────────────────────────
+  function ComfortableRow({ m, i }) {
+    const displayDate = m.listDate || m.date;
+    return (
+      <li role="button" tabIndex={0}
+        onClick={() => openMemo(m.id)} onKeyDown={e => onKey(e, m.id)}
+        className="surface card-row tidal-memo-card"
+        style={{
+          ...cardBase, display: 'grid', gridTemplateColumns: '1fr 110px', gap: 28,
+          padding: '28px', animationDelay: `${0.25 + i * 0.05}s`,
+        }}
+        onMouseEnter={hoverOn} onMouseLeave={hoverOff}
+      >
+        <div>
+          <h3 className="f-display" style={{
+            margin: 0, fontSize: 28, fontWeight: 500, lineHeight: 1.18,
+            color: 'var(--site-cyan-bold)', letterSpacing: '-0.02em', marginBottom: 10,
+          }}>{m.title}</h3>
+          <p className="f-body" style={{
+            margin: '0 0 16px', fontSize: 16, lineHeight: 1.55,
+            color: 'var(--site-ink)', fontStyle: 'italic', fontWeight: 300,
+          }}>{m.sub}</p>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+            {(m.cats || []).map(c => <CatBubble key={c} name={c} />)}
+          </div>
+        </div>
+        <div className="tidal-memo-card-meta" style={{
+          textAlign: 'right', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+        }}>
+          <div>
+            <div className="eyebrow" style={{ color: 'var(--site-ink-muted)', fontSize: 10 }}>{m.read}</div>
+            <div className="eyebrow" style={{ color: 'oklch(0.40 0.04 220 / 0.55)', fontSize: 10, marginTop: 4 }}>{displayDate}</div>
+          </div>
+          <span className="eyebrow" style={{ color: accent, fontSize: 10, marginTop: 16 }}>Read →</span>
+        </div>
+      </li>
+    );
+  }
+
+  // ── Gallery card (3-col grid) ─────────────────────────────────────────────
+  function GalleryCard({ m, i }) {
+    const stripe = CAT_STRIPE[m.cats && m.cats[0]] || accent;
+    const displayDate = m.listDate || m.date;
+    return (
+      <li role="button" tabIndex={0}
+        onClick={() => openMemo(m.id)} onKeyDown={e => onKey(e, m.id)}
+        className="surface tidal-memo-card"
+        style={{
+          ...cardBase, display: 'flex', flexDirection: 'column',
+          overflow: 'hidden', boxShadow: 'none',
+          animationDelay: `${0.18 + i * 0.035}s`,
+        }}
+        onMouseEnter={e => {
+          e.currentTarget.style.transform = 'translateY(-3px)';
+          e.currentTarget.style.borderColor = `${accent}66`;
+          e.currentTarget.style.boxShadow = `0 14px 36px oklch(0 0 0 / 0.28), 0 0 0 1px ${accent}33`;
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.borderColor = 'oklch(0.95 0.015 215 / 0.5)';
+          e.currentTarget.style.boxShadow = 'none';
+        }}
+      >
+        <div style={{ height: 4, background: stripe, flexShrink: 0 }} />
+        <div style={{
+          padding: density === 'compact' ? '14px 16px 12px' : density === 'moderate' ? '18px 18px 16px' : '20px 20px 18px',
+          display: 'flex', flexDirection: 'column', flex: 1,
+        }}>
+          <h3 className="f-display" style={{
+            margin: '0 0 8px', lineHeight: 1.2, letterSpacing: '-0.015em',
+            color: 'var(--site-cyan-bold)', fontWeight: 500,
+            fontSize: density === 'compact' ? 14 : density === 'moderate' ? 17 : 19,
+          }}>{m.title}</h3>
+          {density !== 'compact' && (
+            <p className="f-body" style={{
+              margin: '0 0 10px', fontSize: 13, lineHeight: 1.5, flex: 1,
+              color: 'var(--site-ink)', fontStyle: 'italic', fontWeight: 300,
+            }}>{m.sub}</p>
+          )}
+          {density === 'comfortable' && (
+            <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 10 }}>
+              {(m.cats || []).map(c => <CatBubble key={c} name={c} />)}
+            </div>
+          )}
+          <div style={{
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            marginTop: 'auto', paddingTop: density === 'compact' ? 6 : 10,
+            borderTop: '1px solid oklch(0.95 0.015 215 / 0.3)',
+          }}>
+            <span className="eyebrow" style={{ fontSize: 9, color: 'oklch(0.40 0.04 220 / 0.5)', letterSpacing: '0.12em' }}>
+              {displayDate}
+            </span>
+            <span className="eyebrow" style={{ fontSize: 9, color: accent, letterSpacing: '0.12em' }}>
+              {m.read} →
+            </span>
+          </div>
+        </div>
+      </li>
+    );
+  }
+
+  // ── Timeline: grouped by month with a vertical spine ─────────────────────
+  function TimelineGroup({ group }) {
+    return (
+      <div style={{ position: 'relative', marginBottom: 32 }}>
+        <div style={{
+          fontFamily: '"Geist Mono", monospace', fontSize: 10, letterSpacing: '0.18em',
+          textTransform: 'uppercase', color: 'oklch(0.94 0.02 200 / 0.38)',
+          paddingLeft: 32, marginBottom: 8,
+        }}>{group.label}</div>
+        {group.items.map((m, i) => {
+          const stripe = CAT_STRIPE[m.cats && m.cats[0]] || accent;
+          const displayDate = m.listDate || m.date;
+          const isLast = i === group.items.length - 1;
+          return (
+            <div key={m.id} style={{ display: 'flex', alignItems: 'stretch', position: 'relative' }}>
+              {/* Spine + dot */}
+              <div style={{ width: 32, flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ width: 8, height: 8, borderRadius: '50%', background: stripe, flexShrink: 0, marginTop: 14, zIndex: 1 }} />
+                {!isLast && <div style={{ width: 1, flex: 1, background: 'oklch(0.94 0.02 200 / 0.1)', marginTop: 3 }} />}
+              </div>
+              {/* Row content */}
+              <div
+                role="button" tabIndex={0}
+                onClick={() => openMemo(m.id)} onKeyDown={e => onKey(e, m.id)}
+                style={{
+                  flex: 1, padding: density === 'compact' ? '8px 10px 14px' : '10px 12px 18px',
+                  borderRadius: 6, cursor: 'pointer',
+                  transition: 'background 0.15s ease',
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = 'oklch(0.97 0.012 215 / 0.08)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12 }}>
+                  <span className="f-display" style={{
+                    fontSize: density === 'compact' ? 15 : density === 'moderate' ? 17 : 19,
+                    fontWeight: 500, color: 'oklch(0.94 0.02 200)', letterSpacing: '-0.01em', lineHeight: 1.2,
+                  }}>{m.title}</span>
+                  <span className="eyebrow" style={{ fontSize: 9, color: 'oklch(0.94 0.02 200 / 0.32)', flexShrink: 0 }}>
+                    {m.read}
+                  </span>
+                </div>
+                {density !== 'compact' && (
+                  <p className="f-body" style={{
+                    margin: '4px 0 0', fontSize: 13, lineHeight: 1.45,
+                    color: 'oklch(0.60 0.04 220)', fontStyle: 'italic', fontWeight: 300,
+                  }}>{m.sub}</p>
+                )}
+                {density === 'comfortable' && (m.cats || []).length > 0 && (
+                  <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
+                    {m.cats.map(c => <CatBubble key={c} name={c} />)}
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  // ── Render content area based on view + density ───────────────────────────
+  function ArticleContent() {
+    if (view === 'timeline') {
+      return (
+        <div className="tidal-section-pad" style={{ padding: '12px 64px 80px', position: 'relative', zIndex: 1 }}>
+          {timelineGroups.map(g => <TimelineGroup key={g.label} group={g} />)}
+        </div>
+      );
+    }
+    if (view === 'gallery') {
+      return (
+        <ol className="tidal-section-pad" style={{
+          listStyle: 'none', padding: '12px 64px 80px', margin: 0,
+          position: 'relative', zIndex: 1,
+          display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14,
+        }}>
+          {sorted.map((m, i) => <GalleryCard key={m.id} m={m} i={i} />)}
+        </ol>
+      );
+    }
+    // list view
+    const Row = density === 'compact' ? CompactRow : density === 'moderate' ? ModerateRow : ComfortableRow;
+    return (
+      <ol className="tidal-section-pad" style={{
+        listStyle: 'none', padding: density === 'compact' ? '4px 64px 80px' : '8px 64px 80px',
+        margin: 0, position: 'relative', zIndex: 1,
+        display: 'grid', gap: density === 'compact' ? 0 : density === 'moderate' ? 8 : 14,
+      }}>
+        {sorted.map((m, i) => <Row key={m.id} m={m} i={i} />)}
+      </ol>
+    );
+  }
+
   return (
     <div style={{
-      // Layered gradient: mid-ocean blue with darker pockets, like sun-shafts
-      // breaking through water.
       background: `
         radial-gradient(ellipse at 20% 10%, oklch(0.42 0.06 226 / 0.45) 0%, transparent 60%),
         radial-gradient(ellipse at 85% 70%, oklch(0.26 0.05 238 / 0.35) 0%, transparent 55%),
@@ -2144,7 +2691,6 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
       color: 'oklch(0.94 0.02 200)',
       position: 'relative', overflow: 'hidden'
     }}>
-      {/* Underwater atmospherics — subtle, slow, ambient */}
       <CurrentsAtmosphere />
       <DriftField count={22} hue={210} opacity={0.45} />
 
@@ -2173,88 +2719,75 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
         <WavyHR opacity={0.4} amp={1.4} freq={26} height={10} />
       </div>
 
-      <div className="tidal-section-pad" style={{ padding: '24px 64px 6px', display: 'flex', gap: 18, flexWrap: 'wrap', alignItems: 'center', position: 'relative', zIndex: 1 }}>
-        <span className="eyebrow" style={{ color: 'oklch(0.94 0.02 200 / 0.4)', fontSize: 10, marginRight: 4 }}>Filter</span>
-        {cats.map((c) => {
+      {/* Filter row */}
+      <div className="tidal-section-pad" style={{ padding: '20px 64px 6px', display: 'flex', gap: 18, flexWrap: 'wrap', alignItems: 'center', position: 'relative', zIndex: 1 }}>
+        <span className="eyebrow" style={{ color: 'oklch(0.94 0.02 200 / 0.38)', fontSize: 10, marginRight: 4 }}>Filter</span>
+        {cats.map(c => {
           const active = filter === c;
           return (
             <button key={c} onClick={() => setFilter(c)} className={`eyebrow tidal-chip${active ? ' is-active' : ''}`} aria-pressed={active} style={{
-              background: 'none', border: 'none',
-              padding: '8px 2px', display: 'flex', alignItems: 'center', gap: 8,
-              color: active ? accent : 'oklch(0.94 0.02 200 / 0.55)'
+              background: 'none', border: 'none', padding: '8px 2px',
+              display: 'flex', alignItems: 'center', gap: 8,
+              color: active ? accent : 'oklch(0.94 0.02 200 / 0.55)',
             }}>
               {c !== 'all' && <CatSigil name={c} size={13} />}
               {c === 'all' ? 'All' : c}
-            </button>);
-
+            </button>
+          );
         })}
       </div>
 
-      {/* Sort row — sits below filter row so the two read as parallel controls. */}
-      <div className="tidal-section-pad" style={{ padding: '0 64px 18px', display: 'flex', gap: 18, flexWrap: 'wrap', alignItems: 'center', position: 'relative', zIndex: 1 }}>
-        <span className="eyebrow" style={{ color: 'oklch(0.94 0.02 200 / 0.4)', fontSize: 10, marginRight: 4 }}>Sort</span>
-        {sortOptions.map((s) => {
-          const active = sort === s.key;
-          return (
-            <button key={s.key} onClick={() => setSort(s.key)} className={`eyebrow tidal-chip${active ? ' is-active' : ''}`} aria-pressed={active} style={{
-              background: 'none', border: 'none',
-              padding: '8px 2px',
-              color: active ? accent : 'oklch(0.94 0.02 200 / 0.55)'
-            }}>
-              {s.label}
-            </button>);
+      {/* Sort + View + Density row */}
+      <div className="tidal-section-pad" style={{
+        padding: '4px 64px 18px', display: 'flex', gap: 0, flexWrap: 'wrap',
+        alignItems: 'center', position: 'relative', zIndex: 1,
+      }}>
+        {/* Sort */}
+        <span className="eyebrow" style={{ color: 'oklch(0.94 0.02 200 / 0.38)', fontSize: 10, marginRight: 12 }}>Sort</span>
+        <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
+          {sortOptions.map(s => {
+            const active = sort === s.key;
+            return (
+              <button key={s.key} onClick={() => setSort(s.key)} className={`eyebrow tidal-chip${active ? ' is-active' : ''}`} aria-pressed={active} style={{
+                background: 'none', border: 'none', padding: '8px 2px',
+                color: active ? accent : 'oklch(0.94 0.02 200 / 0.55)',
+              }}>{s.label}</button>
+            );
+          })}
+        </div>
 
-        })}
+        {/* Divider */}
+        <div style={{ width: 1, height: 16, background: 'oklch(0.94 0.02 200 / 0.15)', margin: '0 18px' }} />
+
+        {/* View icons */}
+        <span className="eyebrow" style={{ color: 'oklch(0.94 0.02 200 / 0.38)', fontSize: 10, marginRight: 8 }}>View</span>
+        <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+          <ViewBtn type="list" title="List" />
+          <ViewBtn type="gallery" title="Gallery" />
+          <ViewBtn type="timeline" title="Timeline" />
+        </div>
+
+        {/* Divider */}
+        <div style={{ width: 1, height: 16, background: 'oklch(0.94 0.02 200 / 0.15)', margin: '0 18px' }} />
+
+        {/* Density */}
+        <span className="eyebrow" style={{ color: 'oklch(0.94 0.02 200 / 0.38)', fontSize: 10, marginRight: 10 }}>Density</span>
+        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+          {densityOptions.map(d => {
+            const active = density === d.key;
+            return (
+              <button key={d.key} onClick={() => setDensity(d.key)} className={`eyebrow tidal-chip${active ? ' is-active' : ''}`} aria-pressed={active} style={{
+                background: 'none', border: 'none', padding: '8px 2px',
+                color: active ? accent : 'oklch(0.94 0.02 200 / 0.55)',
+              }}>{d.label}</button>
+            );
+          })}
+        </div>
       </div>
 
-      <ol className="tidal-section-pad" style={{ listStyle: 'none', padding: '8px 64px 80px', margin: 0, position: 'relative', zIndex: 1, display: 'grid', gap: 14 }}>
-        {sorted.map((m, i) =>
-        <li key={m.id} className="surface card-row tidal-memo-card" role="button" tabIndex={0}
-          onClick={() => onOpenMemo && onOpenMemo(m.id)}
-          onKeyDown={(e) => { if ((e.key === 'Enter' || e.key === ' ') && onOpenMemo) { e.preventDefault(); onOpenMemo(m.id); } }}
-          style={{
-          display: 'grid', gridTemplateColumns: '1fr 110px', gap: 28,
-          padding: '28px',
-          background: 'oklch(0.97 0.012 215 / 0.78)',
-          border: '1px solid oklch(0.95 0.015 215 / 0.5)',
-          borderRadius: 'var(--r-card)',
-          backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
-          boxShadow: '0 1px 0 oklch(1 0 0 / 0.18) inset, 0 10px 28px oklch(0 0 0 / 0.22)',
-          cursor: 'pointer', animationDelay: `${0.25 + i * 0.05}s`
-        }} onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-2px)';
-          e.currentTarget.style.borderColor = `${accent}77`;
-          e.currentTarget.style.boxShadow = `0 1px 0 oklch(1 0 0 / 0.18) inset, 0 18px 42px oklch(0 0 0 / 0.32), 0 0 0 1px ${accent}44`;
-        }} onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.borderColor = 'oklch(0.95 0.015 215 / 0.5)';
-          e.currentTarget.style.boxShadow = '0 1px 0 oklch(1 0 0 / 0.18) inset, 0 10px 28px oklch(0 0 0 / 0.22)';
-        }}>
-            <div>
-              <h3 className="f-display" style={{
-              margin: 0, fontSize: 28, fontWeight: 500, lineHeight: 1.18,
-              color: 'var(--site-cyan-bold)', letterSpacing: '-0.02em', marginBottom: 10
-            }}>{m.title}</h3>
-              <p className="f-body" style={{
-              margin: '0 0 16px', fontSize: 16, lineHeight: 1.55, color: 'var(--site-ink)',
-              fontStyle: 'italic', fontWeight: 300
-            }}>{m.sub}</p>
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-                {m.cats.map((c) => <CatBubble key={c} name={c} />)}
-              </div>
-            </div>
-            <div className="tidal-memo-card-meta" style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <div>
-                <div className="eyebrow" style={{ color: 'var(--site-ink-muted)', fontSize: 10 }}>{m.read}</div>
-                <div className="eyebrow" style={{ color: 'oklch(0.40 0.04 220 / 0.55)', fontSize: 10, marginTop: 4 }}>{m.date}</div>
-              </div>
-              <span className="eyebrow" style={{ color: accent, fontSize: 10, marginTop: 16 }}>Read →</span>
-            </div>
-          </li>
-        )}
-      </ol>
-    </div>);
-
+      {ArticleContent()}
+    </div>
+  );
 }
 
 /* ─────────────────── LAYER 3 — DARK OCEAN (Frameworks & projects) ─────────────────── */
