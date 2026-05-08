@@ -1568,11 +1568,11 @@ function BreathingWaves() {
     const ctx = canvas.getContext('2d');
     let raf;
 
-    // C1 ice blue-grey · S1 huge 1.8× swells · P2 lower two-thirds · Sp2 5/7/9s
+    // C1 ice blue-grey · smaller period so wave curve is visible · slower travel
     const layers = [
-      { baseY: 0.42, travelAmp: 60, waveAmp: 90, period: 1.8, cycleTime: 5, phase: 0,   opacity: 0.08 },
-      { baseY: 0.55, travelAmp: 60, waveAmp: 90, period: 1.8, cycleTime: 7, phase: 2.1, opacity: 0.12 },
-      { baseY: 0.68, travelAmp: 60, waveAmp: 90, period: 1.8, cycleTime: 9, phase: 4.2, opacity: 0.16 },
+      { baseY: 0.42, travelAmp: 35, waveAmp: 38, period: 1.1, cycleTime: 7,  phase: 0,   opacity: 0.08 },
+      { baseY: 0.55, travelAmp: 35, waveAmp: 38, period: 1.1, cycleTime: 10, phase: 2.1, opacity: 0.12 },
+      { baseY: 0.68, travelAmp: 35, waveAmp: 38, period: 1.1, cycleTime: 13, phase: 4.2, opacity: 0.16 },
     ];
 
     function draw(t) {
@@ -1642,7 +1642,7 @@ function EntryV2({ onEnter, accent }) {
           color: 'oklch(0.28 0.04 235)', margin: 0, letterSpacing: '-0.04em',
           animationDelay: '0.45s'
         }}>
-          <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Dive in →</em>
+          <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Dive in.</em>
         </h1>
         <p className="f-body surface" style={{
           fontSize: 19, color: 'oklch(0.40 0.04 230 / 0.8)', maxWidth: 520,
