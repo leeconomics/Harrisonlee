@@ -1635,6 +1635,9 @@ function EntryV2({ onEnter, accent }) {
       <div className="eyebrow" style={{ position: 'absolute', top: 28, left: 36, color: 'oklch(0.45 0.04 220 / 0.7)' }}>
         Harrison Lee
       </div>
+      <div className="eyebrow" style={{ position: 'absolute', top: 28, right: 36, color: 'oklch(0.45 0.04 220 / 0.55)' }}>
+        Tokyo
+      </div>
 
       <div style={{ textAlign: 'center', position: 'relative', zIndex: 2, padding: '0 32px' }}>
         <h1 className="f-display surface" style={{
@@ -1642,13 +1645,13 @@ function EntryV2({ onEnter, accent }) {
           color: 'oklch(0.28 0.04 235)', margin: 0, letterSpacing: '-0.04em',
           animationDelay: '0.45s'
         }}>
-          <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Dive in.</em>
+          <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Dive in</em>
         </h1>
         <p className="f-body surface" style={{
           fontSize: 19, color: 'oklch(0.40 0.04 230 / 0.8)', maxWidth: 520,
           margin: '32px auto 64px', lineHeight: 1.6, fontWeight: 300, animationDelay: '0.7s'
         }}>
-          Intermittent waves of ideas, thoughts and opinions from a mind that can&apos;t sit still.
+          Intermittent waves of ideas, thoughts and opinions from a mind that can&apos;t sit still
         </p>
       </div>
 
@@ -1850,13 +1853,27 @@ function SideNav({ active, onChange, onHome, accent }) {
         })}
       </nav>
 
-      {/* About is fused into the header at the top — no separate footer link. */}
-      <div className="f-mono" style={{
-        fontSize: 10, color: 'oklch(0.45 0.04 220 / 0.5)', lineHeight: 1.7,
-        padding: '14px 28px 18px', borderTop: '1px solid oklch(0.30 0.04 230 / 0.08)',
-        letterSpacing: '0.06em'
+      <div style={{
+        borderTop: '1px solid oklch(0.30 0.04 230 / 0.08)',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '14px 28px 18px'
       }}>
-        EST. 2026 · TOKYO
+        <div className="f-mono" style={{
+          fontSize: 10, color: 'oklch(0.45 0.04 220 / 0.5)', lineHeight: 1.7, letterSpacing: '0.06em'
+        }}>
+          EST. 2026 · TOKYO
+        </div>
+        <button onClick={onHome} style={{
+          background: 'none', border: 'none', cursor: 'pointer', padding: '4px 0',
+          display: 'flex', alignItems: 'center', gap: 5,
+          color: 'oklch(0.45 0.04 220 / 0.5)', fontSize: 10,
+          fontFamily: 'inherit', letterSpacing: '0.06em', textTransform: 'uppercase',
+          transition: 'color 0.2s'
+        }}
+        onMouseEnter={e => e.currentTarget.style.color = 'oklch(0.30 0.04 230)'}
+        onMouseLeave={e => e.currentTarget.style.color = 'oklch(0.45 0.04 220 / 0.5)'}>
+          ← Entry
+        </button>
       </div>
     </aside>);
 
