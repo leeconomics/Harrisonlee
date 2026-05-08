@@ -1568,34 +1568,41 @@ function BreathingWaves() {
     const ctx = canvas.getContext('2d');
     let raf;
 
+    // C1 ice blue-grey · S1 huge 1.8× swells · P2 lower two-thirds · Sp2 5/7/9s
     const layers = [
-      { baseY: 0.80,  ampMin: 12, ampMax: 28, speed: 0.4,  phase: 0,   fill: 'rgba(120,155,170,0.18)' },
-      { baseY: 0.875, ampMin: 8,  ampMax: 20, speed: 0.55, phase: 1.1, fill: 'rgba(90,130,155,0.22)'  },
-      { baseY: 0.94,  ampMin: 5,  ampMax: 14, speed: 0.7,  phase: 2.3, fill: 'rgba(60,100,130,0.30)'  },
+      { baseY: 0.42, travelAmp: 60, waveAmp: 90, period: 1.8, cycleTime: 5, phase: 0,   opacity: 0.08 },
+      { baseY: 0.55, travelAmp: 60, waveAmp: 90, period: 1.8, cycleTime: 7, phase: 2.1, opacity: 0.12 },
+      { baseY: 0.68, travelAmp: 60, waveAmp: 90, period: 1.8, cycleTime: 9, phase: 4.2, opacity: 0.16 },
     ];
 
     function draw(t) {
       const W = canvas.width, H = canvas.height;
       ctx.clearRect(0, 0, W, H);
+
       for (const L of layers) {
-        const amp = L.ampMin + (L.ampMax - L.ampMin) * (0.5 + 0.5 * Math.sin(t * L.speed + L.phase));
-        const baseY = L.baseY * H;
-        const segs = 8;
-        const segW = W / segs;
+        const vertOffset = L.travelAmp * Math.sin((t / L.cycleTime) * Math.PI * 2 + L.phase);
+        const baseY = L.baseY * H + vertOffset;
+
         ctx.beginPath();
-        ctx.moveTo(0, baseY);
-        for (let i = 0; i < segs; i++) {
-          const x1 = i * segW + segW / 3;
-          const x2 = i * segW + (segW * 2) / 3;
-          const x3 = (i + 1) * segW;
-          ctx.bezierCurveTo(x1, baseY - amp, x2, baseY + amp, x3, baseY);
+        ctx.moveTo(0, H);
+        const steps = 300;
+        for (let i = 0; i <= steps; i++) {
+          const x = (i / steps) * W;
+          const y = baseY + L.waveAmp * Math.sin((x / (L.period * W)) * Math.PI * 2);
+          i === 0 ? ctx.lineTo(x, y) : ctx.lineTo(x, y);
         }
         ctx.lineTo(W, H);
-        ctx.lineTo(0, H);
         ctx.closePath();
-        ctx.fillStyle = L.fill;
+
+        const topY = baseY - L.waveAmp - 80;
+        const grad = ctx.createLinearGradient(0, topY, 0, H);
+        grad.addColorStop(0,   `rgba(160,185,200,0)`);
+        grad.addColorStop(0.4, `rgba(160,185,200,${L.opacity})`);
+        grad.addColorStop(1,   `rgba(160,185,200,${L.opacity * 0.5})`);
+        ctx.fillStyle = grad;
         ctx.fill();
       }
+
       raf = requestAnimationFrame(t2 => draw(t2 / 1000));
     }
 
@@ -1609,7 +1616,7 @@ function BreathingWaves() {
     return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); };
   }, []);
 
-  return <canvas ref={ref} style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: 200, pointerEvents: 'none' }} />;
+  return <canvas ref={ref} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }} />;
 }
 
 function EntryV2({ onEnter, accent }) {
@@ -1635,7 +1642,7 @@ function EntryV2({ onEnter, accent }) {
           color: 'oklch(0.28 0.04 235)', margin: 0, letterSpacing: '-0.04em',
           animationDelay: '0.45s'
         }}>
-          <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Dive in.</em>
+          <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Dive in →</em>
         </h1>
         <p className="f-body surface" style={{
           fontSize: 19, color: 'oklch(0.40 0.04 230 / 0.8)', maxWidth: 520,
@@ -1643,11 +1650,6 @@ function EntryV2({ onEnter, accent }) {
         }}>
           Intermittent waves of ideas, thoughts and opinions from a mind that can&apos;t sit still.
         </p>
-        <div className="eyebrow surface breathe" style={{
-          color: 'oklch(0.45 0.04 220 / 0.7)', animationDelay: '1s'
-        }}>
-          Tap anywhere to enter →
-        </div>
       </div>
 
       <BreathingWaves />
