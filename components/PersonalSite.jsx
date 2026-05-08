@@ -1560,6 +1560,58 @@ function RippleBg({ accent }) {
 
 /* ─────────────────── ENTRY PAGE ─────────────────── */
 
+function BreathingWaves() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let raf;
+
+    const layers = [
+      { baseY: 0.80,  ampMin: 12, ampMax: 28, speed: 0.4,  phase: 0,   fill: 'rgba(120,155,170,0.18)' },
+      { baseY: 0.875, ampMin: 8,  ampMax: 20, speed: 0.55, phase: 1.1, fill: 'rgba(90,130,155,0.22)'  },
+      { baseY: 0.94,  ampMin: 5,  ampMax: 14, speed: 0.7,  phase: 2.3, fill: 'rgba(60,100,130,0.30)'  },
+    ];
+
+    function draw(t) {
+      const W = canvas.width, H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+      for (const L of layers) {
+        const amp = L.ampMin + (L.ampMax - L.ampMin) * (0.5 + 0.5 * Math.sin(t * L.speed + L.phase));
+        const baseY = L.baseY * H;
+        const segs = 8;
+        const segW = W / segs;
+        ctx.beginPath();
+        ctx.moveTo(0, baseY);
+        for (let i = 0; i < segs; i++) {
+          const x1 = i * segW + segW / 3;
+          const x2 = i * segW + (segW * 2) / 3;
+          const x3 = (i + 1) * segW;
+          ctx.bezierCurveTo(x1, baseY - amp, x2, baseY + amp, x3, baseY);
+        }
+        ctx.lineTo(W, H);
+        ctx.lineTo(0, H);
+        ctx.closePath();
+        ctx.fillStyle = L.fill;
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(t2 => draw(t2 / 1000));
+    }
+
+    function resize() {
+      canvas.width  = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    raf = requestAnimationFrame(t => draw(t / 1000));
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); };
+  }, []);
+
+  return <canvas ref={ref} style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: 200, pointerEvents: 'none' }} />;
+}
+
 function EntryV2({ onEnter, accent }) {
   return (
     <div role="button" tabIndex={0} aria-label="Enter site"
@@ -1574,20 +1626,10 @@ function EntryV2({ onEnter, accent }) {
       <RippleBg accent={accent} />
 
       <div className="eyebrow" style={{ position: 'absolute', top: 28, left: 36, color: 'oklch(0.45 0.04 220 / 0.7)' }}>
-        H · L
-      </div>
-      <div className="eyebrow" style={{
-        position: 'absolute', top: 28, right: 36, color: 'oklch(0.45 0.04 220 / 0.55)'
-      }}>
-        Tokyo · Vol. III
+        Harrison Lee
       </div>
 
       <div style={{ textAlign: 'center', position: 'relative', zIndex: 2, padding: '0 32px' }}>
-        <div className="eyebrow surface" style={{
-          color: 'oklch(0.45 0.04 220 / 0.7)', marginBottom: 40, animationDelay: '0.2s'
-        }}>
-          ◯ &nbsp; Personal site &amp; field notebook
-        </div>
         <h1 className="f-display surface" style={{
           fontSize: 'clamp(56px, 9vw, 128px)', fontWeight: 200, lineHeight: 0.96,
           color: 'oklch(0.28 0.04 235)', margin: 0, letterSpacing: '-0.04em',
@@ -1596,10 +1638,10 @@ function EntryV2({ onEnter, accent }) {
           <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Dive in.</em>
         </h1>
         <p className="f-body surface" style={{
-          fontSize: 19, color: 'oklch(0.40 0.04 230 / 0.8)', maxWidth: 480,
+          fontSize: 19, color: 'oklch(0.40 0.04 230 / 0.8)', maxWidth: 520,
           margin: '32px auto 64px', lineHeight: 1.6, fontWeight: 300, animationDelay: '0.7s'
         }}>
-          Some currents from a mind that won&apos;t sit still.
+          Intermittent waves of ideas, thoughts and opinions from a mind that can&apos;t sit still.
         </p>
         <div className="eyebrow surface breathe" style={{
           color: 'oklch(0.45 0.04 220 / 0.7)', animationDelay: '1s'
@@ -1608,16 +1650,7 @@ function EntryV2({ onEnter, accent }) {
         </div>
       </div>
 
-      {/* hint of waves at bottom */}
-      <svg viewBox="0 0 1440 200" preserveAspectRatio="none"
-      style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: 200, opacity: 0.4 }}>
-        <path d="M0 120 C240 90 480 150 720 120 C960 90 1200 150 1440 120 L1440 200 L0 200 Z"
-        fill="oklch(0.55 0.06 215 / 0.18)" />
-        <path d="M0 150 C240 120 480 180 720 150 C960 120 1200 180 1440 150 L1440 200 L0 200 Z"
-        fill="oklch(0.45 0.06 220 / 0.22)" />
-        <path d="M0 175 C240 150 480 195 720 175 C960 155 1200 195 1440 175 L1440 200 L0 200 Z"
-        fill="oklch(0.35 0.05 225 / 0.30)" />
-      </svg>
+      <BreathingWaves />
     </div>);
 
 }
