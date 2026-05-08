@@ -1127,11 +1127,9 @@ function SurfaceLayer({ accent, tweaks = {} }) {
       <section className="tidal-section-pad" style={{
         position: 'relative',
         background: `linear-gradient(180deg, ${water.sky} 0%, ${water.horizon} 100%)`,
-        padding: '64px 64px 56px',
+        padding: '80px 64px 56px',
       }}>
-        <div className="eyebrow surface" style={{ color: 'oklch(0.40 0.05 230 / 0.7)', marginBottom: 16 }}>
-          Layer 01 · Ripples
-        </div>
+        <SectionWaveAccent color="oklch(0.78 0.03 205 / 0.28)" />
         <h1 className="f-display surface" style={{
           fontSize: 'clamp(40px, 5.5vw, 72px)', fontWeight: 300, lineHeight: 1.02,
           color: 'var(--site-ink)', margin: 0, letterSpacing: '-0.025em', maxWidth: 880,
@@ -1401,6 +1399,20 @@ function CatBubble({ name }) {
 }
 
 /* ─────────────────── ATMOSPHERIC ELEMENTS ─────────────────── */
+
+
+function SectionWaveAccent({ color }) {
+  return (
+    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 72, pointerEvents: 'none', zIndex: 2 }}>
+      <svg viewBox="0 0 1440 72" preserveAspectRatio="none" style={{ width: '100%', height: '100%', display: 'block' }}>
+        <path
+          d="M0 0 L1440 0 L1440 48 C1260 36 1080 60 900 48 C720 36 540 60 360 48 C180 36 60 58 0 50 Z"
+          fill={color}
+        />
+      </svg>
+    </div>
+  );
+}
 
 // Subtle wavy horizontal rule. Used between section header and content, and
 // between rows. Stays in currentColor so it picks up surrounding text colour.
@@ -1895,10 +1907,8 @@ function LegacySurfaceLayer({ accent, onOpenMemo }) {
     <div style={{ background: 'oklch(0.96 0.012 200)', position: 'relative', overflow: 'hidden' }}>
       <RippleBg accent={accent} />
 
-      <div style={{ padding: '64px 64px 24px', position: 'relative', zIndex: 1 }}>
-        <div className="eyebrow surface" style={{ color: 'oklch(0.45 0.04 220)', marginBottom: 18 }}>
-          Layer 01 · Ripples
-        </div>
+      <div style={{ padding: '80px 64px 24px', position: 'relative', zIndex: 1 }}>
+        <SectionWaveAccent color="oklch(0.78 0.03 205 / 0.28)" />
         <h1 className="f-display surface" style={{
           fontSize: 'clamp(40px, 5.5vw, 72px)', fontWeight: 300, lineHeight: 1,
           color: 'oklch(0.22 0.05 235)', margin: 0, letterSpacing: '-0.03em',
@@ -2130,10 +2140,8 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
       <CurrentsAtmosphere />
       <DriftField count={22} hue={210} opacity={0.45} />
 
-      <div className="tidal-section-pad" style={{ padding: '72px 64px 32px', position: 'relative', zIndex: 1 }}>
-        <div className="eyebrow surface" style={{ color: accent, marginBottom: 18 }}>
-          Layer 02 · Currents
-        </div>
+      <div className="tidal-section-pad" style={{ padding: '80px 64px 32px', position: 'relative', zIndex: 1 }}>
+        <SectionWaveAccent color="oklch(0.44 0.07 222 / 0.55)" />
         <h1 className="f-display surface" style={{
           fontSize: 'clamp(40px, 5.5vw, 72px)', fontWeight: 300, lineHeight: 1,
           color: 'oklch(0.96 0.01 90)', margin: 0, letterSpacing: '-0.03em',
@@ -2252,10 +2260,8 @@ function DarkOceanLayer({ accent, cyan }) {
     }}>
       <DriftField count={28} hue={195} opacity={0.55} />
 
-      <div className="tidal-section-pad" style={{ padding: '64px 64px 32px', position: 'relative', zIndex: 1 }}>
-        <div className="eyebrow surface" style={{ color: accent, marginBottom: 18 }}>
-          Layer 03 · The Depths
-        </div>
+      <div className="tidal-section-pad" style={{ padding: '80px 64px 32px', position: 'relative', zIndex: 1 }}>
+        <SectionWaveAccent color="oklch(0.24 0.06 238 / 0.7)" />
         <h1 className="f-display surface" style={{
           fontSize: 'clamp(40px, 5.5vw, 72px)', fontWeight: 300, lineHeight: 1,
           color: 'oklch(0.96 0.01 90)', margin: 0, letterSpacing: '-0.03em',
