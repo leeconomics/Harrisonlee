@@ -1120,6 +1120,7 @@ function SurfaceLayer({ accent, tweaks = {} }) {
 
   return (
     <div style={{ position: 'relative', background: water.sky, color: 'oklch(0.20 0.05 235)' }}>
+      <SectionWaveAccent colors={['oklch(0.88 0.025 200 / 0.85)', 'oklch(0.76 0.04 205 / 0.7)', 'oklch(0.64 0.05 212 / 0.6)']} />
 
       {/* ───── Above water ───── */}
       {/* No zIndex layering between this and the descent — both share
@@ -1127,9 +1128,8 @@ function SurfaceLayer({ accent, tweaks = {} }) {
       <section className="tidal-section-pad" style={{
         position: 'relative',
         background: `linear-gradient(180deg, ${water.sky} 0%, ${water.horizon} 100%)`,
-        padding: '0 64px 56px',
+        padding: '40px 64px 56px',
       }}>
-        <SectionWaveAccent colors={['oklch(0.88 0.025 200 / 0.55)', 'oklch(0.78 0.03 205 / 0.65)', 'oklch(0.68 0.04 210 / 0.55)']} />
         <h1 className="f-display surface" style={{
           fontSize: 'clamp(40px, 5.5vw, 72px)', fontWeight: 300, lineHeight: 1.02,
           color: 'var(--site-ink)', margin: 0, letterSpacing: '-0.025em', maxWidth: 880,
@@ -1402,21 +1402,21 @@ function CatBubble({ name }) {
 
 
 function SectionWaveAccent({ colors }) {
-  // Three stacked filled wave layers, lightest at top → darkest at bottom
-  // Block element — sits in document flow, content follows below
+  // Three bands fill from y=0 downward; draw darkest first so lighter layers
+  // paint over it, creating distinct visible strata (top = lightest).
   return (
-    <div style={{ width: '100%', lineHeight: 0, flexShrink: 0, marginBottom: 0 }}>
-      <svg viewBox="0 0 1440 120" preserveAspectRatio="none"
-           style={{ width: '100%', height: 120, display: 'block' }}>
-        {/* Back layer — lightest, highest */}
-        <path d="M0 35 C360 10 720 60 1080 35 C1260 22 1380 42 1440 35 L1440 120 L0 120 Z"
-              fill={colors[0]} />
-        {/* Mid layer */}
-        <path d="M0 62 C360 38 720 86 1080 62 C1260 50 1380 68 1440 62 L1440 120 L0 120 Z"
-              fill={colors[1]} />
-        {/* Front layer — darkest, lowest */}
-        <path d="M0 88 C360 66 720 110 1080 88 C1260 76 1380 94 1440 88 L1440 120 L0 120 Z"
+    <div style={{ width: '100%', lineHeight: 0, flexShrink: 0, display: 'block' }}>
+      <svg viewBox="0 0 1440 130" preserveAspectRatio="none"
+           style={{ width: '100%', height: 130, display: 'block' }}>
+        {/* Darkest band — deepest, drawn first (behind) */}
+        <path d="M0 0 L1440 0 L1440 108 C1260 122 1080 94 720 108 C360 122 180 94 0 108 Z"
               fill={colors[2]} />
+        {/* Mid band */}
+        <path d="M0 0 L1440 0 L1440 76 C1260 90 1080 62 720 76 C360 90 180 62 0 76 Z"
+              fill={colors[1]} />
+        {/* Lightest band on top */}
+        <path d="M0 0 L1440 0 L1440 44 C1260 58 1080 30 720 44 C360 58 180 30 0 44 Z"
+              fill={colors[0]} />
       </svg>
     </div>
   );
@@ -2148,8 +2148,8 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
       <CurrentsAtmosphere />
       <DriftField count={22} hue={210} opacity={0.45} />
 
-      <div className="tidal-section-pad" style={{ padding: '0 64px 32px', position: 'relative', zIndex: 1 }}>
-        <SectionWaveAccent colors={['oklch(0.50 0.08 215 / 0.6)', 'oklch(0.40 0.07 225 / 0.75)', 'oklch(0.30 0.06 232 / 0.85)']} />
+      <SectionWaveAccent colors={['oklch(0.56 0.09 210 / 0.9)', 'oklch(0.42 0.08 222 / 0.85)', 'oklch(0.28 0.06 234 / 0.9)']} />
+      <div className="tidal-section-pad" style={{ padding: '40px 64px 32px', position: 'relative', zIndex: 1 }}>
         <h1 className="f-display surface" style={{
           fontSize: 'clamp(40px, 5.5vw, 72px)', fontWeight: 300, lineHeight: 1,
           color: 'oklch(0.96 0.01 90)', margin: 0, letterSpacing: '-0.03em',
@@ -2268,8 +2268,8 @@ function DarkOceanLayer({ accent, cyan }) {
     }}>
       <DriftField count={28} hue={195} opacity={0.55} />
 
-      <div className="tidal-section-pad" style={{ padding: '0 64px 32px', position: 'relative', zIndex: 1 }}>
-        <SectionWaveAccent colors={['oklch(0.30 0.07 235 / 0.65)', 'oklch(0.22 0.06 240 / 0.8)', 'oklch(0.14 0.05 244 / 0.9)']} />
+      <SectionWaveAccent colors={['oklch(0.34 0.08 230 / 0.9)', 'oklch(0.22 0.06 240 / 0.9)', 'oklch(0.12 0.04 246 / 0.95)']} />
+      <div className="tidal-section-pad" style={{ padding: '40px 64px 32px', position: 'relative', zIndex: 1 }}>
         <h1 className="f-display surface" style={{
           fontSize: 'clamp(40px, 5.5vw, 72px)', fontWeight: 300, lineHeight: 1,
           color: 'oklch(0.96 0.01 90)', margin: 0, letterSpacing: '-0.03em',
@@ -2627,16 +2627,10 @@ function DirectionV2({ tweaks, memos, memoContent }) {
           <SurfaceLayer accent={accent} tweaks={tweaks.surface || {}} />)
           }
           {active === 'currents' &&
-          <>
-              <WaveDivider from={ripplesFloor} to={layerBg.currents} accent={accent} height={120} />
-              <CurrentsLayer accent={accent} cyan={cyan} onOpenMemo={setOpenMemo} memos={memoList} />
-            </>
+            <CurrentsLayer accent={accent} cyan={cyan} onOpenMemo={setOpenMemo} memos={memoList} />
           }
           {active === 'deep' &&
-          <>
-              <WaveDivider from={currentsFloor} to={layerBg.deep} accent={accent} height={120} />
-              <DarkOceanLayer accent={accent} cyan={cyan} />
-            </>
+            <DarkOceanLayer accent={accent} cyan={cyan} />
           }
           {active === 'about' &&
           <>
