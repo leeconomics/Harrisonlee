@@ -825,9 +825,18 @@ function Kelp({ x = '10%', h = 110, delay = 0, tint }) {
 
 const RIPPLE_CATS = ['Careers', 'Strategy', 'People', 'Marketing', 'AI', 'Craft', 'Japan', 'Personal'];
 
-function IdeaBubble({ idea, water, depth = 0, index = 0, onDelete, onEdit }) {
+function IdeaBubble({ idea, water, depth = 0, index = 0, onDelete, onEdit, isHighlighted = false }) {
   const [hover, setHover] = useState(false);
   const [selected, setSelected] = useState(false);
+
+  // Auto-select when navigated to from search
+  useEffect(() => {
+    if (isHighlighted) {
+      setSelected(true);
+      const el = document.getElementById(`ripple-${idea.id}`);
+      el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isHighlighted, idea.id]);
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(idea.text);
   const [editBody, setEditBody] = useState(idea.body || '');
@@ -899,6 +908,7 @@ function IdeaBubble({ idea, water, depth = 0, index = 0, onDelete, onEdit }) {
 
   return (
     <div
+      id={`ripple-${idea.id}`}
       onClick={handleBubbleClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => { if (!selected) setHover(false); }}
@@ -911,6 +921,8 @@ function IdeaBubble({ idea, water, depth = 0, index = 0, onDelete, onEdit }) {
         willChange: 'transform',
         cursor: editing ? 'default' : 'pointer',
         zIndex: (selected || editing) ? 10 : 'auto',
+        outline: isHighlighted ? `2px solid ${water.glow}` : 'none',
+        borderRadius: '50%',
       }}>
 
       {/* Edit / Delete icon buttons — appear on hover or when selected */}
@@ -1072,15 +1084,17 @@ function IdeaBubble({ idea, water, depth = 0, index = 0, onDelete, onEdit }) {
             {/* Category pills */}
             {idea.cats && idea.cats.length > 0 && (
               <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'flex-end', maxWidth: 120 }}>
-                {idea.cats.map(c => (
-                  <span key={c} style={{
-                    fontFamily: '"Geist Mono", monospace', fontSize: 7.5, letterSpacing: '0.1em',
-                    padding: '2px 6px', borderRadius: 99,
-                    background: (CAT_STRIPE[c] || 'oklch(0.50 0.06 220)') + '22',
-                    color: CAT_STRIPE[c] || 'oklch(0.40 0.06 220)',
-                    border: `1px solid ${CAT_STRIPE[c] || 'oklch(0.50 0.06 220)'}44`,
-                  }}>{c}</span>
-                ))}
+                {idea.cats.map(c => {
+                  const pal = catPalette[c] || { bg: 'oklch(0.93 0.025 230)', fg: 'oklch(0.34 0.07 230)' };
+                  return (
+                    <span key={c} style={{
+                      fontFamily: '"Geist Mono", monospace', fontSize: 7.5, letterSpacing: '0.1em',
+                      padding: '2px 7px', borderRadius: 99,
+                      background: pal.bg, color: pal.fg,
+                      border: `1px solid ${pal.fg}33`,
+                    }}>{c}</span>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -1183,14 +1197,14 @@ function IdeaBubble({ idea, water, depth = 0, index = 0, onDelete, onEdit }) {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 8 }}>
             {RIPPLE_CATS.map(c => {
               const active = editCats.includes(c);
-              const col = CAT_STRIPE[c] || 'oklch(0.50 0.06 220)';
+              const pal = catPalette[c] || { bg: 'oklch(0.93 0.025 230)', fg: 'oklch(0.34 0.07 230)' };
               return (
                 <button key={c} onClick={() => toggleEditCat(c)} style={{
                   fontFamily: '"Geist Mono", monospace', fontSize: 8, letterSpacing: '0.1em',
                   padding: '3px 8px', borderRadius: 99, cursor: 'pointer',
-                  background: active ? col + '28' : 'transparent',
-                  border: `1px solid ${col}${active ? '88' : '44'}`,
-                  color: active ? col : 'oklch(0.55 0.04 220)',
+                  background: active ? pal.bg : 'transparent',
+                  border: `1px solid ${pal.fg}${active ? '88' : '33'}`,
+                  color: active ? pal.fg : 'oklch(0.55 0.04 220)',
                   transition: 'all 0.15s',
                 }}>{c}</button>
               );
@@ -1312,7 +1326,7 @@ function DepthLabel({ depth, label, top }) {
 
 /* ─────────────────── MAIN LAYER ─────────────────── */
 
-function SurfaceLayer({ accent, tweaks = {} }) {
+function SurfaceLayer({ accent, tweaks = {}, ideas, setIdeas, highlightedRippleId, onClearHighlight }) {
   const t = {
     density:  tweaks.density  ?? 'lively',
     bubbles:  tweaks.bubbles  ?? true,
@@ -1329,7 +1343,6 @@ function SurfaceLayer({ accent, tweaks = {} }) {
     busy:   { plankton: 40, bubbles: 26 },
   }[t.density] || { plankton: 24, bubbles: 14 };
 
-  const [ideas, setIdeas] = useState(ideaSeeds);
   const [input, setInput] = useState('');
   const [inputBody, setInputBody] = useState('');
   const [author, setAuthor] = useState('');
@@ -1599,7 +1612,7 @@ function SurfaceLayer({ accent, tweaks = {} }) {
                 <div key={idea.id} style={{
                   transform: `translateY(${(i % 3) * 30}px)`,
                 }}>
-                  <IdeaBubble idea={idea} water={water} depth={depth} index={i} onDelete={handleDelete} onEdit={handleEdit} />
+                  <IdeaBubble idea={idea} water={water} depth={depth} index={i} onDelete={handleDelete} onEdit={handleEdit} isHighlighted={idea.id === highlightedRippleId} />
                 </div>
               ))}
             </div>
@@ -3250,9 +3263,223 @@ function ScrollDarken() {
 
 }
 
+/* ─────────────────── SEARCH BAR ─────────────────── */
+function SearchBar({ memos, ideas, onGoToArticle, onGoToRipple, onGoToDepths }) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const [filter, setFilter] = useState('all');
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setOpen(o => !o);
+      }
+      if (e.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
+
+  useEffect(() => {
+    if (open) setTimeout(() => inputRef.current?.focus(), 50);
+    else setQuery('');
+  }, [open]);
+
+  const results = useMemo(() => {
+    if (!query.trim() || query.length < 2) return [];
+    const q = query.toLowerCase();
+    const out = [];
+
+    if (filter === 'all' || filter === 'currents') {
+      memos.forEach(m => {
+        const hay = [m.title, m.subtitle, m.sub, ...(m.cats || [])].join(' ').toLowerCase();
+        if (hay.includes(q)) out.push({ type: 'currents', id: m.id, slug: m.slug, title: m.title, sub: m.subtitle || m.sub, cats: m.cats });
+      });
+    }
+    if (filter === 'all' || filter === 'ripples') {
+      ideas.forEach(idea => {
+        const hay = [idea.text, idea.body || '', idea.author || '', ...(idea.cats || [])].join(' ').toLowerCase();
+        if (hay.includes(q)) out.push({ type: 'ripples', id: idea.id, title: idea.text, sub: idea.author || '', cats: idea.cats });
+      });
+    }
+    if (filter === 'all' || filter === 'depths') {
+      projects_v2.forEach(p => {
+        const hay = [p.title, p.sub, p.kind || ''].join(' ').toLowerCase();
+        if (hay.includes(q)) out.push({ type: 'depths', id: p.id, title: p.title, sub: p.sub });
+      });
+    }
+
+    return out.slice(0, 10);
+  }, [query, filter, memos, ideas]);
+
+  const TYPE_LABEL = { currents: 'Article', ripples: 'Ripple', depths: 'Project' };
+  const TYPE_COLOR = {
+    currents: 'oklch(0.30 0.09 245)',
+    ripples:  'oklch(0.34 0.07 230)',
+    depths:   'oklch(0.32 0.10 260)',
+  };
+
+  const handleResult = (r) => {
+    setOpen(false);
+    if (r.type === 'currents') onGoToArticle(r.id);
+    else if (r.type === 'ripples') onGoToRipple(r.id);
+    else if (r.type === 'depths') onGoToDepths();
+  };
+
+  const searchIcon = (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+      <circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/>
+    </svg>
+  );
+
+  if (!open) return (
+    <button onClick={() => setOpen(true)} style={{
+      position: 'fixed', top: 16, right: 32, zIndex: 200,
+      display: 'flex', alignItems: 'center', gap: 7,
+      padding: '7px 13px', borderRadius: 99,
+      background: 'oklch(1 0 0 / 0.12)',
+      backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+      border: '1px solid oklch(1 0 0 / 0.20)',
+      cursor: 'pointer', color: 'oklch(0.72 0.03 215)',
+      fontFamily: '"Geist", system-ui, sans-serif', fontSize: 12,
+      transition: 'background 0.2s',
+    }}
+      onMouseEnter={e => e.currentTarget.style.background = 'oklch(1 0 0 / 0.20)'}
+      onMouseLeave={e => e.currentTarget.style.background = 'oklch(1 0 0 / 0.12)'}
+    >
+      {searchIcon}
+      <span style={{ fontFamily: '"Geist Mono", monospace', fontSize: 9.5, letterSpacing: '0.12em', opacity: 0.7 }}>⌘K</span>
+    </button>
+  );
+
+  return (
+    <>
+      <div onClick={() => setOpen(false)} style={{
+        position: 'fixed', inset: 0, zIndex: 199,
+        background: 'oklch(0.10 0.03 240 / 0.50)',
+        backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)',
+      }} />
+      <div style={{
+        position: 'fixed', top: 72, left: '50%', transform: 'translateX(-50%)',
+        zIndex: 200, width: 'min(600px, calc(100vw - 48px))',
+        background: 'oklch(0.97 0.012 210 / 0.98)',
+        backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+        border: '1px solid oklch(0.70 0.06 215 / 0.35)',
+        borderRadius: 14,
+        boxShadow: '0 24px 64px oklch(0 0 0 / 0.28)',
+        overflow: 'hidden',
+      }}>
+        {/* Input */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 18px', borderBottom: '1px solid oklch(0.70 0.04 215 / 0.14)' }}>
+          <span style={{ color: 'oklch(0.55 0.06 220)', flexShrink: 0 }}>{searchIcon}</span>
+          <input
+            ref={inputRef}
+            value={query} onChange={e => setQuery(e.target.value)}
+            placeholder="Search articles, ideas, projects…"
+            style={{
+              flex: 1, background: 'transparent', border: 'none', outline: 'none',
+              fontFamily: '"Geist", system-ui, sans-serif', fontSize: 15,
+              color: 'oklch(0.18 0.05 235)',
+            }}
+          />
+          <kbd style={{
+            fontFamily: '"Geist Mono", monospace', fontSize: 9,
+            padding: '3px 7px', borderRadius: 4,
+            background: 'oklch(0.88 0.02 215 / 0.6)',
+            border: '1px solid oklch(0.70 0.04 215 / 0.30)',
+            color: 'oklch(0.45 0.05 220)',
+          }}>Esc</kbd>
+        </div>
+
+        {/* Section filter pills */}
+        <div style={{ display: 'flex', gap: 6, padding: '10px 18px', borderBottom: '1px solid oklch(0.70 0.04 215 / 0.10)' }}>
+          {[['all','All'],['currents','Articles'],['ripples','Ripples'],['depths','Projects']].map(([key, label]) => (
+            <button key={key} onClick={() => setFilter(key)} style={{
+              fontFamily: '"Geist Mono", monospace', fontSize: 9, letterSpacing: '0.12em',
+              padding: '4px 11px', borderRadius: 99, cursor: 'pointer',
+              background: filter === key ? 'oklch(0.54 0.08 215 / 0.14)' : 'transparent',
+              border: `1px solid ${filter === key ? 'oklch(0.54 0.08 215 / 0.50)' : 'oklch(0.70 0.04 215 / 0.22)'}`,
+              color: filter === key ? 'oklch(0.32 0.08 215)' : 'oklch(0.50 0.04 220)',
+              transition: 'all 0.15s',
+            }}>{label}</button>
+          ))}
+        </div>
+
+        {/* Results */}
+        {results.length > 0 && (
+          <div style={{ maxHeight: 360, overflowY: 'auto' }}>
+            {results.map((r, i) => {
+              const col = TYPE_COLOR[r.type] || 'oklch(0.40 0.06 220)';
+              const pal = r.cats && r.cats[0] ? (catPalette[r.cats[0]] || null) : null;
+              return (
+                <button key={`${r.type}-${r.id}`} onClick={() => handleResult(r)} style={{
+                  width: '100%', display: 'flex', alignItems: 'flex-start', gap: 12,
+                  padding: '12px 18px', background: 'none', border: 'none', cursor: 'pointer',
+                  borderBottom: i < results.length - 1 ? '1px solid oklch(0.70 0.04 215 / 0.08)' : 'none',
+                  textAlign: 'left', transition: 'background 0.15s',
+                }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'oklch(0.54 0.06 215 / 0.07)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'none'}
+                >
+                  <span style={{
+                    flexShrink: 0, marginTop: 3,
+                    fontFamily: '"Geist Mono", monospace', fontSize: 7.5, letterSpacing: '0.12em',
+                    padding: '2px 7px', borderRadius: 99,
+                    background: col + '18', color: col,
+                    border: `1px solid ${col}44`,
+                  }}>{TYPE_LABEL[r.type]}</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{
+                      fontFamily: r.type === 'ripples' ? '"Fraunces", Georgia, serif' : '"Geist", system-ui, sans-serif',
+                      fontStyle: r.type === 'ripples' ? 'italic' : 'normal',
+                      fontSize: 14, fontWeight: r.type === 'ripples' ? 300 : 500,
+                      color: 'oklch(0.18 0.05 235)', lineHeight: 1.3,
+                      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                    }}>{r.title}</div>
+                    {r.sub && (
+                      <div style={{
+                        fontFamily: '"Geist", system-ui, sans-serif',
+                        fontSize: 12, color: 'oklch(0.50 0.04 220)', marginTop: 2,
+                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                      }}>{r.sub}</div>
+                    )}
+                  </div>
+                  {pal && (
+                    <span style={{
+                      flexShrink: 0, marginTop: 3,
+                      fontFamily: '"Geist Mono", monospace', fontSize: 7.5, letterSpacing: '0.1em',
+                      padding: '2px 7px', borderRadius: 99,
+                      background: pal.bg, color: pal.fg,
+                      border: `1px solid ${pal.fg}33`,
+                    }}>{r.cats[0]}</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        )}
+        {query.length >= 2 && results.length === 0 && (
+          <div style={{ padding: '24px 18px', textAlign: 'center', fontFamily: '"Geist", system-ui, sans-serif', fontSize: 13, color: 'oklch(0.55 0.04 220)' }}>
+            No results for "{query}"
+          </div>
+        )}
+        {query.length < 2 && (
+          <div style={{ padding: '18px 18px', fontFamily: '"Geist Mono", monospace', fontSize: 10, letterSpacing: '0.12em', color: 'oklch(0.62 0.04 220)' }}>
+            Type to search across articles, ripples and projects
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
 function DirectionV2({ tweaks, memos, memoContent }) {
   const [entered, setEntered] = useState(false);
   const [active, setActive] = useState('surface');
+  const [ideas, setIdeas] = useState(ideaSeeds);
+  const [highlightedRippleId, setHighlightedRippleId] = useState(null);
   // Track the previous layer so dive direction can be inferred. The naive
   // `order.indexOf(active) <= order.indexOf(active)` is always true and was
   // a no-op — keeping a real prev makes layer transitions slide down (deeper)
@@ -3332,6 +3559,20 @@ function DirectionV2({ tweaks, memos, memoContent }) {
     setTimeout(() => setTrans(false), 320);
   };
 
+  // Search navigation handlers
+  const goToArticle = (id) => {
+    switchLayer('currents');
+    setTimeout(() => setOpenMemo(id), 350);
+  };
+  const goToRipple = (id) => {
+    switchLayer('surface');
+    setTimeout(() => {
+      setHighlightedRippleId(id);
+      setTimeout(() => setHighlightedRippleId(null), 3000);
+    }, 350);
+  };
+  const goToDepths = () => switchLayer('deep');
+
   if (!entered) return <EntryV2 onEnter={() => setEntered(true)} accent={accent} />;
 
   // Palette flows: Ripples bottom (floor) = Currents wave-divider start =
@@ -3356,6 +3597,13 @@ function DirectionV2({ tweaks, memos, memoContent }) {
 
   return (
     <div className="tidal-app-layout" style={{ display: 'flex', minHeight: '100%', background: 'oklch(0.97 0.008 95)', position: 'relative' }}>
+      <SearchBar
+        memos={memoList}
+        ideas={ideas}
+        onGoToArticle={goToArticle}
+        onGoToRipple={goToRipple}
+        onGoToDepths={goToDepths}
+      />
       {tweaks.cursorGlow && active === 'surface' && <CursorGlow accent={accent} />}
       <ScrollDarken />
       <SideNav active={active} onChange={switchLayer} onHome={() => setEntered(false)} accent={accent} />
@@ -3370,7 +3618,7 @@ function DirectionV2({ tweaks, memos, memoContent }) {
           animation: transitioning ? undefined : 'dive 0.7s cubic-bezier(0.2,0.7,0.3,1) both'
         }}>
           {active === 'surface' && (
-          <SurfaceLayer accent={accent} tweaks={tweaks.surface || {}} />)
+          <SurfaceLayer accent={accent} tweaks={tweaks.surface || {}} ideas={ideas} setIdeas={setIdeas} highlightedRippleId={highlightedRippleId} onClearHighlight={() => setHighlightedRippleId(null)} />)
           }
           {active === 'currents' &&
           <>
