@@ -553,18 +553,18 @@ function TweakButton({ label, onClick, secondary = false }) {
 /* ─────────────────── DATA ─────────────────── */
 
 const ideaSeeds = [
-  { id: 1,  age: 38,  text: 'AI routes on specificity not social proof. Original thinking has the infrastructure it always deserved.', author: 'Harry', submittedDate: '2026-03-31' },
-  { id: 2,  age: 64,  text: 'Being early to AI is not the same as being good at it.',                                                 author: 'Harry', submittedDate: '2026-03-05' },
-  { id: 3,  age: 12,  text: 'Intentional AI is not a pace. It is a posture.',                                                         author: 'Harry', submittedDate: '2026-04-26' },
-  { id: 4,  age: 90,  text: 'The IC manager is the shape of the future.',                                                              author: 'Harry', submittedDate: '2026-02-07' },
-  { id: 5,  age: 8,   text: 'Territory between employee and founder, nobody maps well.',                                               author: 'Harry', submittedDate: '2026-04-30' },
-  { id: 6,  age: 22,  text: 'Coordination cost is the hidden tax on a small team doing big-team work.',                                author: 'Harry', submittedDate: '2026-04-16' },
-  { id: 7,  age: 5,   text: 'AI prompting is closer to scoping a colleague than briefing a writer.',                                   author: 'Harry', submittedDate: '2026-05-03' },
-  { id: 8,  age: 110, text: 'You cannot speed-run taste.',                                                                             author: 'Harry', submittedDate: '2026-01-18' },
-  { id: 9,  age: 50,  text: 'Most "AI-native" job descriptions are theatre. Nobody can name the actual skill.',                        author: 'Harry', submittedDate: '2026-03-19' },
-  { id: 10, age: 18,  text: 'The fastest way to learn Japanese was needing to live in it. Same with AI.',                              author: 'Harry', submittedDate: '2026-04-20' },
-  { id: 11, age: 70,  text: 'Speed-to-learning is the only marketing metric that matters.',                                            author: 'Harry', submittedDate: '2026-02-27' },
-  { id: 12, age: 3,   text: 'A memo is just a thought you respect enough to finish.',                                                  author: 'Harry', submittedDate: '2026-05-05' },
+  { id: 1,  age: 38,  text: 'AI routes on specificity not social proof. Original thinking has the infrastructure it always deserved.', author: 'Harry', submittedDate: '2026-03-31', body: '', cats: ['AI'] },
+  { id: 2,  age: 64,  text: 'Being early to AI is not the same as being good at it.',                                                 author: 'Harry', submittedDate: '2026-03-05', body: '', cats: ['AI', 'Careers'] },
+  { id: 3,  age: 12,  text: 'Intentional AI is not a pace. It is a posture.',                                                         author: 'Harry', submittedDate: '2026-04-26', body: '', cats: ['AI'] },
+  { id: 4,  age: 90,  text: 'The IC manager is the shape of the future.',                                                              author: 'Harry', submittedDate: '2026-02-07', body: '', cats: ['Strategy', 'Careers'] },
+  { id: 5,  age: 8,   text: 'Territory between employee and founder, nobody maps well.',                                               author: 'Harry', submittedDate: '2026-04-30', body: '', cats: ['People'] },
+  { id: 6,  age: 22,  text: 'Coordination cost is the hidden tax on a small team doing big-team work.',                                author: 'Harry', submittedDate: '2026-04-16', body: '', cats: ['People', 'Strategy'] },
+  { id: 7,  age: 5,   text: 'AI prompting is closer to scoping a colleague than briefing a writer.',                                   author: 'Harry', submittedDate: '2026-05-03', body: '', cats: ['AI', 'Craft'] },
+  { id: 8,  age: 110, text: 'You cannot speed-run taste.',                                                                             author: 'Harry', submittedDate: '2026-01-18', body: '', cats: ['Craft'] },
+  { id: 9,  age: 50,  text: 'Most "AI-native" job descriptions are theatre. Nobody can name the actual skill.',                        author: 'Harry', submittedDate: '2026-03-19', body: '', cats: ['AI', 'Careers'] },
+  { id: 10, age: 18,  text: 'The fastest way to learn Japanese was needing to live in it. Same with AI.',                              author: 'Harry', submittedDate: '2026-04-20', body: '', cats: ['Japan', 'AI'] },
+  { id: 11, age: 70,  text: 'Speed-to-learning is the only marketing metric that matters.',                                            author: 'Harry', submittedDate: '2026-02-27', body: '', cats: ['Marketing'] },
+  { id: 12, age: 3,   text: 'A memo is just a thought you respect enough to finish.',                                                  author: 'Harry', submittedDate: '2026-05-05', body: '', cats: ['Craft'] },
 ];
 
 /* ─────────────────── PALETTE — flows into Currents at the bottom ───────────────────
@@ -823,18 +823,23 @@ function Kelp({ x = '10%', h = 110, delay = 0, tint }) {
 // Inside the bubble: SVG turbulence shimmer, two highlight passes that fade
 // against each other, an outer aura that pulses with the breath.
 
+const RIPPLE_CATS = ['Careers', 'Strategy', 'People', 'Marketing', 'AI', 'Craft', 'Japan', 'Personal'];
+
 function IdeaBubble({ idea, water, depth = 0, index = 0, onDelete, onEdit }) {
   const [hover, setHover] = useState(false);
   const [selected, setSelected] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(idea.text);
+  const [editBody, setEditBody] = useState(idea.body || '');
   const [editAuthor, setEditAuthor] = useState(idea.author || '');
+  const [editCats, setEditCats] = useState(idea.cats || []);
 
-  const W = 230;
-  const widthVariance = (idea.id % 3) * 16;
+  // More circular: base 210, small variance, height ≈ width
+  const W = 210;
+  const widthVariance = (idea.id % 3) * 10;
   const w = W + widthVariance;
-  const lines = useMemo(() => wrap(idea.text, 30 + Math.floor(widthVariance / 6)), [idea.text, w]);
-  const h = Math.max(120, 62 + lines.length * 18);
+  const lines = useMemo(() => wrap(idea.text, 22 + Math.floor(widthVariance / 5)), [idea.text, w]);
+  const h = Math.max(w - 8, 68 + lines.length * 20);
 
   const seed = idea.id || index + 1;
   const wanderKey = `bub-wander-${seed % 6}`;
@@ -857,14 +862,19 @@ function IdeaBubble({ idea, water, depth = 0, index = 0, onDelete, onEdit }) {
   const startEdit = (e) => {
     e.stopPropagation();
     setEditText(idea.text);
+    setEditBody(idea.body || '');
     setEditAuthor(idea.author || '');
+    setEditCats(idea.cats || []);
     setEditing(true);
     setSelected(false);
   };
   const saveEdit = (e) => {
     e.stopPropagation();
-    if (editText.trim() && onEdit) onEdit(idea.id, { text: editText.trim(), author: editAuthor.trim() });
+    if (editText.trim() && onEdit) onEdit(idea.id, { text: editText.trim(), body: editBody.trim(), author: editAuthor.trim(), cats: editCats });
     setEditing(false);
+  };
+  const toggleEditCat = (cat) => {
+    setEditCats(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]);
   };
   const cancelEdit = (e) => { e.stopPropagation(); setEditing(false); };
   const handleDelete = (e) => { e.stopPropagation(); onDelete && onDelete(idea.id); };
@@ -996,23 +1006,35 @@ function IdeaBubble({ idea, water, depth = 0, index = 0, onDelete, onEdit }) {
           <div style={{
             position: 'relative', width: w, minHeight: h,
             display: 'flex', flexDirection: 'column', justifyContent: 'center',
-            padding: '20px 36px', boxSizing: 'border-box',
+            padding: '22px 34px', boxSizing: 'border-box',
             textAlign: 'center',
           }}>
             <p className="f-display" style={{
               margin: 0, fontStyle: 'italic', fontWeight: 300,
-              fontSize: 14, lineHeight: 1.45,
+              fontSize: 13.5, lineHeight: 1.5,
               color: 'oklch(0.18 0.04 235)',
               textWrap: 'balance',
             }}>{idea.text}</p>
-            <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+            {/* Category dots */}
+            {idea.cats && idea.cats.length > 0 && (
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginTop: 8 }}>
+                {idea.cats.map(c => (
+                  <span key={c} style={{
+                    width: 6, height: 6, borderRadius: '50%', flexShrink: 0,
+                    background: CAT_STRIPE[c] || 'oklch(0.50 0.06 220)',
+                    opacity: 0.7,
+                  }} title={c} />
+                ))}
+              </div>
+            )}
+            <div style={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
               {idea.age > 0 && (
-                <span className="eyebrow" style={{ fontSize: 8, color: 'oklch(0.42 0.04 230 / 0.55)' }}>
+                <span className="eyebrow" style={{ fontSize: 7.5, color: 'oklch(0.42 0.04 230 / 0.5)' }}>
                   {idea.age}d adrift{idea.submittedDate ? ` · ${shortDate(idea.submittedDate)}` : ''}
                 </span>
               )}
               {idea.author && (
-                <span style={{ fontFamily: '"Geist", system-ui, sans-serif', fontSize: 8, color: 'oklch(0.42 0.05 225 / 0.6)', letterSpacing: '0.04em' }}>
+                <span style={{ fontFamily: '"Geist", system-ui, sans-serif', fontSize: 7.5, color: 'oklch(0.42 0.05 225 / 0.55)', letterSpacing: '0.04em' }}>
                   — {idea.author}
                 </span>
               )}
@@ -1024,28 +1046,55 @@ function IdeaBubble({ idea, water, depth = 0, index = 0, onDelete, onEdit }) {
       {/* ── Info card: appears when selected, below the bubble ── */}
       {selected && !editing && (
         <div onClick={e => e.stopPropagation()} style={{
-          position: 'absolute', top: h + 10, left: '50%',
+          position: 'absolute', top: h + 12, left: '50%',
           transform: 'translateX(-50%)',
-          zIndex: 30, minWidth: Math.max(w, 180),
-          padding: '12px 16px',
-          background: 'oklch(0.97 0.012 210 / 0.94)',
-          backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)',
+          zIndex: 30, width: Math.max(w + 20, 220),
+          padding: '14px 18px',
+          background: 'oklch(0.97 0.012 210 / 0.96)',
+          backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
           border: '1px solid oklch(0.70 0.04 215 / 0.30)',
-          borderRadius: 8,
-          boxShadow: '0 8px 24px oklch(0 0 0 / 0.10)',
+          borderRadius: 10,
+          boxShadow: '0 10px 28px oklch(0 0 0 / 0.12)',
         }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 10 }}>
-            {idea.author && (
-              <span style={{ fontFamily: '"Geist", system-ui, sans-serif', fontSize: 11, color: 'oklch(0.30 0.06 225)', fontWeight: 500 }}>
-                {idea.author}
+          {/* Author + meta */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              {idea.author && (
+                <span style={{ fontFamily: '"Geist", system-ui, sans-serif', fontSize: 12, color: 'oklch(0.28 0.07 225)', fontWeight: 600 }}>
+                  {idea.author}
+                </span>
+              )}
+              <span className="eyebrow" style={{ fontSize: 8, color: 'oklch(0.50 0.04 220 / 0.65)', letterSpacing: '0.14em' }}>
+                {idea.age > 0 ? `${idea.age}d adrift` : 'Just dropped'}
+                {idea.submittedDate ? ` · ${shortDate(idea.submittedDate)}` : ''}
               </span>
+            </div>
+            {/* Category pills */}
+            {idea.cats && idea.cats.length > 0 && (
+              <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'flex-end', maxWidth: 120 }}>
+                {idea.cats.map(c => (
+                  <span key={c} style={{
+                    fontFamily: '"Geist Mono", monospace', fontSize: 7.5, letterSpacing: '0.1em',
+                    padding: '2px 6px', borderRadius: 99,
+                    background: (CAT_STRIPE[c] || 'oklch(0.50 0.06 220)') + '22',
+                    color: CAT_STRIPE[c] || 'oklch(0.40 0.06 220)',
+                    border: `1px solid ${CAT_STRIPE[c] || 'oklch(0.50 0.06 220)'}44`,
+                  }}>{c}</span>
+                ))}
+              </div>
             )}
-            <span className="eyebrow" style={{ fontSize: 8.5, color: 'oklch(0.50 0.04 220 / 0.7)', letterSpacing: '0.14em' }}>
-              {idea.age > 0 ? `${idea.age}d adrift` : 'Just dropped'}
-              {idea.submittedDate ? ` · ${shortDate(idea.submittedDate)}` : ''}
-            </span>
           </div>
-          <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+          {/* Body text if present */}
+          {idea.body && (
+            <p style={{
+              margin: '0 0 10px', fontFamily: '"Newsreader", Georgia, serif',
+              fontSize: 13, fontStyle: 'italic', fontWeight: 300, lineHeight: 1.55,
+              color: 'oklch(0.30 0.04 230)',
+              borderTop: '1px solid oklch(0.70 0.04 215 / 0.18)',
+              paddingTop: 10,
+            }}>{idea.body}</p>
+          )}
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: idea.body ? 0 : 4 }}>
             <button onClick={startEdit} style={{
               fontFamily: '"Geist Mono", monospace', fontSize: 9, letterSpacing: '0.14em',
               padding: '5px 12px', background: 'none',
@@ -1075,18 +1124,20 @@ function IdeaBubble({ idea, water, depth = 0, index = 0, onDelete, onEdit }) {
         <div onClick={e => e.stopPropagation()} style={{
           position: 'absolute', top: 0, left: '50%',
           transform: 'translateX(-50%)',
-          zIndex: 30, width: w + 48,
+          zIndex: 30, width: w + 60,
           padding: '16px',
-          background: 'oklch(0.97 0.012 210 / 0.97)',
+          background: 'oklch(0.97 0.012 210 / 0.98)',
           backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)',
           border: '1px solid oklch(0.62 0.07 215 / 0.45)',
           borderRadius: 10,
           boxShadow: '0 12px 36px oklch(0 0 0 / 0.14)',
         }}>
+          {/* Thought */}
           <textarea
             value={editText}
             onChange={e => setEditText(e.target.value)}
             autoFocus
+            placeholder="The idea…"
             style={{
               width: '100%', boxSizing: 'border-box', resize: 'none',
               background: 'oklch(0.94 0.014 210 / 0.6)',
@@ -1095,9 +1146,26 @@ function IdeaBubble({ idea, water, depth = 0, index = 0, onDelete, onEdit }) {
               fontSize: 13, fontFamily: '"Fraunces", Georgia, serif',
               fontStyle: 'italic', fontWeight: 300,
               color: 'oklch(0.18 0.04 235)', lineHeight: 1.5,
-              minHeight: 72, outline: 'none',
+              minHeight: 68, outline: 'none',
             }}
           />
+          {/* Body / context */}
+          <textarea
+            value={editBody}
+            onChange={e => setEditBody(e.target.value)}
+            placeholder="Add context or expand on this thought… (optional)"
+            style={{
+              width: '100%', boxSizing: 'border-box', resize: 'none', marginTop: 6,
+              background: 'oklch(0.94 0.014 210 / 0.4)',
+              border: '1px solid oklch(0.68 0.05 215 / 0.22)',
+              borderRadius: 5, padding: '7px 10px',
+              fontSize: 12, fontFamily: '"Newsreader", Georgia, serif',
+              fontStyle: 'italic', fontWeight: 300,
+              color: 'oklch(0.28 0.04 230)', lineHeight: 1.55,
+              minHeight: 56, outline: 'none',
+            }}
+          />
+          {/* Author */}
           <input
             value={editAuthor}
             onChange={e => setEditAuthor(e.target.value)}
@@ -1111,6 +1179,23 @@ function IdeaBubble({ idea, water, depth = 0, index = 0, onDelete, onEdit }) {
               color: 'oklch(0.30 0.05 225)', outline: 'none',
             }}
           />
+          {/* Category toggles */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 8 }}>
+            {RIPPLE_CATS.map(c => {
+              const active = editCats.includes(c);
+              const col = CAT_STRIPE[c] || 'oklch(0.50 0.06 220)';
+              return (
+                <button key={c} onClick={() => toggleEditCat(c)} style={{
+                  fontFamily: '"Geist Mono", monospace', fontSize: 8, letterSpacing: '0.1em',
+                  padding: '3px 8px', borderRadius: 99, cursor: 'pointer',
+                  background: active ? col + '28' : 'transparent',
+                  border: `1px solid ${col}${active ? '88' : '44'}`,
+                  color: active ? col : 'oklch(0.55 0.04 220)',
+                  transition: 'all 0.15s',
+                }}>{c}</button>
+              );
+            })}
+          </div>
           <div style={{ display: 'flex', gap: 8, marginTop: 10, justifyContent: 'flex-end' }}>
             <button onClick={cancelEdit} style={{
               fontFamily: '"Geist Mono", monospace', fontSize: 9, letterSpacing: '0.14em',
@@ -1246,36 +1331,61 @@ function SurfaceLayer({ accent, tweaks = {} }) {
 
   const [ideas, setIdeas] = useState(ideaSeeds);
   const [input, setInput] = useState('');
+  const [inputBody, setInputBody] = useState('');
   const [author, setAuthor] = useState('');
+  const [inputCats, setInputCats] = useState([]);
   const [focused, setFocused] = useState(false);
+  const [showFormExtra, setShowFormExtra] = useState(false);
+  // Filter state
+  const [filterCats, setFilterCats] = useState([]);  // empty = all
+  const [filterAuthor, setFilterAuthor] = useState('');
+
+  const toggleInputCat = (cat) =>
+    setInputCats(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]);
+  const toggleFilterCat = (cat) =>
+    setFilterCats(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]);
 
   const cast = (e) => {
     e?.preventDefault();
     if (!input.trim()) return;
     const today = new Date().toISOString().slice(0, 10);
-    setIdeas(prev => [{ id: Date.now(), age: 0, text: input.trim(), author: author.trim() || '', submittedDate: today }, ...prev]);
-    setInput('');
-    setAuthor('');
+    setIdeas(prev => [{
+      id: Date.now(), age: 0,
+      text: input.trim(), body: inputBody.trim(),
+      author: author.trim() || '', submittedDate: today,
+      cats: inputCats,
+    }, ...prev]);
+    setInput(''); setInputBody(''); setAuthor(''); setInputCats([]);
+    setShowFormExtra(false);
   };
 
   const handleDelete = useCallback((id) => {
     setIdeas(prev => prev.filter(idea => idea.id !== id));
   }, []);
 
-  const handleEdit = useCallback((id, { text, author: newAuthor }) => {
-    setIdeas(prev => prev.map(idea => idea.id === id ? { ...idea, text, author: newAuthor } : idea));
+  const handleEdit = useCallback((id, { text, body, author: newAuthor, cats }) => {
+    setIdeas(prev => prev.map(idea => idea.id === id ? { ...idea, text, body, author: newAuthor, cats } : idea));
   }, []);
+
+  // Apply filters then sort by age → band assignment
+  const filteredIdeas = useMemo(() => {
+    return ideas.filter(idea => {
+      const catOk = filterCats.length === 0 || (idea.cats && idea.cats.some(c => filterCats.includes(c)));
+      const authOk = !filterAuthor.trim() || (idea.author || '').toLowerCase().includes(filterAuthor.toLowerCase());
+      return catOk && authOk;
+    });
+  }, [ideas, filterCats, filterAuthor]);
 
   // Sort by age so oldest sink to deepest band. Round-robin into 3 bands
   // after sorting descending by age: idx 0,3,6,9 (oldest) → band 2 (deepest).
   const bands = useMemo(() => {
-    const arr = [...ideas].sort((a, b) => (b.age || 0) - (a.age || 0)).slice(0, 12);
+    const arr = [...filteredIdeas].sort((a, b) => (b.age || 0) - (a.age || 0)).slice(0, 12);
     return [
       arr.filter((_, i) => i % 3 === 2), // newest third  → surface (band 0)
       arr.filter((_, i) => i % 3 === 1), // middle third  → mid     (band 1)
       arr.filter((_, i) => i % 3 === 0), // oldest third  → deep    (band 2)
     ];
-  }, [ideas]);
+  }, [filteredIdeas]);
 
   return (
     <div style={{ position: 'relative', background: water.sky, color: 'oklch(0.20 0.05 235)' }}>
@@ -1330,7 +1440,7 @@ function SurfaceLayer({ accent, tweaks = {} }) {
             }} />
             <input
               value={input} onChange={e => setInput(e.target.value)}
-              onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
+              onFocus={() => { setFocused(true); setShowFormExtra(true); }} onBlur={() => setFocused(false)}
               placeholder="Drop a thought into the water…"
               className="f-display"
               style={{
@@ -1349,22 +1459,56 @@ function SurfaceLayer({ accent, tweaks = {} }) {
               Drop in
             </button>
           </div>
-          {/* Author row */}
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 10,
-            padding: '8px 18px 12px 40px',
-            borderTop: '1px solid oklch(0.40 0.05 230 / 0.09)',
-          }}>
-            <input
-              value={author} onChange={e => setAuthor(e.target.value)}
-              placeholder="Your name (optional)"
-              style={{
-                flex: 1, background: 'transparent', border: 'none', outline: 'none',
-                fontSize: 12, fontFamily: '"Geist", system-ui, sans-serif',
-                fontWeight: 300, color: 'oklch(0.40 0.05 225)',
-              }}
-            />
-          </div>
+          {/* Expanded fields — author, body, cats */}
+          {showFormExtra && (
+            <>
+              <div style={{ borderTop: '1px solid oklch(0.40 0.05 230 / 0.09)', padding: '10px 18px 6px 40px' }}>
+                <input
+                  value={author} onChange={e => setAuthor(e.target.value)}
+                  placeholder="Your name (optional)"
+                  style={{
+                    width: '100%', background: 'transparent', border: 'none', outline: 'none',
+                    fontSize: 12, fontFamily: '"Geist", system-ui, sans-serif',
+                    fontWeight: 300, color: 'oklch(0.40 0.05 225)',
+                  }}
+                />
+              </div>
+              <div style={{ padding: '6px 18px 10px 40px', borderTop: '1px solid oklch(0.40 0.05 230 / 0.07)' }}>
+                <textarea
+                  value={inputBody} onChange={e => setInputBody(e.target.value)}
+                  placeholder="Add context or expand on this thought… (optional)"
+                  style={{
+                    width: '100%', boxSizing: 'border-box', resize: 'none',
+                    background: 'transparent', border: 'none', outline: 'none',
+                    fontSize: 13, fontFamily: '"Newsreader", Georgia, serif',
+                    fontStyle: 'italic', fontWeight: 300, lineHeight: 1.55,
+                    color: 'oklch(0.32 0.04 228)', minHeight: 48,
+                  }}
+                />
+              </div>
+              {/* Category tag row */}
+              <div style={{
+                display: 'flex', flexWrap: 'wrap', gap: 5,
+                padding: '8px 18px 12px 40px',
+                borderTop: '1px solid oklch(0.40 0.05 230 / 0.07)',
+              }}>
+                {RIPPLE_CATS.map(c => {
+                  const active = inputCats.includes(c);
+                  const col = CAT_STRIPE[c] || 'oklch(0.50 0.06 220)';
+                  return (
+                    <button key={c} type="button" onClick={() => toggleInputCat(c)} style={{
+                      fontFamily: '"Geist Mono", monospace', fontSize: 8.5, letterSpacing: '0.1em',
+                      padding: '3px 9px', borderRadius: 99, cursor: 'pointer',
+                      background: active ? col + '22' : 'oklch(0.95 0.01 220 / 0.5)',
+                      border: `1px solid ${col}${active ? '88' : '33'}`,
+                      color: active ? col : 'oklch(0.55 0.04 220)',
+                      transition: 'all 0.15s',
+                    }}>{c}</button>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </form>
       </section>
 
@@ -1375,7 +1519,7 @@ function SurfaceLayer({ accent, tweaks = {} }) {
       <section className="tidal-ripples-bubbles" style={{
         position: 'relative',
         background: `linear-gradient(180deg, ${water.horizon} 0%, ${water.top} 8%, ${water.mid} 38%, ${water.deep} 72%, ${water.floor} 100%)`,
-        padding: '80px 64px 220px',
+        padding: '80px 64px 380px',
         overflow: 'hidden',
       }}>
         {/* Ambient layers */}
@@ -1390,6 +1534,51 @@ function SurfaceLayer({ accent, tweaks = {} }) {
         <DepthLabel depth="3"  label="Surface ripples" top="60px"  />
         <DepthLabel depth="14" label="Mid-water"        top="40%"  />
         <DepthLabel depth="32" label="Resting depth"    top="78%"  />
+
+        {/* Filter bar */}
+        <div style={{
+          position: 'relative', zIndex: 8, maxWidth: 1100, margin: '0 auto 40px',
+          display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
+        }}>
+          {/* Cat filter pills */}
+          {RIPPLE_CATS.map(c => {
+            const active = filterCats.includes(c);
+            const col = CAT_STRIPE[c] || 'oklch(0.50 0.06 220)';
+            return (
+              <button key={c} onClick={() => toggleFilterCat(c)} style={{
+                fontFamily: '"Geist Mono", monospace', fontSize: 8.5, letterSpacing: '0.1em',
+                padding: '4px 10px', borderRadius: 99, cursor: 'pointer',
+                background: active ? col + '2a' : 'oklch(1 0 0 / 0.10)',
+                border: `1px solid ${col}${active ? '99' : '44'}`,
+                color: active ? col : 'oklch(0.75 0.025 210)',
+                backdropFilter: 'blur(6px)',
+                transition: 'all 0.18s',
+              }}>{c}</button>
+            );
+          })}
+          {/* Author filter */}
+          <input
+            value={filterAuthor} onChange={e => setFilterAuthor(e.target.value)}
+            placeholder="Filter by name…"
+            style={{
+              fontFamily: '"Geist", system-ui, sans-serif', fontSize: 11,
+              padding: '4px 12px', borderRadius: 99,
+              background: 'oklch(1 0 0 / 0.10)',
+              border: '1px solid oklch(1 0 0 / 0.22)',
+              color: 'oklch(0.82 0.02 210)',
+              backdropFilter: 'blur(6px)', outline: 'none',
+              width: 130,
+            }}
+          />
+          {(filterCats.length > 0 || filterAuthor) && (
+            <button onClick={() => { setFilterCats([]); setFilterAuthor(''); }} style={{
+              fontFamily: '"Geist Mono", monospace', fontSize: 8.5, letterSpacing: '0.12em',
+              padding: '4px 10px', borderRadius: 99, cursor: 'pointer',
+              background: 'none', border: '1px solid oklch(1 0 0 / 0.25)',
+              color: 'oklch(0.65 0.04 210)',
+            }}>Clear ✕</button>
+          )}
+        </div>
 
         {/* Three depth bands of bubbles */}
         <div style={{
@@ -1487,13 +1676,33 @@ function CatSigil({ name, size = 14, style }) {
           <circle cx="3" cy="19" r="0.7" fill="currentColor" stroke="none" />
         </svg>);
 
-    case 'Business':
-      // horizon line with small rising sun arc — measured, calm
+    case 'Strategy':
+      // delta / upward triangle — direction, intent, change
       return (
         <svg {...common}>
-          <path d="M2 16h20" strokeWidth="0.7" opacity="0.5" />
-          <path d="M7 16a5 5 0 0110 0" />
-          <path d="M12 6v3M12 16v3M5 12h-2M21 12h-2M7 7l1.5 1.5M16.5 8.5L17 7" strokeWidth="0.6" opacity="0.7" />
+          <path d="M12 4l7 13H5z" />
+          <path d="M12 8v6" strokeWidth="0.6" opacity="0.5" stroke="white" />
+          <circle cx="12" cy="16" r="0.6" fill="white" stroke="none" opacity="0.6" />
+        </svg>);
+
+    case 'People':
+      // two overlapping head-and-shoulder silhouettes
+      return (
+        <svg {...common}>
+          <circle cx="9" cy="8" r="2.8" />
+          <path d="M3 19c0-3.3 2.5-5.5 6-5.5" />
+          <circle cx="16" cy="9" r="2.2" opacity="0.75" />
+          <path d="M12 19c0-2.8 1.8-4.5 4.5-4.5S21 16.2 21 19" opacity="0.7" strokeWidth="0.8" />
+        </svg>);
+
+    case 'Craft':
+      // pen nib touching a baseline — precise, made
+      return (
+        <svg {...common}>
+          <path d="M8 18l4-14 4 14" />
+          <path d="M10 12h4" strokeWidth="0.7" opacity="0.6" />
+          <path d="M5 18h14" strokeWidth="0.6" opacity="0.4" />
+          <circle cx="12" cy="18" r="0.8" fill="currentColor" stroke="none" />
         </svg>);
 
     case 'Marketing':
@@ -1544,12 +1753,14 @@ function CatSigil({ name, size = 14, style }) {
 
 // Ocean palette — variations of blue/teal with a single warm sand for contrast.
 const catPalette = {
-  'Careers': { bg: 'oklch(0.93 0.025 230)', fg: 'oklch(0.34 0.07 230)' }, // mist
-  'Business': { bg: 'oklch(0.92 0.035 215)', fg: 'oklch(0.30 0.08 220)' }, // tide
-  'Marketing': { bg: 'oklch(0.93 0.04 195)', fg: 'oklch(0.34 0.09 200)' }, // shoal
-  'AI': { bg: 'oklch(0.91 0.045 240)', fg: 'oklch(0.30 0.09 245)' }, // deep
-  'Japan': { bg: 'oklch(0.93 0.04 175)', fg: 'oklch(0.32 0.08 175)' }, // teal
-  'Personal': { bg: 'oklch(0.93 0.035 75)', fg: 'oklch(0.40 0.07 65)' } // sand
+  'Careers':  { bg: 'oklch(0.93 0.025 230)', fg: 'oklch(0.34 0.07 230)' },  // mist
+  'Strategy': { bg: 'oklch(0.91 0.04 258)',  fg: 'oklch(0.32 0.10 260)' },  // slate
+  'People':   { bg: 'oklch(0.92 0.03 208)',  fg: 'oklch(0.30 0.07 210)' },  // harbour
+  'Marketing':{ bg: 'oklch(0.93 0.04 195)',  fg: 'oklch(0.34 0.09 200)' },  // shoal
+  'AI':       { bg: 'oklch(0.91 0.045 240)', fg: 'oklch(0.30 0.09 245)' },  // deep
+  'Craft':    { bg: 'oklch(0.93 0.04 48)',   fg: 'oklch(0.38 0.08 45)' },   // amber
+  'Japan':    { bg: 'oklch(0.93 0.04 175)',  fg: 'oklch(0.32 0.08 175)' },  // teal
+  'Personal': { bg: 'oklch(0.93 0.035 75)',  fg: 'oklch(0.40 0.07 65)' },   // sand
 };
 
 function CatBubble({ name }) {
@@ -2293,9 +2504,11 @@ function CurrentsAtmosphere() {
 // Category accent stripes for gallery + compact dot + timeline
 const CAT_STRIPE = {
   Careers:   'oklch(0.34 0.07 230)',
-  Business:  'oklch(0.30 0.08 220)',
+  Strategy:  'oklch(0.32 0.10 260)',
+  People:    'oklch(0.30 0.07 210)',
   Marketing: 'oklch(0.34 0.09 200)',
   AI:        'oklch(0.30 0.09 245)',
+  Craft:     'oklch(0.38 0.08 45)',
   Japan:     'oklch(0.32 0.08 175)',
   Personal:  'oklch(0.40 0.07 65)',
 };
@@ -2307,7 +2520,7 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
   const [view, setView] = useState('list');           // 'list' | 'gallery' | 'timeline'
   const [density, setDensity] = useState('comfortable'); // 'compact' | 'moderate' | 'comfortable'
 
-  const cats = ['all', 'Careers', 'Business', 'Marketing', 'AI', 'Japan', 'Personal'];
+  const cats = ['all', 'Careers', 'Strategy', 'People', 'Marketing', 'AI', 'Craft', 'Japan', 'Personal'];
   const sortOptions = [
     { key: 'newest', label: 'Newest' },
     { key: 'oldest', label: 'Oldest' },

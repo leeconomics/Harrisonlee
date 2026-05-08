@@ -6,7 +6,7 @@ tag: "Note 14"
 title: "The CEO's job is the opposite of morale"
 sub: "Push when winning. Coach when losing. The job is the inversion."
 subtitle: "Why winning teams need pressure and losing teams need a coach"
-cats: [Business]
+cats: [Strategy, People]
 read: "4 min"
 readTime: "4 min read"
 date: "2026-05-01"

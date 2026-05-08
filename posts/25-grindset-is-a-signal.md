@@ -6,7 +6,7 @@ tag: "Note 25"
 title: "The grindset is a signal, not a strategy"
 sub: "What it actually buys, what it costs, and why the trade is about to close."
 subtitle: "What it actually buys, what it costs, and why the trade is about to close"
-cats: [Careers, Business, AI]
+cats: [Careers, Strategy, AI]
 read: "4 min"
 readTime: "4 min read"
 date: "2026-05-08"

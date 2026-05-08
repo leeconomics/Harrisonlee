@@ -6,7 +6,7 @@ tag: "Note 19"
 title: "The great pivot"
 sub: "The best people are leaving consulting, law, and banking."
 subtitle: "Why the best people are leaving consulting, law, and banking — and what the firms still don't see"
-cats: [Careers, Business]
+cats: [Strategy, Careers]
 read: "6 min"
 readTime: "6 min read"
 date: "2026-05-01"

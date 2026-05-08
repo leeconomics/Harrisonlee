@@ -6,7 +6,7 @@ tag: "Note 17"
 title: "Code is becoming design. Design is becoming code."
 sub: "A spectrum, a timeline, and why future builders won't pick a side."
 subtitle: "A spectrum, a timeline, and why future builders won't pick a side"
-cats: [Business, AI]
+cats: [Craft, AI]
 read: "6 min"
 readTime: "6 min read"
 date: "2026-05-01"

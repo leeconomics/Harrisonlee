@@ -6,7 +6,7 @@ tag: "Note 18"
 title: "The lessons that compound are the ones that hurt"
 sub: "Why most 'learning' never makes it past the front of your mind."
 subtitle: "Why most “learning” never makes it past the front of your mind"
-cats: [Careers, Personal]
+cats: [Craft, Personal]
 read: "4 min"
 readTime: "4 min read"
 date: "2026-05-01"

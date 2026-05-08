@@ -68,17 +68,21 @@ function ArticleNav({ prev, next }) {
 // ─── Category accent color (matches PersonalSite catColorMap) ─────────────────
 const CAT_ACCENT = {
   Careers:   'oklch(0.34 0.07 230)',
-  Business:  'oklch(0.30 0.08 220)',
+  Strategy:  'oklch(0.32 0.10 260)',
+  People:    'oklch(0.30 0.07 210)',
   Marketing: 'oklch(0.34 0.09 200)',
   AI:        'oklch(0.30 0.09 245)',
+  Craft:     'oklch(0.38 0.08 45)',
   Japan:     'oklch(0.32 0.08 175)',
   Personal:  'oklch(0.40 0.07 65)',
 };
 const CAT_BG = {
   Careers:   'oklch(0.93 0.025 230 / 0.18)',
-  Business:  'oklch(0.92 0.035 215 / 0.18)',
+  Strategy:  'oklch(0.91 0.04 258 / 0.18)',
+  People:    'oklch(0.92 0.03 208 / 0.18)',
   Marketing: 'oklch(0.93 0.04 195 / 0.18)',
   AI:        'oklch(0.91 0.045 240 / 0.18)',
+  Craft:     'oklch(0.93 0.04 48 / 0.18)',
   Japan:     'oklch(0.93 0.04 175 / 0.18)',
   Personal:  'oklch(0.93 0.035 75 / 0.18)',
 };

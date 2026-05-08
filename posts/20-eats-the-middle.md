@@ -6,7 +6,7 @@ tag: "Note 20"
 title: "What still compounds when AI eats the middle"
 sub: "The two moats that survive when execution is free."
 subtitle: "The two moats that survive when execution is free"
-cats: [Business, AI]
+cats: [Strategy, AI]
 read: "6 min"
 readTime: "6 min read"
 date: "2026-05-01"
