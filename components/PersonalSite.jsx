@@ -1761,12 +1761,25 @@ function SideNav({ active, onChange, onHome, accent }) {
       {/* The three depth layers — equal heights, desaturated when inactive,
                  active band gets a curling wave that bleeds into the content area
                  to visually connect the rail with the page. */}
-      <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', minHeight: 0 }}>
+      <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', minHeight: 0, overflow: 'hidden' }}>
+        {/* Wave cut: Currents colour eats into Ripples at the 1/3 boundary */}
+        <div style={{ position: 'absolute', top: '33.33%', left: 0, right: 0, height: 48, transform: 'translateY(-50%)', zIndex: 10, pointerEvents: 'none' }}>
+          <svg viewBox="0 0 220 48" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+            <path d="M0 24 Q55 8 110 24 Q165 40 220 24 L220 48 L0 48 Z" fill="oklch(0.34 0.06 232)" />
+          </svg>
+        </div>
+        {/* Wave cut: Depths colour eats into Currents at the 2/3 boundary */}
+        <div style={{ position: 'absolute', top: '66.66%', left: 0, right: 0, height: 48, transform: 'translateY(-50%)', zIndex: 10, pointerEvents: 'none' }}>
+          <svg viewBox="0 0 220 48" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+            <path d="M0 24 Q55 8 110 24 Q165 40 220 24 L220 48 L0 48 Z" fill="oklch(0.16 0.05 242)" />
+          </svg>
+        </div>
+
         {layers.map((l, i) => {
           const isActive = active === l.id;
           const isHover = hover === l.id;
-          const filter = isActive ? 'none' : 'saturate(0.35) brightness(1.04)';
-          const textOpacity = isActive ? 1 : isHover ? 0.85 : 0.5;
+          const filter = isActive ? 'none' : 'saturate(0.4) brightness(1.02)';
+          const textOpacity = isActive ? 1 : isHover ? 0.85 : 0.55;
 
           return (
             <button key={l.id} onClick={() => onChange(l.id)}
@@ -1775,11 +1788,10 @@ function SideNav({ active, onChange, onHome, accent }) {
               position: 'relative', cursor: 'pointer', border: 'none',
               background: l.band, padding: 0, flex: 1,
               filter,
-              transition: 'filter 0.6s ease, transform 0.6s cubic-bezier(0.2,0.7,0.3,1)',
-              transform: isActive ? 'translateX(2px)' : isHover ? 'translateX(1px)' : 'translateX(0)',
+              transition: 'filter 0.6s ease',
               zIndex: isActive ? 3 : isHover ? 2 : 1,
               boxShadow: isActive ?
-              `inset 4px 0 0 ${accent}, 6px 0 24px -8px oklch(0 0 0 / 0.18), inset 0 1px 0 oklch(1 0 0 / 0.5)` :
+              `inset 4px 0 0 ${accent}, 6px 0 24px -8px oklch(0 0 0 / 0.18)` :
               isHover ?
               `inset 2px 0 0 oklch(0.55 0.04 220 / 0.4)` :
               'none'
