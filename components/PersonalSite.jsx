@@ -1665,7 +1665,16 @@ const ideas_v2 = [
 const projects_v2 = [
 { id: 1, n: 'P/01', title: 'Cowork OS', sub: 'A 10-file system covering Juniper Japan\u2019s full business context, designed to make AI an expert peer rather than a fast intern.', kind: 'Operating system', stage: 'In use', year: '2025—' },
 { id: 2, n: 'P/02', title: 'POST-AI hiring framework', sub: 'A six-trait model for evaluating talent in an AI-native world. Built in public over twelve memos.', kind: 'Framework', stage: 'v0.2', year: '2026' },
-{ id: 3, n: 'P/03', title: 'The memo writer', sub: 'A 7-stage skill that takes a raw thought and turns it into a publishable memo in under two minutes.', kind: 'Skill', stage: 'v0.2', year: '2026' }];
+{ id: 3, n: 'P/03', title: 'The memo writer', sub: 'A 7-stage skill that takes a raw thought and turns it into a publishable memo in under two minutes.', kind: 'Skill', stage: 'v0.2', year: '2026' },
+{ id: 4, n: 'P/04', title: 'Layered Places', sub: 'Notes from Bali on travelling with eyes open. A six-part series on what tourism does to the places we love, using Bali as the working case study.', kind: 'Series', stage: 'Drafting', year: 'May 2026', isSeries: true, href: '/posts/layered-places',
+  parts: [
+    { n: 'I',   title: 'The Layered Island',           sub: 'Frame and dual economy thesis.',                                           href: '/posts/layered-places#part-1' },
+    { n: 'II',  title: 'Land and Housing',             sub: 'Dollar-rupiah split. Who can afford to live where.',                       href: '/posts/layered-places#part-2' },
+    { n: 'III', title: 'Labour and Service',           sub: 'Who owns versus who serves. The commute cycle.',                          href: '/posts/layered-places#part-3' },
+    { n: 'IV',  title: 'Public Goods and Environment', sub: 'Water, waste, the floods, the tourist tax.',                              href: '/posts/layered-places#part-4' },
+    { n: 'V',   title: 'Culture and Meaning',          sub: 'Ceremonies as spectacle. The language shift.',                            href: '/posts/layered-places#part-5' },
+    { n: 'VI',  title: 'Travelling Eyes Open',         sub: 'Synthesis. Four anchor questions.',                                       href: '/posts/layered-places#part-6' }
+  ] }];
 
 
 /* ─────────────────── ICONOGRAPHY ─────────────────── */
@@ -3020,6 +3029,10 @@ function CurrentsLayer({ accent, cyan, onOpenMemo, memos }) {
 
 function DarkOceanLayer({ accent, cyan }) {
   const cyanAccent = cyan || 'oklch(0.46 0.14 200)';
+  // Master/detail: default-active the series (last entry) so the wave fan
+  // is visible on first load. Hover or focus any rail item to swap detail.
+  const defaultActive = (projects_v2.find(p => p.isSeries) || projects_v2[0]).id;
+  const [activeId, setActiveId] = useState(defaultActive);
   return (
     <div style={{
       background: 'linear-gradient(180deg, oklch(0.16 0.05 242) 0%, oklch(0.10 0.04 246) 100%)',
@@ -3048,50 +3061,73 @@ function DarkOceanLayer({ accent, cyan }) {
         </p>
       </div>
 
-      <div className="tidal-section-pad" style={{ padding: '0 64px 80px', position: 'relative', zIndex: 1, display: 'grid', gap: 16 }}>
-        {projects_v2.map((p, i) =>
-        // Cleaner card treatment: single crisp cyan border at 40% opacity at
-        // rest, ramps to 80% on hover with a soft drop shadow. Removed the
-        // earlier inset highlights which were making edges look fuzzy.
-        <article key={p.id} className="surface tidal-depths-card" role="button" tabIndex={0} style={{
-          display: 'grid', gridTemplateColumns: '1fr 180px',
-          gap: 32, padding: '32px',
-          background: 'oklch(0.97 0.01 90 / 0.04)',
-          border: `1px solid ${cyanAccent}66`,
-          borderRadius: 'var(--r-card)', cursor: 'pointer',
-          backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
-          boxShadow: 'none',
-          animationDelay: `${0.3 + i * 0.08}s`
-        }} onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = `${cyanAccent}cc`;
-          e.currentTarget.style.transform = 'translateY(-2px)';
-          e.currentTarget.style.background = 'oklch(0.97 0.01 90 / 0.07)';
-          e.currentTarget.style.boxShadow = `0 12px 32px oklch(0 0 0 / 0.32), 0 0 28px ${cyanAccent}2a`;
-        }} onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = `${cyanAccent}66`;
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.background = 'oklch(0.97 0.01 90 / 0.04)';
-          e.currentTarget.style.boxShadow = 'none';
-        }}>
-            <div>
-              <div className="eyebrow" style={{ color: 'oklch(0.92 0.02 200 / 0.6)', fontSize: 10, marginBottom: 10 }}>
-                {p.kind}
-              </div>
-              <h3 className="f-display" style={{
-              margin: 0, fontSize: 28, fontWeight: 400, lineHeight: 1.2,
-              color: 'oklch(0.97 0.01 90)', letterSpacing: '-0.02em', marginBottom: 10
-            }}>{p.title}</h3>
-              <p className="f-body" style={{
-              margin: 0, fontSize: 16, lineHeight: 1.6, color: 'oklch(0.92 0.02 200 / 0.78)',
-              fontWeight: 300
-            }}>{p.sub}</p>
-            </div>
-            <div className="tidal-depths-card-meta" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'space-between', textAlign: 'right' }}>
-              <div className="eyebrow" style={{ color: 'oklch(0.92 0.02 200 / 0.5)', fontSize: 10 }}>{p.year}</div>
-              <span className="eyebrow" style={{ color: accent, fontSize: 10 }}>Open project →</span>
-            </div>
-          </article>
-        )}
+      <div className="tidal-section-pad" style={{ padding: '0 64px 80px', position: 'relative', zIndex: 1 }}>
+        <div className="tidal-depths-grid">
+          {/* Left rail: every entry, compact */}
+          <ul className="tidal-depths-rail" role="tablist" aria-label="Depths entries">
+            {projects_v2.map((p) =>
+              <li key={p.id}
+                  className={`tidal-rail-item${activeId === p.id ? ' is-active' : ''}${p.isSeries ? ' is-series' : ''}`}
+                  role="tab"
+                  tabIndex={0}
+                  aria-selected={activeId === p.id}
+                  onMouseEnter={() => setActiveId(p.id)}
+                  onFocus={() => setActiveId(p.id)}
+                  onClick={() => setActiveId(p.id)}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveId(p.id); } }}>
+                <span className="tidal-rail-kind">{p.isSeries ? `${p.kind} · ${p.parts.length} parts` : p.kind}</span>
+                <span className="tidal-rail-year">{p.year}</span>
+                <span className="tidal-rail-title">
+                  {p.isSeries ? <em style={{ fontStyle: 'italic', color: cyanAccent }}>{p.title}</em> : p.title}
+                </span>
+                {p.isSeries && <span className="tidal-rail-hint">Hover to descend →</span>}
+              </li>
+            )}
+          </ul>
+
+          {/* Right detail: render every panel, only is-active is visible */}
+          <div className="tidal-depths-detail" role="tabpanel">
+            {projects_v2.map((p) =>
+              <article key={p.id}
+                       className={`tidal-detail-panel${activeId === p.id ? ' is-active' : ''}${p.isSeries ? ' is-series' : ''}`}
+                       aria-hidden={activeId !== p.id}>
+                <div className="tidal-detail-meta">
+                  <span>{p.isSeries ? `${p.kind} · ${p.parts.length} parts` : p.kind}</span>
+                  <span className="dot">·</span>
+                  <span>{p.year}</span>
+                  {p.stage && <><span className="dot">·</span><span>{p.stage}</span></>}
+                </div>
+                <h2 className="tidal-detail-title f-display">
+                  {p.isSeries ? <em style={{ fontStyle: 'italic', color: cyanAccent }}>{p.title}</em> : p.title}
+                </h2>
+                <p className="tidal-detail-desc f-body">{p.sub}</p>
+
+                {p.isSeries &&
+                  <div className="tidal-wave-fan">
+                    <svg className="tidal-wave-line" viewBox="0 0 800 80" preserveAspectRatio="none" aria-hidden="true">
+                      <path className="stroke-glow" d="M0 40 Q66 8 133 40 T266 40 T400 40 T533 40 T666 40 T800 40" />
+                      <path className="stroke" d="M0 40 Q66 8 133 40 T266 40 T400 40 T533 40 T666 40 T800 40" />
+                    </svg>
+                    <div className="tidal-part-chips">
+                      {p.parts.map((part) =>
+                        <a key={part.n} href={part.href} className="tidal-part-chip">
+                          <span className="tidal-chip-num">{part.n}.</span>
+                          <span className="tidal-chip-title">{part.title}</span>
+                          <span className="tidal-chip-sub">{part.sub}</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                }
+
+                <a href={p.isSeries ? p.parts[0].href : (p.href || '#')}
+                   className="tidal-detail-cta">
+                  {p.isSeries ? 'Open series →' : 'Open project →'}
+                </a>
+              </article>
+            )}
+          </div>
+        </div>
       </div>
     </div>);
 

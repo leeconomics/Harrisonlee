@@ -637,6 +637,310 @@ html, body { width: 100%; margin: 0; overflow-x: clip; background: oklch(0.97 0.
   filter: brightness(0.92);
 }
 
+/* ─────────────────── DEPTHS — MASTER / DETAIL + WAVE FAN ───────────────────
+ * Replaces the per-card layout in the Depths layer with a master/detail
+ * pattern: left rail of entries, right detail panel that updates on hover.
+ * For series entries the detail panel renders a wave SVG and a row of
+ * part chips that animate in left-to-right behind the wave's crest.
+ */
+.tidal-depths-grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 48px;
+  align-items: start;
+  position: relative;
+}
+
+/* ----- Left rail ----- */
+.tidal-depths-rail {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+}
+.tidal-depths-rail::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    oklch(0.46 0.14 200 / 0.40) 8%,
+    oklch(0.46 0.14 200 / 0.40) 92%,
+    transparent 100%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.tidal-rail-item {
+  position: relative;
+  padding: 18px 22px 18px 26px;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  column-gap: 12px;
+  row-gap: 4px;
+  align-items: baseline;
+  border-radius: 0 4px 4px 0;
+  transition: background 0.3s ease, transform 0.35s var(--ease-out);
+  outline: none;
+}
+.tidal-rail-item::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 14px; bottom: 14px;
+  width: 2px;
+  background: oklch(0.7 0.13 200);
+  border-radius: 0 2px 2px 0;
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.35s var(--ease-out);
+}
+.tidal-rail-item:hover { background: oklch(0.97 0.01 90 / 0.03); }
+.tidal-rail-item.is-active {
+  background: oklch(0.97 0.01 90 / 0.04);
+  transform: translateX(2px);
+}
+.tidal-rail-item.is-active::before { transform: scaleY(1); }
+.tidal-rail-item:focus-visible {
+  outline: 2px solid var(--site-cyan-glow);
+  outline-offset: 4px;
+}
+.tidal-rail-kind {
+  grid-column: 1;
+  font-family: var(--f-mono, ui-monospace, monospace);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: oklch(0.92 0.02 200 / 0.55);
+  transition: color 0.3s;
+}
+.tidal-rail-item.is-active .tidal-rail-kind { color: oklch(0.78 0.14 200); }
+.tidal-rail-year {
+  grid-column: 2;
+  font-family: var(--f-mono, ui-monospace, monospace);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: oklch(0.92 0.02 200 / 0.35);
+}
+.tidal-rail-title {
+  grid-column: 1 / -1;
+  font-family: var(--f-display, Georgia, serif);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: oklch(0.96 0.01 90);
+}
+.tidal-rail-hint {
+  grid-column: 1 / -1;
+  font-family: var(--f-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: oklch(0.92 0.02 200 / 0.32);
+  margin-top: 2px;
+}
+
+/* ----- Right detail panel ----- */
+.tidal-depths-detail {
+  position: relative;
+  min-height: 460px;
+}
+.tidal-detail-panel {
+  position: absolute;
+  inset: 0;
+  padding: 8px 4px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.45s ease, visibility 0s 0.45s;
+}
+.tidal-detail-panel.is-active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.55s ease 0.05s, visibility 0s;
+}
+.tidal-detail-meta {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+  font-family: var(--f-mono, ui-monospace, monospace);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: oklch(0.92 0.02 200 / 0.55);
+  margin: 0 0 18px;
+  flex-wrap: wrap;
+}
+.tidal-detail-meta .dot { color: oklch(0.92 0.02 200 / 0.30); }
+.tidal-detail-title {
+  font-family: var(--f-display, Georgia, serif);
+  font-weight: 400;
+  font-size: clamp(36px, 4.5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin: 0 0 20px;
+  color: oklch(0.96 0.01 90);
+}
+.tidal-detail-desc {
+  font-size: 17px;
+  line-height: 1.65;
+  color: oklch(0.92 0.02 200 / 0.82);
+  max-width: 600px;
+  margin: 0 0 36px;
+  font-weight: 300;
+}
+.tidal-detail-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--f-mono, ui-monospace, monospace);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: oklch(0.7 0.13 200);
+  text-decoration: none;
+  margin: 0;
+  transition: gap 0.35s ease, color 0.3s;
+}
+.tidal-detail-cta:hover { gap: 14px; color: oklch(0.78 0.14 200); }
+
+/* ----- Wave fan ----- */
+.tidal-wave-fan {
+  position: relative;
+  margin: 8px 0 36px;
+  min-height: 180px;
+}
+.tidal-wave-line {
+  position: absolute;
+  left: 0; top: 22%;
+  width: 100%; height: 56%;
+  pointer-events: none;
+  overflow: visible;
+}
+.tidal-wave-line .stroke {
+  fill: none;
+  stroke: oklch(0.46 0.14 200 / 0.40);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-dasharray: 1600;
+  stroke-dashoffset: 1600;
+  transition: stroke-dashoffset 1.3s cubic-bezier(.35,.0,.2,1) 0.1s, opacity 0.4s;
+  opacity: 0;
+}
+.tidal-wave-line .stroke-glow {
+  fill: none;
+  stroke: oklch(0.7 0.13 200);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 1600;
+  stroke-dashoffset: 1600;
+  opacity: 0;
+  filter: blur(8px);
+  transition: stroke-dashoffset 1.3s cubic-bezier(.35,.0,.2,1) 0.1s, opacity 0.4s;
+}
+.tidal-detail-panel.is-active .tidal-wave-line .stroke { stroke-dashoffset: 0; opacity: 0.85; }
+.tidal-detail-panel.is-active .tidal-wave-line .stroke-glow { stroke-dashoffset: 0; opacity: 0.35; }
+
+.tidal-part-chips {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  z-index: 1;
+}
+.tidal-part-chip {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 14px 16px;
+  border: 1px solid oklch(0.92 0.02 200 / 0.12);
+  border-radius: 4px;
+  background: oklch(0.97 0.01 90 / 0.025);
+  text-decoration: none;
+  color: inherit;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.45s ease,
+              transform 0.45s cubic-bezier(.35,.0,.2,1),
+              border-color 0.3s, background 0.3s;
+}
+.tidal-detail-panel.is-active .tidal-part-chip { opacity: 1; transform: translateY(0); }
+.tidal-detail-panel.is-active .tidal-part-chip:nth-child(1) { transition-delay: 0.20s, 0.20s, 0s, 0s; }
+.tidal-detail-panel.is-active .tidal-part-chip:nth-child(2) { transition-delay: 0.32s, 0.32s, 0s, 0s; }
+.tidal-detail-panel.is-active .tidal-part-chip:nth-child(3) { transition-delay: 0.44s, 0.44s, 0s, 0s; }
+.tidal-detail-panel.is-active .tidal-part-chip:nth-child(4) { transition-delay: 0.56s, 0.56s, 0s, 0s; }
+.tidal-detail-panel.is-active .tidal-part-chip:nth-child(5) { transition-delay: 0.68s, 0.68s, 0s, 0s; }
+.tidal-detail-panel.is-active .tidal-part-chip:nth-child(6) { transition-delay: 0.80s, 0.80s, 0s, 0s; }
+.tidal-part-chip:nth-child(even) { margin-top: 22px; }
+.tidal-part-chip:hover {
+  border-color: oklch(0.46 0.14 200 / 0.40);
+  background: oklch(0.97 0.01 90 / 0.05);
+}
+.tidal-chip-num {
+  font-family: var(--f-display, Georgia, serif);
+  font-style: italic;
+  font-size: 18px;
+  color: oklch(0.78 0.14 200);
+  letter-spacing: 0.04em;
+}
+.tidal-chip-title {
+  font-family: var(--f-display, Georgia, serif);
+  font-size: 16px;
+  font-weight: 500;
+  color: oklch(0.96 0.01 90);
+  letter-spacing: -0.005em;
+  line-height: 1.2;
+}
+.tidal-chip-sub {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: oklch(0.92 0.02 200 / 0.55);
+  font-weight: 300;
+}
+
+/* Mobile: rail collapses to horizontal scroll strip, detail stacks below */
+@media (max-width: 880px) {
+  .tidal-depths-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .tidal-depths-rail {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 4px 0 12px;
+    scroll-snap-type: x proximity;
+  }
+  .tidal-depths-rail::before { display: none; }
+  .tidal-rail-item {
+    flex: 0 0 auto;
+    min-width: 200px;
+    border: 1px solid oklch(0.92 0.02 200 / 0.12);
+    border-radius: 4px;
+    padding: 14px 16px;
+    scroll-snap-align: start;
+  }
+  .tidal-rail-item::before { display: none; }
+  .tidal-rail-item.is-active {
+    border-color: oklch(0.46 0.14 200 / 0.40);
+    transform: none;
+  }
+  .tidal-rail-title { font-size: 18px; }
+  .tidal-depths-detail { min-height: 0; }
+  .tidal-detail-panel { position: relative; inset: auto; }
+  .tidal-detail-panel:not(.is-active) { display: none; }
+  .tidal-wave-fan { min-height: 0; }
+  .tidal-wave-line { display: none; }
+  .tidal-part-chips { grid-template-columns: 1fr; gap: 10px; }
+  .tidal-part-chip:nth-child(even) { margin-top: 0; }
+  .tidal-detail-title { font-size: 32px; }
+}
+
 /* ─── Mobile: Currents card meta row + descent grid 1-col ─────────────── */
 @media (max-width: 768px) {
   /* Flip Currents card meta from column to row so date + Read → sit on
