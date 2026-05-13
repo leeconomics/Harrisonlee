@@ -2,12 +2,11 @@
 id: 12
 n: "12"
 slug: hybrids-hour
-type: observation
 tag: "Note 12"
 title: "The hybrid's hour"
 sub: "AI removes the team the hybrid always needed."
 subtitle: "AI did not invent a new founder archetype. It removed the team the old archetype always needed."
-cats: [Strategy, Careers, AI]
+cats: [Business, Careers, AI]
 read: "5 min"
 readTime: "5 min read"
 date: "2026-05-01"
@@ -37,13 +36,13 @@ Across all three eras, the bottleneck was never the person. It was the people th
 
 Specialisation was never natural. It was a tax.
 
-The reason a 1000-person organisation runs on lanes is that information cannot move fast enough across a flat structure. So it is split. Engineering is one lane. Product is another. Marketing is a third. The hybrid had to squeeze into a lane to function inside the structure. ([[stop-the-lane-wars|The lane wars of the previous era]] never resolved because the lanes themselves were the wrong frame.) Be a CTO. Be a CEO. Be a "founder" rather than the actual cognitive shape they were.
+The reason a 1000-person organisation runs on lanes is that information cannot move fast enough across a flat structure. So it is split. Engineering is one lane. Product is another. Marketing is a third. The hybrid had to squeeze into a lane to function inside the structure. Be a CTO. Be a CEO. Be a "founder" rather than the actual cognitive shape they were.
 
 The squeeze was always lossy. The person who held both halves of the company in a single thought had to break themselves into pieces to fit on the org chart. Every conversion between lanes lost something. The technical implication of a marketing decision arrived three weeks late, through three handoffs, after the moment had passed.
 
 AI removes the coordination tax. The hybrid no longer hands work between people. They run the loop in their head. They write the brief. They ship the feature. They write the launch copy. They read the data. They iterate. The cognitive shape that was always natural is finally what the work demands.
 
-The shape was right. The world was wrong. The world is catching up. [[triad-collapsing|The triad is one specific casualty]] of this — three roles collapsing into one builder.
+The shape was right. The world was wrong. The world is catching up.
 
 <div class="pull-quote">AI did not create a new archetype. It removed the team the old archetype always needed.</div>
 
@@ -51,7 +50,7 @@ The shape was right. The world was wrong. The world is catching up. [[triad-coll
 
 The mechanism is concrete. The 50-person founding team is collapsing into a one-person founding team with a model as the rest.
 
-The hybrid wins at the median, not just the extreme. ([[great-pivot|And the demographic shift]] is already underway — the top decile is leaving the old firms to bet on this shape.) It used to take a Steve Jobs to operate at the intersection without dilution. The bar was unreasonably high because the supporting infrastructure had to be assembled from scratch every time. Now the bar is conviction and a tolerance for shipping in public. The infrastructure is rented, not built.
+The hybrid wins at the median, not just the extreme. It used to take a Steve Jobs to operate at the intersection without dilution. The bar was unreasonably high because the supporting infrastructure had to be assembled from scratch every time. Now the bar is conviction and a tolerance for shipping in public. The infrastructure is rented, not built.
 
 The exposed archetype is the pure specialist who never bothered to learn the other side. The deep technical operator who wrote off business as someone else's job. The deep business operator who wrote off the technical layer as someone else's job. Both used to be safe inside a team that contained the other. Both are now structurally vulnerable. The hybrid does not need them in the same way the structure used to require.
 
@@ -63,4 +62,4 @@ What AI cannot hand over is the cross-domain context that knows which technical 
 
 The pure technical operator becomes the help. The pure business operator becomes the help. The hybrid becomes the principal. Not because the hybrid is smarter. Because they are the only person on the team carrying the bridge in their head, and the bridge is the entire job.
 
-The trickle becomes the flood. The archetype that was always strong is now the default. **The hour is theirs.**
+The trickle becomes the flood. The archetype that was always strong is now the default. The hour is theirs.

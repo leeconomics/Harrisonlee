@@ -2,7 +2,6 @@
 id: 1
 n: "01"
 slug: why-being-lost
-type: opinion
 tag: "Note 01"
 title: "Why being lost is an advantage in the age of AI"
 sub: "On AI, restless minds, and the half of thinking consulting forgets."
@@ -25,7 +24,7 @@ What that produced was an intuition I could not have built any other way. Not fr
 
 ## The realisation
 
-The deeper realisation came later. **AI worked for me because of how I think, not despite it.** The way my brain wants to run, which is wide and fast and restless and jumping between contexts, was exactly what got rewarded by the conditions I was working in. Conventional advice would have called that a problem to manage. The pace of the work made it the only viable mode.
+The deeper realisation came later. AI worked for me because of how I think, not despite it. The way my brain wants to run, which is wide and fast and restless and jumping between contexts, was exactly what got rewarded by the conditions I was working in. Conventional advice would have called that a problem to manage. The pace of the work made it the only viable mode.
 
 <div class="pull-quote">The MBB world prizes convergence. Pyramid principle. Drive to the answer. That is not wrong. It is incomplete.</div>
 
@@ -37,8 +36,8 @@ AI restores the missing half. Cheaply, and at speed. For people who could never 
 
 The conventional career advice for people whose brains do not sit still is: pick a lane, narrow your focus, learn discipline. That advice was built for a world where divergence was expensive and convergence was the bottleneck. AI flips both. Divergence is cheap now. Capturing it is what is hard. And capturing it is exactly what the restless mind could never do alone.
 
-If you have been told your whole career to slow down and pick a lane, you probably do not need to slow down — [[stop-the-lane-wars|the lane war itself is fake]]. You need a system that can keep up with you.
+If you have been told your whole career to slow down and pick a lane, you probably do not need to slow down. You need a system that can keep up with you.
 
 <div class="pull-quote">For people structurally unsuited to "pick a lane and go deep," that system finally exists.</div>
 
-The trait was always the asset. The infrastructure around it was missing. That is the part that is new. And the timing of when you found that infrastructure matters less than [[you-are-not-behind|what you brought to it]].
+The trait was always the asset. The infrastructure around it was missing. That is the part that is new.

@@ -2,12 +2,11 @@
 id: 13
 n: "13"
 slug: salary-cap-hiring
-type: opinion
 tag: "Note 13"
 title: "You can't outbid for talent. Stop trying."
 sub: "Hiring is a pricing problem. Most are getting it wrong."
 subtitle: "The hiring problem is a pricing problem"
-cats: [People, Strategy]
+cats: [Business, Careers]
 read: "5 min"
 readTime: "5 min read"
 date: "2026-05-01"
@@ -25,7 +24,7 @@ The way to think about hiring is as a pricing problem. Talent is a market. The m
 
 ### The credit-score problem
 
-Younger candidates get filtered out for lack of data, the same way someone with no credit history gets rejected by a bank. (The deeper version of this — [[hire-people-who-can-teach-you|that the org chart filters for comfort, not capability]] — is a related failure mode.) There is nothing wrong with them. The system passes because the system needs legible signal and they have not been around long enough to generate it. Specific career shapes get filtered out for the same reason. Gaps. Non-linear paths. Unusual combinations. Each pass is a pricing error.
+Younger candidates get filtered out for lack of data, the same way someone with no credit history gets rejected by a bank. There is nothing wrong with them. The system passes because the system needs legible signal and they have not been around long enough to generate it. Specific career shapes get filtered out for the same reason. Gaps. Non-linear paths. Unusual combinations. Each pass is a pricing error.
 
 The diagnostic question for every candidate is the same. Why has this person not been processed yet, and is the reason real or a market failure? If the reason is real, move on. If the reason is a data gap, you have just found a barrel the market has not priced.
 
@@ -47,7 +46,7 @@ The "if you were CEO of this company, what would you do differently?" question f
 
 The calibration loop sits on the other side of the hire. Ask the team thirty days after the hire whether they would make it again. Ask everyone, not just the manager. The answer at thirty days is almost always the same as the answer at one year and at two years. You can know fast whether you got a barrel.
 
-The implication is uncomfortable. Most hiring processes are designed to be careful at the front and forgiving at the back. The opposite is more efficient. Be willing to hire people the legible market has missed. Then be willing to course-correct fast when the loop tells you the call was wrong. ([[ceo-relentless-force|And once the call is right, the work is keeping their tempo high]] — talented people drift toward cruising more than they break.)
+The implication is uncomfortable. Most hiring processes are designed to be careful at the front and forgiving at the back. The opposite is more efficient. Be willing to hire people the legible market has missed. Then be willing to course-correct fast when the loop tells you the call was wrong.
 
 ### The closing problem
 
@@ -57,6 +56,6 @@ This is the part that does not scale into a process. It is a real conversation a
 
 ### The implication
 
-The companies that compound talent over a decade are the ones that figured out hiring is not a money game. (And [[great-teams|once they've hired]], the operating model around the hires does the rest of the work.) They built the diagnostic muscle to find mispriced barrels. They built the closing muscle to land them on mission. And they stopped competing on the dimension they could not win.
+The companies that compound talent over a decade are the ones that figured out hiring is not a money game. They built the diagnostic muscle to find mispriced barrels. They built the closing muscle to land them on mission. And they stopped competing on the dimension they could not win.
 
-If you are running a hiring process right now and the strategy reads like a bidding war, you are about to lose a war you could not win in the first place. The good news is the war was the wrong frame. **The talent is out there. The market just has not seen it yet.**
+If you are running a hiring process right now and the strategy reads like a bidding war, you are about to lose a war you could not win in the first place. The good news is the war was the wrong frame. The talent is out there. The market just has not seen it yet.

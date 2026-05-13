@@ -2,7 +2,6 @@
 id: 3
 n: "03"
 slug: speed-taste-tradeoff
-type: argument
 tag: "Note 03"
 title: "The speed-taste tradeoff"
 sub: "Where AI creative actually wins, and where it cannot."
@@ -54,7 +53,7 @@ A Mounjaro 5mg lo-fi run earlier this year collapsed our CAC in a week. The form
 
 The work that requires a point of view. Breakthrough hooks. Virality. Mid-funnel emotional connection. Trust at the brand level. The visceral reaction that makes someone remember a brand a week later.
 
-These outcomes need taste, and taste is exactly what AI reverts to the mean on. [[post-ai|It's the T in POST-AI]] for a reason. The more premium the brand, the more this matters. The more saturated the category, the more this matters. The more your edge depends on people feeling something specific about you, the more it matters.
+These outcomes need taste, and taste is exactly what AI reverts to the mean on. The more premium the brand, the more this matters. The more saturated the category, the more this matters. The more your edge depends on people feeling something specific about you, the more it matters.
 
 ## The framework: speed-taste matrix
 
@@ -87,8 +86,6 @@ The teams winning right now run a heavy-on-both-ends shape. Volume of AI-templat
 
 <div class="pull-quote">The hard part is not picking the mix. It is keeping the learning loop fast enough to compound while still holding a point of view distinct enough to not regress to the AI mean. Taste at the prompt level, not the asset level.</div>
 
-([[letter-to-designers|For designers specifically, the loop is closing differently]] — the artifact is becoming the build.)
-
 ## The question worth asking
 
-The question worth asking your team is not whether AI replaces creatives. It is which creative decisions you are willing to template, and which ones you would defend with your career. The second answer is the part of your team that needs to get sharper, not smaller. That sharpness is the only thing [[after-attention|that compounds when content is free]].
+The question worth asking your team is not whether AI replaces creatives. It is which creative decisions you are willing to template, and which ones you would defend with your career. The second answer is the part of your team that needs to get sharper, not smaller.

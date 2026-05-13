@@ -2,12 +2,11 @@
 id: 9
 n: "09"
 slug: letter-to-designers
-type: letter
 tag: "Note 09"
 title: "A letter to designers: the artifact is becoming the build"
 sub: "What is changing in your craft, what is not yet, and how to prepare."
 subtitle: "What is changing in your craft, what is not yet, and how to prepare"
-cats: [Craft, AI, Marketing]
+cats: [AI, Careers, Marketing]
 read: "6 min"
 readTime: "6 min read"
 date: "2026-04-30"
@@ -83,7 +82,7 @@ Pair with a developer for performance, accessibility, and the weird Safari bug. 
 
 ## What is not there yet
 
-I do not want to oversell this. The seams are real. ([[wrong-direction-faster|And the cost of getting the direction wrong]], when the build itself is suddenly cheap, is its own kind of seam.)
+I do not want to oversell this. The seams are real.
 
 Real content still breaks layouts. The model does not know your data, your titles, your edge cases.
 
@@ -101,7 +100,7 @@ The loop is closing. It is not closed.
 
 Four inputs, in order of how much each one bends the curve.
 
-- **Taste.** The largest single input. Years to build. Untrainable in a weekend. The skill of looking at three options and knowing which is better, and being able to say why. [[post-ai|The trait recruiters under-test for]], and the one that splits the leveraged designer from the slop cannon.
+- **Taste.** The largest single input. Years to build. Untrainable in a weekend. The skill of looking at three options and knowing which is better, and being able to say why.
 - **Reference fluency.** Knowing what good looks like across enough domains to pull a relevant anchor in seconds. Editorial sites, product sites, portfolios, niche aesthetics. Built through daily looking, not weekly.
 - **CSS vocabulary.** A weekend. Padding, margin, line-height, letter-spacing, max-width, gap, flex, grid. Just enough to be precise when prompting and to read AI output without flinching.
 - **Spec discipline at minute one.** A few projects to learn. The biggest force-multiplier in the loop and the one most designers still skip.
@@ -110,14 +109,14 @@ Three and four are weekends. One and two are years.
 
 <div class="pull-quote">The leverage gap between the designer with AI and the non-designer with AI is not the loop. It is everything you bring to it.</div>
 
-That asymmetry is good news for designers. The shift you have been told to fear rewards the inputs you have already been building — the same asymmetry [[speed-taste-tradeoff|playing out in creative right now]].
+That asymmetry is good news for designers. The shift you have been told to fear rewards the inputs you have already been building.
 
 ## How to prepare
 
 Concrete and short.
 
 - Spend a weekend on CSS basics. Not to write it from scratch. To name it precisely when prompting and to read AI output without panic.
-- Build a reference library you actually use. Three sites for editorial, three for product, three for personal. Pinned somewhere you open daily. ([[anyone-can-ship|The broader version of this argument]] — that the inputs are the moat, not the loop — applies beyond just designers.)
+- Build a reference library you actually use. Three sites for editorial, three for product, three for personal. Pinned somewhere you open daily.
 - Treat the first prompt of any AI design session like a real brief. Type, colour, spacing, references. A tight spec at minute one beats ten prompts of fixing.
 - Run one full project without Figma. Even badly. The point is to feel the new loop in your hands.
 - Pair with a developer for the last five percent. The handoff that survives is smaller, sharper, and more collaborative than the one you have been complaining about.

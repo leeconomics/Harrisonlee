@@ -2,12 +2,11 @@
 id: 6
 n: "06"
 slug: post-ai
-type: guide
 tag: "Note 06"
 title: "POST-AI"
 sub: "Six traits recruiters should actually hire for in an AI-native world."
 subtitle: "The six traits recruiters should actually hire for in an AI-native world"
-cats: [People, Careers, AI]
+cats: [Business, Careers, AI]
 read: "6 min"
 readTime: "6 min read"
 date: "2026-04-29"
@@ -17,7 +16,7 @@ listDate: "29 April 2026"
 
 Every job description in 2026 says "AI-native." Almost none of them define it. The hiring market is full of vague language, vibes-based interviews, and rubrics that test for tool fluency instead of judgment. AI-native, as it stands today, is theatre. People know they should want it. They cannot describe what it is.
 
-The lazy version of the answer is "they use ChatGPT well." That is a symptom, not a trait. Tools change every six months. The traits that actually predict whether someone thrives in a post-AI environment are stable across whatever the next tool is. They sit underneath the tools. ([[you-are-not-behind|Whether AI makes you better depends on what you brought to it]] — these six are the 'what.') They are the things you should be looking for in a candidate, in a trial, in a reference check, in your own people.
+The lazy version of the answer is "they use ChatGPT well." That is a symptom, not a trait. Tools change every six months. The traits that actually predict whether someone thrives in a post-AI environment are stable across whatever the next tool is. They sit underneath the tools. They are the things you should be looking for in a candidate, in a trial, in a reference check, in your own people.
 
 There are six. They spell POST-AI. The acronym is a memory aid. The six traits are the rubric that should sit underneath every "AI-native" job description in the world right now, and almost never does.
 
@@ -78,7 +77,7 @@ The shift from doing tasks to designing systems that do tasks. Workflows that se
 
 When generation is free, the bottleneck moves to judgment of what is good. What is distinct. What is worth keeping. Taste is the most under-discussed of the six because it is the hardest to test for, but it is the trait that prevents an organisation from drowning in its own output.
 
-You cannot teach taste in an interview. You can test for it — and at the asset level, [[speed-taste-tradeoff|the taste decision is where the AI mean shows up first]]. Show three pieces of work. Ask the candidate which is best and why. The reasoning matters more than the choice.
+You cannot teach taste in an interview. You can test for it. Show three pieces of work. Ask the candidate which is best and why. The reasoning matters more than the choice.
 
 ## A — Alignment
 
@@ -98,7 +97,7 @@ Insight is what separates the operator who runs ten experiments and learns nothi
 
 Speed.
 
-Everyone wants to hire for speed. **Speed is not a trait. It is an outcome.** The fast operators in 2026 are fast because they prioritised correctly, owned the work end to end, built systems, applied taste, were aligned with the right people, and had real insight into the problem. Strip any of those out and the speed is just slop, faster. The speed worth wanting sits one level up: [[speed-to-learning|the loop, not the asset]].
+Everyone wants to hire for speed. Speed is not a trait. It is an outcome. The fast operators in 2026 are fast because they prioritised correctly, owned the work end to end, built systems, applied taste, were aligned with the right people, and had real insight into the problem. Strip any of those out and the speed is just slop, faster.
 
 Hiring rubrics that optimise on speed and efficiency directly are the fastest way to fill a team with slop cannons. People who ship a lot of mediocre work. People who confuse motion with progress. The trial that asks "how many things can you do in two hours" selects for exactly the wrong thing. The trial that asks "what would you cut and why" selects for the right one.
 
@@ -134,4 +133,4 @@ If you are early in your career and worried that AI is closing doors, the doors 
 
 AI-native, properly defined, is just this. Six traits, weighted by role. Recruiters who can hire for them will fill teams that compound. Recruiters who keep optimising for speed and tool fluency will fill teams with slop cannons.
 
-The teams that win the next three years are the ones who built the rubric before the language caught up. And underneath the rubric, [[curiosity-and-agency|the two traits with no decay rate]] hold it all together.
+The teams that win the next three years are the ones who built the rubric before the language caught up.

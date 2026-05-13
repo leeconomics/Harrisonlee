@@ -2,7 +2,6 @@
 id: 7
 n: "07"
 slug: after-attention
-type: observation
 tag: "Note 07"
 title: "After attention"
 sub: "The three eras of distribution, and why perspective is the only thing that compounds now."
@@ -29,7 +28,7 @@ The third shift is happening now. Most people have not noticed.
 
 When everything is produceable at average quality, nothing at average quality is scarce.
 
-What becomes scarce is a genuinely distinct lens. Not an opinion. A way of seeing — the product of [[post-ai|Taste and Insight]] working together, not either one alone.
+What becomes scarce is a genuinely distinct lens. Not an opinion. A way of seeing.
 
 ## The bifurcation
 
@@ -39,7 +38,7 @@ The slop layer expands. More content, lower average quality, shorter average lif
 
 Underneath that, something different forms. Perspectives specific enough to find the people who needed exactly that lens. Not mass distribution. Precise distribution. AI-powered search and recommendation routing on specificity and relevance, not on follower counts or domain authority. A personal site with a genuinely original point of view outranking an optimised generic one. A niche take reaching its exact intended pocket faster than a broad take reaches anyone.
 
-Two games, running in parallel. The slop game gets more crowded and less valuable simultaneously. The perspective game opens up. ([[eats-the-middle|The same bifurcation runs through every business value chain]] — value pooling at the why-end and the distribution-end as the middle commoditises.)
+Two games, running in parallel. The slop game gets more crowded and less valuable simultaneously. The perspective game opens up.
 
 <div class="pull-quote">The social-era playbook confuses activity for compound interest. They are not the same thing.</div>
 
@@ -55,6 +54,6 @@ The question is not how often you post. It is whether the perspective is worth h
 
 For the first time, original perspective has a structural distribution advantage over optimised reach. No institution required. No follower count. No budget. AI is the first distribution layer that actually routes on the quality of the thinking rather than the size of the audience behind it.
 
-This is the opening the social-era playbook people are not seeing. They are looking at the slop layer and calling it the whole picture.
+This is the opening most people are not seeing because they are looking at the slop layer and calling it the whole picture.
 
 <div class="pull-quote">The bottleneck moved entirely to the thought side. That is both the problem and the opening.</div>

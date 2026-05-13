@@ -2,12 +2,11 @@
 id: 10
 n: "10"
 slug: wrong-direction-faster
-type: opinion
 tag: "Note 10"
 title: "AI doesn't fix bad design. It scales it."
 sub: "Why lowering the cost of production does not lower the cost of a wrong first principle."
 subtitle: "Why lowering the cost of production does not lower the cost of a wrong first principle"
-cats: [Strategy, AI]
+cats: [Business, AI]
 read: "5 min"
 readTime: "5 min read"
 date: "2026-04-30"
@@ -19,7 +18,7 @@ The common assumption is that cheaper production is good for design. Cheaper pro
 
 Code and design fail differently. A bad line of code is a ticket. Isolate it, fix it, ship the patch. The rest of the product sits untouched. Design sets a direction. Usability. Intent. The felt experience of a product against what a customer was expecting when they opened it. That direction has to be right before you build, not after. Move too far in the wrong direction and the cost is not a tweak. It is a rethink.
 
-AI accelerates the build. It does not pause to ask whether you are building the right thing. ([[letter-to-designers|For designers, the loop closes differently]] — taste at the prompt level is what saves you from this.)
+AI accelerates the build. It does not pause to ask whether you are building the right thing.
 
 ### Design is the surface customers actually experience
 
@@ -33,7 +32,7 @@ Dylan Field, co-founder and CEO of Figma, put it plainly in a recent interview:
 
 > <em>"The first thing AI gives you is generic by definition because it's the average of everything it's seen."</em>
 
-Generic is fine as a starting point, if the person holding the tool has a point of view strong enough to push beyond it. [[post-ai|That point of view has a name in the rubric: Taste]]. It is a liability if they do not. AI compresses the distance from brief to output. It does not supply the judgment about whether the output is right.
+Generic is fine as a starting point, if the person holding the tool has a point of view strong enough to push beyond it. It is a liability if they do not. AI compresses the distance from brief to output. It does not supply the judgment about whether the output is right.
 
 Field's frame for this is clay. AI output is raw material. Someone with craft and a genuine perspective has to shape it. Without that shaping, you ship the average. Faster.
 
@@ -57,7 +56,7 @@ Jaguar's 2024 rebrand — abstract visuals, no car in the launch video, heritage
 
 ### The implication for how you invest
 
-When building was the bottleneck, the logic was: ship something working first, design it better later. When building is cheap, that logic inverts. **Moving fast in the wrong design direction is the most expensive bet available.** The speed AI provides accelerates the consequence of a bad first principle, not just the velocity of a good one.
+When building was the bottleneck, the logic was: ship something working first, design it better later. When building is cheap, that logic inverts. Moving fast in the wrong design direction is the most expensive bet available. The speed AI provides accelerates the consequence of a bad first principle, not just the velocity of a good one.
 
 Lowering the cost of production is not the same as lowering the cost of a bad decision. For code, those two things have moved together. For design, they have not.
 

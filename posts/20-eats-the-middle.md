@@ -2,12 +2,11 @@
 id: 20
 n: "20"
 slug: eats-the-middle
-type: argument
 tag: "Note 20"
 title: "What still compounds when AI eats the middle"
 sub: "The two moats that survive when execution is free."
 subtitle: "The two moats that survive when execution is free"
-cats: [Strategy, AI]
+cats: [Business, AI]
 read: "6 min"
 readTime: "6 min read"
 date: "2026-05-01"
@@ -21,7 +20,7 @@ listDate: "1 May 2026"
 
 AI is compressing the cost of execution across every value chain. Building software. Producing creative. Drafting documents. Writing code. Generating analysis. The middle of every business — the actual making of the thing — is getting cheaper, faster, and more commoditised by the month.
 
-When the middle commoditises, value pools at the ends. Two moats survive. ([[rise-of-ic-manager|This is the same logic at the org-chart level]] — middle management layers also compress when AI absorbs their translation work.) The why, on one end. Distribution, on the other. Everything in between is borrowed time. Most companies are still investing in the middle because the middle is where the org chart sits, and they have not yet noticed that the part of the org chart they keep adding to is the part AI is busy hollowing out.
+When the middle commoditises, value pools at the ends. Two moats survive. The why, on one end. Distribution, on the other. Everything in between is borrowed time. Most companies are still investing in the middle because the middle is where the org chart sits, and they have not yet noticed that the part of the org chart they keep adding to is the part AI is busy hollowing out.
 
 ### The value chain, drawn
 
@@ -69,13 +68,13 @@ The companies with the strongest "why" position are the ones where someone — u
 
 ### Why distribution compounds
 
-Distribution does not commoditise because it depends on relationships, trust, and channel ownership that accumulate over years. You can prompt your way to a landing page in an hour. You cannot prompt your way to an audience that trusts you, a sales motion that works, or a channel where your customers are already paying attention. ([[after-attention|This is what perspective compounding looks like at the distribution end]] — quality of thought routes through quality of trust.)
+Distribution does not commoditise because it depends on relationships, trust, and channel ownership that accumulate over years. You can prompt your way to a landing page in an hour. You cannot prompt your way to an audience that trusts you, a sales motion that works, or a channel where your customers are already paying attention.
 
 The companies with the strongest distribution position are the ones that started building it early and kept investing when it looked unsexy. Newsletter audiences built over a decade. Sales relationships maintained through quarters where they did not pay off. Communities where the trust is genuine because the company has been in them long enough to have history. These positions compound at a rate set by the relationship, not by the model. AI raises the cost of competing on this dimension. It does not let new entrants skip it.
 
 ### The exposed archetype
 
-The exposed archetype is the company whose entire competitive position is "we build it better." For most companies that built their identity around execution quality, the moat is dissolving in real time and the leadership team has not noticed. **Build quality is converging across the industry as AI raises the floor.** The company that was three years ahead on execution is now six months ahead, and the gap is closing every quarter.
+The exposed archetype is the company whose entire competitive position is "we build it better." For most companies that built their identity around execution quality, the moat is dissolving in real time and the leadership team has not noticed. Build quality is converging across the industry as AI raises the floor. The company that was three years ahead on execution is now six months ahead, and the gap is closing every quarter.
 
 The middle-of-the-chain investments — the ones that look like efficiency, productivity, and operational excellence — are the ones AI is eating. Doubling down on them is doubling down on a position that is depreciating.
 

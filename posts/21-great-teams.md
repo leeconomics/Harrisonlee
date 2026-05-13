@@ -2,12 +2,11 @@
 id: 21
 n: "21"
 slug: great-teams
-type: argument
 tag: "Note 21"
 title: "Most great teams aren't made of great people"
 sub: "The operating model matters more than the bench."
 subtitle: "Why the operating model matters more than the bench"
-cats: [People, Strategy]
+cats: [Business, Careers, Talent]
 read: "6 min"
 readTime: "6 min read"
 date: "2026-05-01"
@@ -35,7 +34,7 @@ This is a different argument from the standard one about psychological safety. T
 
 You need a critical mass of extraordinary talent for any of this to work. Below the threshold, the extraordinary people get pulled down to the team's level and quit. Above it, the good people get pulled up to the extraordinary people's level and compound. The exact ratio is context-dependent, but the existence of a threshold is not.
 
-Most teams underestimate it. Two extraordinary people in a team of fifteen is not enough. Five is closer. ([[salary-cap-hiring|Finding the five]] is the diagnostic muscle — pricing barrels the market has missed.) The math of human attention sets the floor — there is only so much exposure each barrel can give to the people around them, only so many decisions they can shape, only so many moments where their patterns become visible. Below the threshold, the dilution is too high and the standard does not transfer. Above it, the standard becomes the air the team breathes.
+Most teams underestimate it. Two extraordinary people in a team of fifteen is not enough. Five is closer. The math of human attention sets the floor — there is only so much exposure each barrel can give to the people around them, only so many decisions they can shape, only so many moments where their patterns become visible. Below the threshold, the dilution is too high and the standard does not transfer. Above it, the standard becomes the air the team breathes.
 
 The first hiring decision that matters in any growing team is not "who do we hire next." It is "are we above or below the ratio." If you are below it, the next hire has to be a barrel. Compromising on this is how teams plateau and stop knowing why.
 
@@ -77,6 +76,6 @@ The same archetype shows up in companies that have done the hiring work but skip
 
 You probably cannot hire your way to great. You can build your way there. The compounding happens when the right ratio of extraordinary talent runs in close proximity to good talent, with autonomy to own outcomes, strategic context to make great calls, and a culture that makes ambitious shots safer than timid ones. None of these is a hiring move. All of them are operating-model moves. They are available to anyone willing to build them.
 
-The hiring loop is half the work. The operating model is the other half. **Most companies that fail at scale are failing on the second half, not the first.** They have the people. They do not have the environment. The team plateaus at the average of its hires, and the founders blame the talent market when the answer was always sitting on their side of the table.
+The hiring loop is half the work. The operating model is the other half. Most companies that fail at scale are failing on the second half, not the first. They have the people. They do not have the environment. The team plateaus at the average of its hires, and the founders blame the talent market when the answer was always sitting on their side of the table.
 
-Build the environment. The team you can actually hire becomes the team that wins. (And once built, [[ceo-relentless-force|keeping the tempo right]] — push when winning, coach when losing — is the other half of the job.)
+Build the environment. The team you can actually hire becomes the team that wins.
