@@ -2,6 +2,7 @@
 id: 12
 n: "12"
 slug: hybrids-hour
+type: observation
 tag: "Note 12"
 title: "The hybrid's hour"
 sub: "AI removes the team the hybrid always needed."

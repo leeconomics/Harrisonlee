@@ -2,6 +2,7 @@
 id: 19
 n: "19"
 slug: great-pivot
+type: observation
 tag: "Note 19"
 title: "The great pivot"
 sub: "The best people are leaving consulting, law, and banking."

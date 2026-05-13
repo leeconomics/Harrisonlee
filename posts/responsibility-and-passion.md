@@ -2,6 +2,7 @@
 id: 26
 n: "26"
 slug: responsibility-and-passion
+type: reflection
 tag: "Note 26"
 title: "Responsibility and passion are not opposites"
 sub: "The struggling-artist trope has shape-shifted, and the dichotomy is still a lie."

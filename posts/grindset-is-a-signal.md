@@ -2,6 +2,7 @@
 id: 25
 n: "25"
 slug: grindset-is-a-signal
+type: opinion
 tag: "Note 25"
 title: "The grindset is a signal, not a strategy"
 sub: "What it actually buys, what it costs, and why the trade is about to close."

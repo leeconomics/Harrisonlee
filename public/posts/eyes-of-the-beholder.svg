@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg-eob" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5f3ed"/>
+      <stop offset="60%" stop-color="#eef2f3"/>
+      <stop offset="100%" stop-color="#dde7eb"/>
+    </linearGradient>
+    <linearGradient id="note-face" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1d3340"/>
+      <stop offset="100%" stop-color="#0d1f2a"/>
+    </linearGradient>
+    <filter id="soft-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+
+  <!-- Backdrop -->
+  <rect width="1200" height="630" fill="url(#bg-eob)"/>
+
+  <!-- Left glow: cool, modest. Blurred low-opacity disc + a few concentric rings. -->
+  <circle cx="400" cy="315" r="130" fill="#9bc8d7" opacity="0.32" filter="url(#soft-blur)"/>
+  <circle cx="400" cy="315" r="58" fill="none" stroke="#5a8da0" stroke-width="0.9" opacity="0.45"/>
+  <circle cx="400" cy="315" r="92" fill="none" stroke="#5a8da0" stroke-width="0.8" opacity="0.30"/>
+  <circle cx="400" cy="315" r="130" fill="none" stroke="#5a8da0" stroke-width="0.7" opacity="0.18"/>
+
+  <!-- Right glow: warm, expansive. Blurred disc + wider rings. -->
+  <circle cx="800" cy="315" r="220" fill="#c89455" opacity="0.36" filter="url(#soft-blur)"/>
+  <circle cx="800" cy="315" r="78" fill="none" stroke="#a87a44" stroke-width="1.1" opacity="0.55"/>
+  <circle cx="800" cy="315" r="130" fill="none" stroke="#a87a44" stroke-width="0.9" opacity="0.40"/>
+  <circle cx="800" cy="315" r="184" fill="none" stroke="#a87a44" stroke-width="0.8" opacity="0.28"/>
+  <circle cx="800" cy="315" r="238" fill="none" stroke="#a87a44" stroke-width="0.7" opacity="0.16"/>
+
+  <!-- The two notes — identical in size, shape, fill. Same physical object. -->
+  <g transform="translate(400 315) rotate(-6)">
+    <rect x="-56" y="-25" width="112" height="50" rx="4" fill="url(#note-face)"/>
+    <circle cx="0" cy="0" r="11" fill="none" stroke="#c89455" stroke-width="0.9" opacity="0.65"/>
+  </g>
+
+  <g transform="translate(800 315) rotate(5)">
+    <rect x="-56" y="-25" width="112" height="50" rx="4" fill="url(#note-face)"/>
+    <circle cx="0" cy="0" r="11" fill="none" stroke="#c89455" stroke-width="0.9" opacity="0.65"/>
+  </g>
+
+  <!-- Horizon line — quiet ground tying the two halves together -->
+  <line x1="180" y1="470" x2="1020" y2="470" stroke="#5a8da0" stroke-width="0.7" opacity="0.30"/>
+</svg>

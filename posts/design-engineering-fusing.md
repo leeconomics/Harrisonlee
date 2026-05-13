@@ -2,6 +2,7 @@
 id: 17
 n: "17"
 slug: design-engineering-fusing
+type: observation
 tag: "Note 17"
 title: "Code is becoming design. Design is becoming code."
 sub: "A spectrum, a timeline, and why future builders won't pick a side."

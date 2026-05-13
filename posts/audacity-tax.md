@@ -2,6 +2,7 @@
 id: 27
 n: "27"
 slug: audacity-tax
+type: reflection
 tag: "Note 27"
 title: "The audacity tax"
 sub: "On why bright, calibrated people quietly underwrite their own ceiling."

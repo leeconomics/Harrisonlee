@@ -2,6 +2,7 @@
 id: 23
 n: "23"
 slug: agent-that-compounds
+type: guide
 tag: "Note 23"
 title: "Six steps to an agent that compounds"
 sub: "Onboard your AI agent like a new hire."

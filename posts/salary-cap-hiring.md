@@ -2,6 +2,7 @@
 id: 13
 n: "13"
 slug: salary-cap-hiring
+type: opinion
 tag: "Note 13"
 title: "You can't outbid for talent. Stop trying."
 sub: "Hiring is a pricing problem. Most are getting it wrong."

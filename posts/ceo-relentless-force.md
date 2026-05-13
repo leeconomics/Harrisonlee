@@ -2,6 +2,7 @@
 id: 14
 n: "14"
 slug: ceo-relentless-force
+type: opinion
 tag: "Note 14"
 title: "The CEO's job is the opposite of morale"
 sub: "Push when winning. Coach when losing. The job is the inversion."

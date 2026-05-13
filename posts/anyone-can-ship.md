@@ -2,6 +2,7 @@
 id: 22
 n: "22"
 slug: anyone-can-ship
+type: opinion
 tag: "Note 22"
 title: "Anyone can ship a website. Almost no one ships a good one."
 sub: "AI democratised the design loop. It did not democratise the inputs."

@@ -2,6 +2,7 @@
 id: 24
 n: "24"
 slug: fast-and-lost
+type: reflection
 tag: "Note 24"
 title: "You can be very fast and very lost"
 sub: "A note on the fine line between craft and grind."

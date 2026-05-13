@@ -2,6 +2,7 @@
 id: 18
 n: "18"
 slug: visceral-learning
+type: reflection
 tag: "Note 18"
 title: "The lessons that compound are the ones that hurt"
 sub: "Why most 'learning' never makes it past the front of your mind."

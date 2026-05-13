@@ -2,6 +2,7 @@
 id: 11
 n: "11"
 slug: hire-people-who-can-teach-you
+type: argument
 tag: "Note 11"
 title: "Hire people who can teach you"
 sub: "On opportunity cost, information architecture, and why one-way mentoring optimises for the wrong thing."

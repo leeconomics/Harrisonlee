@@ -2,6 +2,7 @@
 id: 20
 n: "20"
 slug: eats-the-middle
+type: argument
 tag: "Note 20"
 title: "What still compounds when AI eats the middle"
 sub: "The two moats that survive when execution is free."

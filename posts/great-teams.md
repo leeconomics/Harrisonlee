@@ -2,6 +2,7 @@
 id: 21
 n: "21"
 slug: great-teams
+type: argument
 tag: "Note 21"
 title: "Most great teams aren't made of great people"
 sub: "The operating model matters more than the bench."

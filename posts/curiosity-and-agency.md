@@ -2,6 +2,7 @@
 id: 16
 n: "16"
 slug: curiosity-and-agency
+type: argument
 tag: "Note 16"
 title: "Curiosity and agency are the only traits that compound now"
 sub: "The only two traits with no decay rate."

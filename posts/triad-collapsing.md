@@ -2,6 +2,7 @@
 id: 15
 n: "15"
 slug: triad-collapsing
+type: observation
 tag: "Note 15"
 title: "The triad is collapsing"
 sub: "The future builder holds product, design, and engineering at once."

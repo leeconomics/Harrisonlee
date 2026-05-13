@@ -2,6 +2,7 @@
 id: 9
 n: "09"
 slug: letter-to-designers
+type: letter
 tag: "Note 09"
 title: "A letter to designers: the artifact is becoming the build"
 sub: "What is changing in your craft, what is not yet, and how to prepare."
@@ -100,7 +101,7 @@ The loop is closing. It is not closed.
 
 Four inputs, in order of how much each one bends the curve.
 
-- **Taste.** The largest single input. Years to build. Untrainable in a weekend. The skill of looking at three options and knowing which is better, and being able to say why.
+- **Taste.** The largest single input. Years to build. Untrainable in a weekend. The skill of looking at three options and knowing which is better, and being able to say why. [[post-ai|The trait recruiters under-test for]], and the one that splits the leveraged designer from the slop cannon.
 - **Reference fluency.** Knowing what good looks like across enough domains to pull a relevant anchor in seconds. Editorial sites, product sites, portfolios, niche aesthetics. Built through daily looking, not weekly.
 - **CSS vocabulary.** A weekend. Padding, margin, line-height, letter-spacing, max-width, gap, flex, grid. Just enough to be precise when prompting and to read AI output without flinching.
 - **Spec discipline at minute one.** A few projects to learn. The biggest force-multiplier in the loop and the one most designers still skip.
@@ -109,7 +110,7 @@ Three and four are weekends. One and two are years.
 
 <div class="pull-quote">The leverage gap between the designer with AI and the non-designer with AI is not the loop. It is everything you bring to it.</div>
 
-That asymmetry is good news for designers. The shift you have been told to fear rewards the inputs you have already been building.
+That asymmetry is good news for designers. The shift you have been told to fear rewards the inputs you have already been building — the same asymmetry [[speed-taste-tradeoff|playing out in creative right now]].
 
 ## How to prepare
 
