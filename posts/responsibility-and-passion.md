@@ -39,8 +39,8 @@ The dichotomy collapses on inspection. What looks from a distance like the reckl
 
 ### What this means for the choice you actually have
 
-The choice in front of most people, once the trope has been stripped away, is not between grinding for forty years and blowing it all up at twenty-five. There is a quieter and more demanding question underneath. How do you build the scaffolding now, while you have the time and the energy to build it, so that the things you actually care about have somewhere to live for the next thirty years.
+The choice in front of most people, once the trope has been stripped away, is not between grinding for forty years and blowing it all up at twenty-five. ([[audacity-tax|The cost of always picking the legible option]] is the third trap that hides between the two visible ones.) There is a quieter and more demanding question underneath. How do you build the scaffolding now, while you have the time and the energy to build it, so that the things you actually care about have somewhere to live for the next thirty years.
 
 The honest answer to that is unglamorous, and it is the kind of answer that almost nobody is going to share a video about. It involves staying employable in work you can stand, keeping enough optionality that you can still change direction when something interesting becomes possible, building savings without making them the point of the exercise, taking care of a body you have to live inside, and investing seriously in the small number of relationships that actually carry weight when life leans on them. None of that fits a clean before-and-after frame. All of it is the kind of thing that, twenty years in, turns out to have been the work all along.
 
-Pick both. The boring half is what makes the interesting half last.
+**Pick both. The boring half is what makes the interesting half last.**

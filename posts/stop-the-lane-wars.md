@@ -39,7 +39,7 @@ Both lanes converge on the same outcome: clearing the new bar — and increasing
 
 <div class="pull-quote">Forcing yourself into an archetype you are not is the third failure mode. The natural generalist trying to become a specialist for credibility. The natural specialist trying to become a generalist for optionality. Both lose the speed advantage their actual cognition gave them.</div>
 
-The dumbest move is the one most people are making. Declaring the other side dead. Calling yourself the surviving type. And not actually working on either dimension. Generalists telling themselves specialists are obsolete. Specialists telling themselves generalists are shallow. Both staying exactly where they were in 2022.
+The dumbest move is the one most people are making. (And the smartest move, when AI removes the coordination tax, is to be [[hybrids-hour|the hybrid the work always wanted]].) Declaring the other side dead. Calling yourself the surviving type. And not actually working on either dimension. Generalists telling themselves specialists are obsolete. Specialists telling themselves generalists are shallow. Both staying exactly where they were in 2022.
 
 ## The actual work
 

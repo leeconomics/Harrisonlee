@@ -41,11 +41,11 @@ This is the conversation the firms are not having with themselves. The retention
 
 ### The harder problem is for the people inside
 
-The conventional advice to ambitious people inside the firms — stay, build the brand, take the partner shot — was calibrated to a world where the brand still bought you something durable. That world is fading. Not gone. Fading. The new question is whether the firm is still teaching you something the market values, or whether you are paying a tax on optionality you used to need and do not anymore.
+The conventional advice to ambitious people inside the firms — stay, build the brand, take the partner shot — was calibrated to a world where the brand still bought you something durable. That world is fading. Not gone. Fading. The new question is whether the firm is still teaching you something the market values, or whether you are paying a tax on optionality you used to need and do not anymore. ([[hybrids-hour|The hybrid archetype]] is one shape of what compounds outside the firm.)
 
 The friends I have asking this question — and there are many — share a pattern. They came in for the rigour. They learned the rigour. The rigour was real and useful. And they noticed, somewhere around year three, that the rigour was no longer the thing that was teaching them. The next two years would be the same rigour applied to the same kinds of problems for incremental compensation. Outside the firm, the same two years would be radically different, with radically more learning per unit of time.
 
-I am one of these people. I came up through BCG. The training was real. The pace was real. The thing I noticed by the end of my time there was that I had absorbed what the firm could teach me at the rate it was capable of teaching, and the next year was going to teach me less than the year before. That was not a failure of the firm. It was a structural feature of how big firms compound a junior. The first year is steep. The second year is steep. The third year is less steep. The decision was whether to keep climbing the curve I was on, or to step onto a steeper one.
+I am one of these people. I came up through BCG. The training was real. The pace was real. The thing I noticed by the end of my time there was that I had absorbed what the firm could teach me at the rate it was capable of teaching, and the next year was going to teach me less than the year before. That was not a failure of the firm. It was a structural feature of how big firms compound a junior. The first year is steep. The second year is steep. The third year is less steep. **The decision was whether to keep climbing the curve I was on, or to step onto a steeper one.**
 
 ### What the firms still get right
 

@@ -25,13 +25,13 @@ A CEO's job is to make better decisions than the organisation would make without
 
 That means by definition, in any well-built team, there are people who know more than the most senior leader about things that matter. Not as a failure. As a design feature.
 
-If that is true, and it is, then the people who belong in the room are not only the people you can develop. They include the people who develop you.
+If that is true, and it is, then the people who belong in the room are not only the people you can develop. They include the people who develop you. (And [[agent-that-compounds|the logic extends to agents]] — the best ones end up teaching you something back.)
 
 ### One-way mentoring is an ego structure
 
 Hiring people you can mentor is a filter that optimises for your comfort, not the organisation's capability. It selects for people whose current ceiling sits below yours. In stable environments with slow-moving domains, that is manageable. In fast-moving ones, the ceiling gets hit quickly and the cost shows up in the decisions you make without the input you didn't know you needed.
 
-The best hire is the one who expands the organisation's knowledge in a direction it didn't already have. A hire who adds no new capability, no new perspective, no new ground-level signal is a coordination cost with a salary. That is not a recruiting philosophy. It is just the opportunity cost argument, taken seriously.
+The best hire is the one who expands the organisation's knowledge in a direction it didn't already have — [[salary-cap-hiring|usually in a direction the market hasn't priced]] yet. A hire who adds no new capability, no new perspective, no new ground-level signal is a coordination cost with a salary. That is not a recruiting philosophy. It is just the opportunity cost argument, taken seriously.
 
 ### The founder dynamic
 
@@ -47,11 +47,11 @@ This is true more broadly than founders. It is true of anyone building a team in
 
 ### Hierarchy is a routing system
 
-Hierarchy is misread as power. It is not. Hierarchy is information architecture. A decision-routing system that ensures the right call gets made at the right level and the right communication reaches the right people. That is its entire function.
+**Hierarchy is misread as power. It is not. Hierarchy is information architecture.** A decision-routing system that ensures the right call gets made at the right level and the right communication reaches the right people. That is its entire function.
 
 The confusion of hierarchy with authority produces a specific and expensive failure mode. Directives go down. Context goes up, filtered and polished at each layer before it arrives. Everyone in the middle optimises for what their manager wants to hear. The actual signal degrades. By the time a real problem reaches someone with the authority to fix it, it has been translated into something manageable.
 
-Two-way mentoring fixes part of this. Leaders who are genuinely learning from their teams receive unfiltered, ground-level signal. The learning is the channel, not just the outcome.
+Two-way mentoring fixes part of this. Leaders who are genuinely learning from their teams receive unfiltered, ground-level signal. The learning is the channel, not just the outcome. ([[rise-of-ic-manager|The IC manager archetype is one version of this in practice]] — staying close to the texture instead of above it.)
 
 ### The exposed archetype
 

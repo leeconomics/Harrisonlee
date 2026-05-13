@@ -29,9 +29,9 @@ This is the part that is uncomfortable. The cost of grind is not the hours. The 
 
 <div class="pull-quote">Opportunity cost is the only cost that matters at this timescale, and it is the one you cannot see while it is happening.</div>
 
-Speed is celebrated regardless of direction. The most expensive thing in a career is to be very fast and very lost. You arrive at a place you did not choose, having spent years getting there. By the time you notice, the years are gone and the direction is locked.
+Speed is celebrated regardless of direction. The most expensive thing in a career is to be very fast and very lost. ([[curiosity-and-agency|Agency without curiosity]] is what this looks like when described as a trait.) You arrive at a place you did not choose, having spent years getting there. By the time you notice, the years are gone and the direction is locked.
 
-Craft is the opposite shape. Slower. Quieter. Less performable. The satisfaction it produces is a different kind of satisfaction. It does not feel like winning the day. It feels like a thing slowly becoming the thing it should be. Most people running hard right now do not have access to that feeling. They have replaced it with the calendar.
+Craft is the opposite shape. Slower. Quieter. Less performable. The satisfaction it produces is a different kind of satisfaction. It does not feel like winning the day. It feels like a thing slowly becoming the thing it should be. Most people running hard right now do not have access to that feeling. They have replaced it with the calendar. ([[grindset-is-a-signal|The structural version of this]] — effort as the only signal you have left to send — is the trap dressed in masculine language.)
 
 ### The questions worth sitting with
 
@@ -55,4 +55,4 @@ Five questions follow. They are uncomfortable on purpose.
 
 The questions are uncomfortable on purpose. Hours are easy to count. Direction is not. The gap between the two is the gap between five years of grind and five years of craft.
 
-The hours are not the work. The walk is.
+**The hours are not the work. The walk is.**

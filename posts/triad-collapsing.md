@@ -25,7 +25,7 @@ The middle of the software process is exactly what AI is best at. The actual bui
 
 ### What the triad was actually doing
 
-PMs were articulating the value proposition as a roadmap. Designers were articulating it as an experience. Engineers were articulating it as a system. All three were arriving at the same thing — what should exist and why anyone should care — from different angles. The triad existed because no single person could hold all three at the resolution the work demanded. Specialisation was a coordination tax that was cheaper than the alternative.
+PMs were articulating the value proposition as a roadmap. Designers were articulating it as an experience. Engineers were articulating it as a system. ([[design-engineering-fusing|Two of those three are already fusing]] — design and engineering are dissolving into one craft from both directions.) All three were arriving at the same thing — what should exist and why anyone should care — from different angles. The triad existed because no single person could hold all three at the resolution the work demanded. Specialisation was a coordination tax that was cheaper than the alternative.
 
 That is what is changing. AI lowers the cost of holding a second and third angle to the point where the coordination tax of the triad starts to look expensive. The skill that wins is not better PMing or better engineering. It is holding all three angles at once.
 
@@ -53,4 +53,4 @@ If you are hiring, stop indexing on deepest-in-one-discipline credentials. Hire 
 
 The companies winning the next decade are not the ones with the best PMs or the best engineers or the best designers. They are the ones with the most people who can hold all three perspectives at once, supervise AI doing the middle work, and keep the value proposition coherent from idea to shipped product.
 
-The triad was a workaround for a coordination cost that AI has made cheap. The shape of the work that replaces it is older and harder. It is just being a builder. It is just knowing what to build and why anyone should care. The job description has not caught up. The work already has.
+**The triad was a workaround for a coordination cost that AI has made cheap.** The shape of the work that replaces it is older and harder. It is just being a builder. It is just knowing what to build and why anyone should care. ([[hybrids-hour|The broader archetype this points to]] — the hybrid the work always wanted — is the deeper version.) The job description has not caught up. The work already has.

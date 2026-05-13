@@ -21,7 +21,7 @@ listDate: "1 May 2026"
 
 To the average person, design and engineering look like opposite crafts. One is visual, intuitive, taste-led. The other is technical, structured, logic-led. This view is correct about how the two fields were taught and hired ten years ago. It is increasingly wrong about how the work is being done now.
 
-The barriers between the two are dissolving from both directions. Engineers are using AI to ship interfaces without designer hand-offs. Designers are using AI tooling to ship working code without engineer hand-offs. The middle ground that used to need two people and a Figma file is increasingly held by one person, with a model doing the seam.
+The barriers between the two are dissolving from both directions. Engineers are using AI to ship interfaces without designer hand-offs. Designers are using AI tooling to ship working code without engineer hand-offs. ([[letter-to-designers|The letter version of this argument]], aimed at designers specifically, runs in more detail.) The middle ground that used to need two people and a Figma file is increasingly held by one person, with a model doing the seam.
 
 ### The spectrum
 
@@ -42,7 +42,7 @@ DESIGN ←───────────────────────�
               (this is where the fusion is happening fastest)
 ```
 
-The interesting work has always sat in the middle. Building the actual interface. Wiring up the interaction. Making the design hold together when it meets real data. The middle is where the two crafts have always overlapped, and it is where AI is now lowering the cost of holding both at once.
+The interesting work has always sat in the middle. Building the actual interface. Wiring up the interaction. Making the design hold together when it meets real data. The middle is where the two crafts have always overlapped, and it is where AI is now lowering the cost of holding both at once. (This is the design-engineering slice of [[triad-collapsing|a bigger triad collapse]] — PM goes the same way.)
 
 ### The timeline
 
@@ -80,7 +80,7 @@ What is shifting is the *cost*, not the underlying difference in talent. A great
 
 The exposed archetype is the practitioner who treats their discipline as a moat. The designer who refuses to learn how things ship. The engineer who treats UI as someone else's problem. Both were defended by the cost of crossing over, and that cost is dropping faster than most of them realise. The moat was always borrowed time. It is now actively eroding.
 
-The interesting people to watch are the ones at the boundary. The engineer who ships their own UI and ships it well. The designer who deploys their own code and writes systems that hold together. They don't have a job title that fits. The fact that they don't is a leading indicator that the categories are wrong.
+**The interesting people to watch are the ones at the boundary.** The engineer who ships their own UI and ships it well. The designer who deploys their own code and writes systems that hold together. They don't have a job title that fits. The fact that they don't is a leading indicator that the categories are wrong.
 
 ### What the next few years probably look like
 

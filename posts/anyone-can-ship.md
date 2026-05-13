@@ -25,7 +25,7 @@ The mechanic is identical regardless of skill. Spec, generate, judge, refine, sh
 
 What is different is what each person brings to the prompt and what each person notices about the output. The designer arrives with three reference sites pinned, a typographic system already in mind, and a vocabulary for what to push back on when the model defaults to safe-and-generic. The first-time founder arrives with "make me a personal site" and gets a personal site that is fine.
 
-Both shipped. Only one shipped something memorable. The loop did not produce the gap. The inputs did.
+Both shipped. Only one shipped something memorable. The loop did not produce the gap. The inputs did. ([[letter-to-designers|The designer-specific version of this argument]] runs the same shape on a different audience.)
 
 ### The four inputs that are not democratised
 
@@ -45,7 +45,7 @@ The fourth is just enough code vocabulary to be precise. Padding, line-height, m
 
 The exposed archetype is the operator who saw the loop become free, concluded that design has been democratised, and started shipping. The output is fine. Everything is fine. Nothing is bad. Nothing is memorable either. The Webflow-template feel that used to come from a $19 template now comes from a free model, and the result is the same: indistinguishable from a thousand other sites built the same way, by people who brought the same nothing to the prompt.
 
-This is not an argument that AI design tooling is bad. It is the argument that the tooling is now adequate, which means the variance in output is no longer about the tooling. The variance is about the operator. Five years ago, the constraint on shipping was that you could not get the loop to run. Now the constraint is whether you can run it well. Different problem. Same gap, just relocated.
+This is not an argument that AI design tooling is bad. It is the argument that the tooling is now adequate, which means the variance in output is no longer about the tooling. ([[wrong-direction-faster|AI doesn't fix bad design]] — it scales it, faster than the operator can correct course.) The variance is about the operator. Five years ago, the constraint on shipping was that you could not get the loop to run. Now the constraint is whether you can run it well. Different problem. Same gap, just relocated.
 
 ### Personal evidence
 
@@ -61,4 +61,4 @@ The interesting question for the next decade is not whether AI replaces designer
 
 The democratised loop is real and worth using. It is also exposing a market that does not get talked about much yet — the gap between operators who run the same loop and produce wildly different outputs. The tools are not the moat. The taste is. The references are. The spec is. The model is doing the build. The work that used to be the build moved upstream and downstream, and both ends are still loaded with the things that take years to develop.
 
-Anyone can ship a website now. Almost no one can ship a good one. The interesting question is which of those two operators you are about to become.
+**Anyone can ship a website now. Almost no one can ship a good one.** The interesting question is which of those two operators you are about to become.

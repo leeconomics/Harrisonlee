@@ -134,4 +134,4 @@ If you are early in your career and worried that AI is closing doors, the doors 
 
 AI-native, properly defined, is just this. Six traits, weighted by role. Recruiters who can hire for them will fill teams that compound. Recruiters who keep optimising for speed and tool fluency will fill teams with slop cannons.
 
-The teams that win the next three years are the ones who built the rubric before the language caught up.
+The teams that win the next three years are the ones who built the rubric before the language caught up. And underneath the rubric, [[curiosity-and-agency|the two traits with no decay rate]] hold it all together.

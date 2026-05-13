@@ -39,7 +39,7 @@ The slop layer expands. More content, lower average quality, shorter average lif
 
 Underneath that, something different forms. Perspectives specific enough to find the people who needed exactly that lens. Not mass distribution. Precise distribution. AI-powered search and recommendation routing on specificity and relevance, not on follower counts or domain authority. A personal site with a genuinely original point of view outranking an optimised generic one. A niche take reaching its exact intended pocket faster than a broad take reaches anyone.
 
-Two games, running in parallel. The slop game gets more crowded and less valuable simultaneously. The perspective game opens up.
+Two games, running in parallel. The slop game gets more crowded and less valuable simultaneously. The perspective game opens up. ([[eats-the-middle|The same bifurcation runs through every business value chain]] — value pooling at the why-end and the distribution-end as the middle commoditises.)
 
 <div class="pull-quote">The social-era playbook confuses activity for compound interest. They are not the same thing.</div>
 

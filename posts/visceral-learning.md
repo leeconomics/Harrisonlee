@@ -43,11 +43,11 @@ A pivot that did not work, processed in a retro the next morning, is not a visce
 
 The exposed archetype is the person who reads constantly, listens to every podcast, takes detailed notes, and never quite changes. They are stacking information at a rate the brain cannot convert into wiring. The volume looks impressive. The compounding rate is near zero. Over five years the gap between them and someone who lived through one hard year becomes uncrossable.
 
-This is not an argument against reading. It is an argument against confusing reading with learning. The reading is the prep. The visceral experience is the test. Without the test, the prep does not get encoded.
+This is not an argument against reading. It is an argument against confusing reading with learning. The reading is the prep. The visceral experience is the test. Without the test, the prep does not get encoded. ([[curiosity-and-agency|The loop only runs when you act]] — reading is the prep, not the test.)
 
 ### The logical inversion
 
-If only visceral experience compounds, the implication is uncomfortable. You cannot optimise for low-cost lessons. You have to actively place yourself in environments where the experiences are dense, the stakes are real, and the consequences land. By definition, comfortable environments do not produce visceral lessons. Comfort is the enemy of compounding.
+If only visceral experience compounds, the implication is uncomfortable. You cannot optimise for low-cost lessons. You have to actively place yourself in environments where the experiences are dense, the stakes are real, and the consequences land. By definition, comfortable environments do not produce visceral lessons. **Comfort is the enemy of compounding.**
 
 The instincts that protect you from visceral experience — caution, hedging, staying in roles you have outgrown, avoiding the conversation, picking the safer bet — feel safe. They are. They are also a slow erosion of your capacity to learn, because nothing that happens in their shadow leaves a mark.
 

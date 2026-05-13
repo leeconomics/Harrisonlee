@@ -21,7 +21,7 @@ The loudest voices telling you that you are behind on AI have something to sell.
 
 Social media proved this. The first people on TikTok did not build the most durable audiences. The first people on Twitter did not end up with the most influence. Being first meant more reps. Whether those reps compounded into something real depended on something else entirely. We remember the ones who were early and rose. We forget the much larger group who were just early.
 
-Survivor bias is doing a lot of work in the AI discourse right now.
+Survivor bias is doing a lot of work in the AI discourse right now. (And [[audacity-tax|the opposite trap]] — bright calibrated people quietly underwriting their own ceiling — is what the survivor-bias narrative obscures.)
 
 ## What the foundation actually is
 

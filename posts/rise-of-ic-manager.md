@@ -17,7 +17,7 @@ listDate: "27 April 2026"
 
 The dominant fear about AI in knowledge work is that it eats the bottom of the org chart. Juniors out, entry-level roles hollowed, the grunt work absorbed first. It is a tidy story, and it is looking at the wrong layer. The real squeeze is happening higher up, and most middle managers have not noticed yet.
 
-The middle layer is getting compressed, but not because managers do not matter. The part of the manager job that AI most easily absorbs is exactly the part that bloated the middle in the first place. Status reporting. Project coordination. Information relay. The work that exists because information moves slowly through a hierarchy. Strip that out and you do not lose management. You lose a layer of management that was mostly translation.
+The middle layer is getting compressed, but not because managers do not matter. The part of the manager job that AI most easily absorbs is exactly the part that bloated the middle in the first place. Status reporting. Project coordination. Information relay. The work that exists because information moves slowly through a hierarchy. Strip that out and you do not lose management. You lose a layer of management that was mostly translation. ([[hire-people-who-can-teach-you|The information that travelled through that layer]] — context up, directives down — is what survives, minus the polish.)
 
 The compression is structural. AI does not just shrink roles and skill sets. It shrinks the hierarchy itself. Decisions that used to need three layers of context-passing can now happen in a single conversation. That is the change worth naming, and it is doing more work than most of the discussion gives it credit for.
 
@@ -45,7 +45,7 @@ The best managers in the next three years will be the ones who can drop into the
 
 ## The implication for how to design teams
 
-Fewer layers. More IC managers. A lot less tolerance for roles that exist primarily to translate between layers. The manager who survives the next three years is the one who is also building. The one who is only directing is being outpaced by the one who is doing both, and the gap is going to widen rather than narrow.
+Fewer layers. More IC managers. A lot less tolerance for roles that exist primarily to translate between layers. ([[eats-the-middle|The value-chain version of this argument]] — AI is hollowing out middles at every scale.) The manager who survives the next three years is the one who is also building. The one who is only directing is being outpaced by the one who is doing both, and the gap is going to widen rather than narrow.
 
 <div class="pull-quote">The manager who survives the next three years is the one who is also building.</div>
 

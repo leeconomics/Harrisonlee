@@ -15,7 +15,7 @@ displayDate: "May 2026"
 listDate: "1 May 2026"
 ---
 
-Most people setting up AI agents are underbuilding them and then concluding the agents do not work. They drop a one-liner into a chat, judge the first output, and walk away. The teams getting real leverage are doing something more thorough, and frankly more boring. They are treating agent setup the way they would treat onboarding a new hire. Heavy context, a clear manual, real tools, a feedback loop that actually closes.
+Most people setting up AI agents are underbuilding them and then concluding the agents do not work. They drop a one-liner into a chat, judge the first output, and walk away. The teams getting real leverage are doing something more thorough, and frankly more boring. They are treating agent setup the way they would treat onboarding a new hire. Heavy context, a clear manual, real tools, a feedback loop that actually closes. ([[hire-people-who-can-teach-you|And like the best human hires]], the best agent is the one that ends up teaching you something back.)
 
 The piece below is the manual that describes that process, in the order I would actually do it. It is a knowledge share, not an argument. Use it as a checklist when you are setting up your next agent in Cowork, Claude, or anything else.
 
@@ -125,4 +125,4 @@ Versioning the underlying system is what turns a useful agent into a sharp one o
 
 Each of these steps is unglamorous on its own. The payoff comes from doing all six and keeping the loop running. An agent that has a properly mapped workflow, deep context, named failure modes, real connectors, a miss log, and a versioned set of instructions gets sharper every week. An agent that has a clever prompt does not.
 
-The setups that compound look more like internal documentation than like prompt engineering. That is the part most people miss. The manual you write before you need it is the one that keeps paying.
+**The setups that compound look more like internal documentation than like prompt engineering.** That is the part most people miss. The manual you write before you need it is the one that keeps paying.

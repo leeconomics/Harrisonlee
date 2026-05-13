@@ -35,7 +35,7 @@ Winning teams contain the seeds of complacency. The wins feel earned. The standa
 
 Losing teams contain the seeds of panic. The losses feel personal. The pressure compounds. The team starts cutting corners to stop the bleeding, which produces more losses, which produces more pressure. Without an active force absorbing the panic, the team breaks before it can recover.
 
-The CEO is the only role with the standing and the distance to push back against whichever drift is dominant. Push when the team is drifting toward complacency. Coach when the team is drifting toward panic. The mode flip is not a personality trait. It is the function of the job.
+The CEO is the only role with the standing and the distance to push back against whichever drift is dominant. ([[great-teams|And the operating model around the CEO]] is what makes the push land — autonomy, adjacency, strategic context.) Push when the team is drifting toward complacency. Coach when the team is drifting toward panic. The mode flip is not a personality trait. It is the function of the job.
 
 > The single role of the CEO is offsetting whatever the team is naturally drifting toward.
 
@@ -43,10 +43,10 @@ The CEO is the only role with the standing and the distance to push back against
 
 The exposed archetype is the leader stuck in one mode. The cheerleader who keeps cheering when the team is cruising. The drill sergeant who keeps pushing when the team is already breaking. Both are reading the situation wrong because they are applying a personality, not a function. Both are doing the job that feels easiest to them, not the job the team needs.
 
-The signal that you are a CEO who can do this well is the willingness to push someone hard precisely because they are winning. Most people cannot. Pushing a winner feels mean. It feels ungrateful. It is exactly the move that keeps the standard from drifting and exactly the move most leaders flinch at. The relentless application of force, kindly and deliberately, against complacency specifically, is what keeps tempo from collapsing.
+The signal that you are a CEO who can do this well is the willingness to push someone hard precisely because they are winning. Most people cannot. **Pushing a winner feels mean. It feels ungrateful.** It is exactly the move that keeps the standard from drifting and exactly the move most leaders flinch at. The relentless application of force, kindly and deliberately, against complacency specifically, is what keeps tempo from collapsing.
 
 ### The implication
 
 Hiring talented people is not enough. Talented people will set their own tempo, and their tempo will drift if no one is pulling against it. The CEO's job is being the force that makes their internal rhythm meet the company's actual ambition.
 
-If you are leading a team right now and you cannot remember the last time you pushed back on someone for cruising, that is a flag. Not a sign of weakness. A sign that the role you are doing is the one that feels easiest to do, not the one the team needs.
+If you are leading a team right now and you cannot remember the last time you pushed back on someone for cruising, that is a flag. The role you are doing is the one that feels easiest to do, not the one the team needs.

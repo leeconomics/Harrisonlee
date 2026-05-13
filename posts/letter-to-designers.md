@@ -83,7 +83,7 @@ Pair with a developer for performance, accessibility, and the weird Safari bug. 
 
 ## What is not there yet
 
-I do not want to oversell this. The seams are real.
+I do not want to oversell this. The seams are real. ([[wrong-direction-faster|And the cost of getting the direction wrong]], when the build itself is suddenly cheap, is its own kind of seam.)
 
 Real content still breaks layouts. The model does not know your data, your titles, your edge cases.
 
@@ -117,7 +117,7 @@ That asymmetry is good news for designers. The shift you have been told to fear 
 Concrete and short.
 
 - Spend a weekend on CSS basics. Not to write it from scratch. To name it precisely when prompting and to read AI output without panic.
-- Build a reference library you actually use. Three sites for editorial, three for product, three for personal. Pinned somewhere you open daily.
+- Build a reference library you actually use. Three sites for editorial, three for product, three for personal. Pinned somewhere you open daily. ([[anyone-can-ship|The broader version of this argument]] — that the inputs are the moat, not the loop — applies beyond just designers.)
 - Treat the first prompt of any AI design session like a real brief. Type, colour, spacing, references. A tight spec at minute one beats ten prompts of fixing.
 - Run one full project without Figma. Even badly. The point is to feel the new loop in your hands.
 - Pair with a developer for the last five percent. The handoff that survives is smaller, sharper, and more collaborative than the one you have been complaining about.

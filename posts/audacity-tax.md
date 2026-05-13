@@ -21,7 +21,7 @@ It was the internal kind, the one that tells you to wait until you are ready, po
 
 That is good advice for staying respectable. It is bad advice for getting where your abilities should have put you a long time ago.
 
-I am writing this from inside the trap. I have spent most of my twenties playing a game I am quietly very good at, in rooms I am quietly the smartest person in, watching people I am pretty sure I am no worse than do bigger things, in better cities, with bigger jobs, earlier. The thing I want to argue is that this is not unfair. It is the price I have been paying for a long time without knowing what the bill was for.
+I am writing this from inside the trap. I have spent most of my twenties playing a game I am quietly very good at, in rooms I am quietly the smartest person in, watching people I am pretty sure I am no worse than do bigger things, in better cities, with bigger jobs, earlier. ([[grindset-is-a-signal|Grindset is one symptom]] of this — effort is the only signal you have when judgment is private.) The thing I want to argue is that this is not unfair. It is the price I have been paying for a long time without knowing what the bill was for.
 
 The bill is the audacity tax.
 
@@ -29,7 +29,7 @@ The bill is the audacity tax.
 
 I picked UCLA over Tokyo because I was nervous about the language. I picked BCG and a hopeful internal transfer over moving cold to Asia because the transfer felt like a clean line on a CV. I picked Southeast Asia for my travel year over Europe or South America because I knew people, the food was familiar, and the flights were short. I picked staying in my friend group over the events I felt I did not deserve to be at. I picked never posting publicly over posting half-formed thinking. I picked never emailing the leaders I admired over being briefly, embarrassingly, ignored.
 
-Every single one of those choices was defensible to anyone who asked. That is the part that took me too long to see. The pattern is not risk aversion. The pattern is choosing, every time, the option I could justify on paper over the option that would have widened my range.
+Every single one of those choices was defensible to anyone who asked. That is the part that took me too long to see. The pattern is not risk aversion. The pattern is choosing, every time, the option I could justify on paper over the option that would have widened my range. ([[you-are-not-behind|Being early is not the same as being good]] — but being absent is its own kind of late.)
 
 The legible choice has a hidden cost. The cost is not the wins I missed. The cost is the version of me that would have been built by being out there.
 
@@ -61,7 +61,7 @@ The cost compounds in three places, and I think this is the part most of the exi
 
 That is what extends radius. Failures on the record. People you embarrassed yourself in front of. Versions of you that did not work and that you got to bury and try again on.
 
-Calibration does not compound. Audacity does.
+**Calibration does not compound. Audacity does.**
 
 ## I was waiting for the timeskip
 
@@ -86,3 +86,5 @@ The reason I have not landed this argument as theory is that the people I want i
 *When have you missed a shot you knew you could have taken, and what did that quiet "no" actually cost you?*
 
 *How long are you willing to keep paying this tax?*
+
+(For the choice the audacity tax forces you toward, [[responsibility-and-passion|the dichotomy is fake]] — the boring half is what makes the interesting half last.)
