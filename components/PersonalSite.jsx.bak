@@ -1666,14 +1666,14 @@ const projects_v2 = [
 { id: 1, n: 'P/01', title: 'Cowork OS', sub: 'A 10-file system covering Juniper Japan\u2019s full business context, designed to make AI an expert peer rather than a fast intern.', kind: 'Operating system', stage: 'In use', year: '2025—' },
 { id: 2, n: 'P/02', title: 'POST-AI hiring framework', sub: 'A six-trait model for evaluating talent in an AI-native world. Built in public over twelve memos.', kind: 'Framework', stage: 'v0.2', year: '2026' },
 { id: 3, n: 'P/03', title: 'The memo writer', sub: 'A 7-stage skill that takes a raw thought and turns it into a publishable memo in under two minutes.', kind: 'Skill', stage: 'v0.2', year: '2026' },
-{ id: 4, n: 'P/04', title: 'Layered Places', sub: 'Notes from Bali on travelling with eyes open. A six-part series on what tourism does to the places we love, using Bali as the working case study.', kind: 'Series', stage: 'Drafting', year: 'May 2026', isSeries: true, href: '/depths/layered-places',
+{ id: 4, n: 'P/04', title: 'Layered Places', sub: 'Notes from Bali on travelling with eyes open. A six-part series on what tourism does to the places we love, using Bali as the working case study.', kind: 'Series', stage: 'Drafting', year: 'May 2026', isSeries: true, href: '/posts/layered-places',
   parts: [
-    { n: 'I',   title: 'The Layered Island',           sub: 'Frame and dual economy thesis.',                                           href: '/depths/layered-places#part-1' },
-    { n: 'II',  title: 'Land and Housing',             sub: 'Dollar-rupiah split. Who can afford to live where.',                       href: '/depths/layered-places#part-2' },
-    { n: 'III', title: 'Labour and Service',           sub: 'Who owns versus who serves. The commute cycle.',                          href: '/depths/layered-places#part-3' },
-    { n: 'IV',  title: 'Public Goods and Environment', sub: 'Water, waste, the floods, the tourist tax.',                              href: '/depths/layered-places#part-4' },
-    { n: 'V',   title: 'Culture and Meaning',          sub: 'Ceremonies as spectacle. The language shift.',                            href: '/depths/layered-places#part-5' },
-    { n: 'VI',  title: 'Travelling Eyes Open',         sub: 'Synthesis. Four anchor questions.',                                       href: '/depths/layered-places#part-6' }
+    { n: 'I',   title: 'The Layered Island',           sub: 'Frame and dual economy thesis.',                                           href: '/posts/layered-places#part-1' },
+    { n: 'II',  title: 'Land and Housing',             sub: 'Dollar-rupiah split. Who can afford to live where.',                       href: '/posts/layered-places#part-2' },
+    { n: 'III', title: 'Labour and Service',           sub: 'Who owns versus who serves. The commute cycle.',                          href: '/posts/layered-places#part-3' },
+    { n: 'IV',  title: 'Public Goods and Environment', sub: 'Water, waste, the floods, the tourist tax.',                              href: '/posts/layered-places#part-4' },
+    { n: 'V',   title: 'Culture and Meaning',          sub: 'Ceremonies as spectacle. The language shift.',                            href: '/posts/layered-places#part-5' },
+    { n: 'VI',  title: 'Travelling Eyes Open',         sub: 'Synthesis. Four anchor questions.',                                       href: '/posts/layered-places#part-6' }
   ] }];
 
 
